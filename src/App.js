@@ -1,21 +1,34 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { Provider, connect } from 'react-redux'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import store from './Store/store'
+import mapStateToProps from './Store/mapStateToProps'
+import checkUserPermissions from './Utility/checkUserPermissions'
+import Home from './Pages/Home'
 
-class App extends Component {
-  render() {
+const Root = () => (
+  <Provider store={store}>
+    <App/>
+  </Provider>
+)
+
+class AppComponent extends Component {
+  render () {
+    let {environment, session} = this.props
+    let {routes} = environment
+    let {user} = session
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+      <Router>
+        <Switch>
+          {
+            checkUserPermissions(routes, user).map(route => <Route key={routes[route].url} path={routes[route].url} component={routes[route].component} />)
+          }
+          <Route path='/' component={Home} />
+        </Switch>
+      </Router>
+    )
   }
 }
+const App = connect(mapStateToProps)(AppComponent)
 
-export default App;
+export default Root
