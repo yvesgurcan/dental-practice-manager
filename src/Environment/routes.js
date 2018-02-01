@@ -1,5 +1,6 @@
 import Home from './../Pages/Home'
 import Schedule from './../Pages/Schedule'
+import Settings from './../Pages/Settings'
 
 /* this is where the routes are defined */
 
@@ -56,7 +57,6 @@ const routes = {
       "accountant",
     ]
   },
-  
   payroll: {
     component: Home,
     name: "Payroll",
@@ -64,6 +64,20 @@ const routes = {
     permissions: [
       "dentist",
       "accountant",
+    ]
+  },
+  settings: {
+    component: Settings,
+    name: "Settings",
+    url: "/settings",
+    subroutes: {
+      users: {
+        name: "Users",
+        url: "/users",
+      }
+    },
+    permissions: [
+      "dentist",
     ]
   },
 }

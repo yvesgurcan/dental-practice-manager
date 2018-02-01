@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Block from './Web/Block'
-import Nav from './Nav'
 import HorizontalRuler from './Web/HorizontalRuler'
+import PageHeader from './Web/PageHeader'
+import Nav from './Nav'
 
 class PageWrapper extends Component {
   render () {
@@ -9,7 +10,10 @@ class PageWrapper extends Component {
       <Block>
         <Nav/>
         <HorizontalRuler/>
-        {this.props.children}
+        <PageHeader>{this.props.pageTitle}</PageHeader>
+        <Block>
+          {this.props.children}
+        </Block>
       </Block>
     )  
   }
