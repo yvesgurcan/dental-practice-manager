@@ -1,6 +1,7 @@
 import Home from './../Pages/Home'
 import Schedule from './../Pages/Schedule'
 import Settings from './../Pages/Settings'
+import Users from './../Pages/Settings/Users'
 
 /* this is where the routes are defined */
 
@@ -72,8 +73,9 @@ const routes = {
     url: "/settings",
     subroutes: {
       users: {
+        component: Users,
         name: "Users",
-        url: "/users",
+        url: "/settings/users",
       }
     },
     permissions: [

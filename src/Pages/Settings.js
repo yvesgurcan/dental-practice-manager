@@ -6,7 +6,7 @@ import PageWrapper from './../Components/PageWrapper'
 class SettingsComponent extends Component {
   render () {
     return (
-      <PageWrapper pageTitle="Settings" menu={null}>
+      <PageWrapper route="/settings" menuRoute="/settings">
         content of Settings
       </PageWrapper>
     )  
