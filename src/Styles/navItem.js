@@ -1,6 +1,5 @@
 const navItem = {
-  padding: 5,
-  display: "inline-block",
+  borderRight: "1px solid gray",
 }
 
 export default navItem

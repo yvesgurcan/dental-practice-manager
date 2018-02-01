@@ -10,6 +10,7 @@ const routes = {
     url: "/schedule",
     permissions: [
       "dentist",
+      "officeManager",
       "hygienist",
       "assistant",
       "receptionist",
@@ -21,6 +22,7 @@ const routes = {
     url: "/checkin",
     permissions: [
       "dentist",
+      "officeManager",
       "receptionist",
     ]
   },
@@ -48,6 +50,17 @@ const routes = {
     component: Home,
     name: "Billing",
     url: "/billing",
+    permissions: [
+      "dentist",
+      "officeManager",
+      "accountant",
+    ]
+  },
+  
+  payroll: {
+    component: Home,
+    name: "Payroll",
+    url: "/payroll",
     permissions: [
       "dentist",
       "accountant",

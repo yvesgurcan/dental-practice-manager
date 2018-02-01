@@ -1,6 +1,5 @@
 const navItemLink = {
-  padding: 10,
-  borderRight: "1px solid gray",
+  marginRight: 10,
 }
 
 export default navItemLink
