@@ -7,7 +7,20 @@ const debugSession = {
 }
 
 function session (state = debugSession, action) {
-  return state
+
+  let newState = {...state}
+
+  switch (action.type) {
+    case "SIGN_OUT": {
+      newState = {
+        ...state,
+        user: undefined,
+      }
+      break
+    }
+  }
+
+  return newState
 }
 
 export default session

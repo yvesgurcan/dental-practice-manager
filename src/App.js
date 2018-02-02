@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Provider, connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import store from './Store/store'
 import mapStateToProps from './Store/mapStateToProps'
 import checkUserPermissions from './Utility/checkUserPermissions'
 import Home from './Pages/Home'
+import Login from './Pages/Login'
 
 const Root = () => (
   <Provider store={store}>
@@ -33,6 +34,18 @@ class AppComponent extends Component {
     let {environment, session} = this.props
     let {routes} = environment
     let {user} = session
+    if (!user) {
+      return (
+        <Router>
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/" render={() => (
+              <Redirect to="/login"/>
+            )} />
+          </Switch>
+        </Router>
+      )
+    }
     return (
       <Router>
         <Switch>
@@ -42,6 +55,9 @@ class AppComponent extends Component {
           {
             checkUserPermissions(routes, user).map(route => <Route key={routes[route].url} path={routes[route].url} component={routes[route].component} />)
           }
+          <Route path="/login" render={() => (
+            <Redirect to="/"/>
+          )} />
           <Route path='/' component={Home} />
         </Switch>
       </Router>

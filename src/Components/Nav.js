@@ -7,6 +7,9 @@ import Block from './Web/Block'
 import NavItem from './NavItem'
 
 class NavComponent extends Component {
+  signOut = () => {
+    this.props.dispatch({type: "SIGN_OUT"})
+  }
   render () {
     let {environment, session} = this.props
     let {routes} = environment
@@ -20,6 +23,7 @@ class NavComponent extends Component {
         {
           checkUserPermissions(routes, user).map(route => <NavItem key={routes[route].url} item={routes[route]} />)
         }
+        <NavItem onClick={this.signOut} item={{ name: "Sign Out" }} />
       </Block>
     )
   }

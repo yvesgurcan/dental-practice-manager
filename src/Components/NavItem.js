@@ -5,9 +5,9 @@ import styles from './../Styles/styles'
 
 class NavItem extends Component {
   render () {
-    let {item} = this.props
+    let {item, onClick} = this.props
     return (
-      <Block style={styles.navItem}>
+      <Block style={styles.navItem} onClick={onClick}>
         <Link href={item.url} style={styles.navItemLink}>{item.name}</Link>
       </Block>
     )
