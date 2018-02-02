@@ -6,8 +6,7 @@ import PageWrapper from './../Components/PageWrapper'
 class CheckInComponent extends Component {
   render () {
     return (
-      <PageWrapper route="/checkin" menuRoute="/checkin">
-        ci
+      <PageWrapper route="/messaging" menuRoute="/messaging">
       </PageWrapper>
     )  
   }

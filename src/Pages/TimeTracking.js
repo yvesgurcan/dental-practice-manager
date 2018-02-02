@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
 
-class ScheduleComponent extends Component {
+class PayrollComponent extends Component {
   render () {
     return (
-      <PageWrapper route="/schedule" menuRoute="/schedule">
+      <PageWrapper route="/timetracking" menuRoute="/timetracking">
       </PageWrapper>
     )  
   }
 }
-const Schedule = connect(mapStateToProps)(ScheduleComponent)
+const Payroll = connect(mapStateToProps)(PayrollComponent)
 
-export default Schedule
+export default Payroll

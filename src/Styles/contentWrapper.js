@@ -1,5 +1,5 @@
 const gap = 20
-const menuWidth = 150
+const menuWidth = 237.5
 
 const contentWrapper = {
   display: "grid",

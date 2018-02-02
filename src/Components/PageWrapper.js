@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import getRouteDetails from './../Utility/getRouteDetails'
 import Block from './Web/Block'
-import HorizontalRuler from './Web/HorizontalRuler'
 import PageHeader from './Web/PageHeader'
 import Nav from './Nav'
 import ContentWrapper from './ContentWrapper'
@@ -18,7 +17,6 @@ class PageWrapperComponent extends Component {
     return (
       <Block>
         <Nav/>
-        <HorizontalRuler/>
         <ContentWrapper menu={subRoutes}>
           <PageHeader>{pageTitle}</PageHeader>
           {this.props.children}

@@ -1,5 +1,15 @@
-import Home from './../Pages/Home'
 import Schedule from './../Pages/Schedule'
+
+import Messaging from './../Pages/Messaging'
+
+import XRays from './../Pages/Xrays'
+
+import Charts from './../Pages/Charts'
+
+import Billing from './../Pages/Billing'
+
+import TimeTracking from './../Pages/TimeTracking'
+
 import Settings from './../Pages/Settings'
 import Users from './../Pages/Settings/Users'
 
@@ -16,30 +26,20 @@ const routes = {
       "hygienist",
       "assistant",
       "receptionist",
-    ]
-  },
-  checkIn: {
-    component: Home,
-    name: "Check In",
-    url: "/checkin",
-    permissions: [
-      "dentist",
-      "officeManager",
-      "receptionist",
-    ]
+    ],
   },
   xRays: {
-    component: Home,
+    component: XRays,
     name: "X-Rays",
     url: "/xrays",
     permissions: [
       "dentist",
       "hygienist",
       "assistant",
-    ]
+    ],
   },
   charts: {
-    component: Home,
+    component: Charts,
     name: "Charts",
     url: "/charts",
     permissions: [
@@ -49,38 +49,57 @@ const routes = {
     ]
   },
   billing: {
-    component: Home,
+    component: Billing,
     name: "Billing",
     url: "/billing",
     permissions: [
       "dentist",
       "officeManager",
       "accountant",
-    ]
+    ],
   },
-  payroll: {
-    component: Home,
-    name: "Payroll",
-    url: "/payroll",
+  messaging: {
+    component: Messaging,
+    name: "Messaging",
+    url: "/messaging",
     permissions: [
       "dentist",
-      "accountant",
-    ]
+      "officeManager",
+      "hygienist",
+      "assistant",
+      "receptionist",
+    ],
+  },
+  timeTracking: {
+    component: TimeTracking,
+    name: "Time Tracking",
+    url: "/timetracking",
+    permissions: [
+      "dentist",
+      "officeManager",
+      "hygienist",
+      "assistant",
+    ],
   },
   settings: {
     component: Settings,
     name: "Settings",
     url: "/settings",
     subroutes: {
+      account: {
+        component: Users,
+        name: "Your Account",
+        url: "/settings/account",
+      },
       users: {
         component: Users,
         name: "Users",
         url: "/settings/users",
-      }
+      },
     },
     permissions: [
       "dentist",
-    ]
+    ],
   },
 }
 

@@ -3,7 +3,7 @@ import Block from './Web/Block'
 import Link from './Web/Link'
 import styles from './../Styles/styles'
 
-class NavItem extends Component {
+class SubNavItem extends Component {
   state = {linkStyle: styles.navItemLink}
   onHover = () => {
     this.setState({linkStyle: styles.navItemLinkHover})
@@ -14,11 +14,11 @@ class NavItem extends Component {
   render () {
     let {item, onClick} = this.props
     return (
-      <Block style={styles.navItem} onClick={onClick} onMouseEnter={this.onHover} onMouseLeave={this.restoreLinkStyle}>
+      <Block style={styles.subNavItem} onClick={onClick} onMouseEnter={this.onHover} onMouseLeave={this.restoreLinkStyle}>
         <Link href={item.url} style={this.state.linkStyle}>{item.name}</Link>
       </Block>
     )
   }
 }
 
-export default NavItem
+export default SubNavItem

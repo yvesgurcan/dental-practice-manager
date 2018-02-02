@@ -7,7 +7,6 @@ class BillingComponent extends Component {
   render () {
     return (
       <PageWrapper route="/billing" menuRoute="/billing">
-        content b
       </PageWrapper>
     )  
   }

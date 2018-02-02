@@ -1,7 +1,7 @@
 const nav = {
   display: "grid",
   gridTemplateColumns: "repeat(10, max-content)",
-  gridColumnGap: 10,
+  border: "1px solid darkgray",
 }
 
 export default nav

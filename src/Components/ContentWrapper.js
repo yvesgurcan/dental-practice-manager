@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import styles from './../Styles/styles'
 import Block from './Web/Block'
-import Link from './Web/Link'
+import SubNavItem from './SubNavItem'
 
 class ContentWrapper extends Component {
   render () {
-    const {menu, prependUrl} = this.props
+    const { menu } = this.props
     return (
-      <Block style={styles.contentWrapper}>
-        {!menu ? null : <Block style={styles.subnav}>
+      <Block style={!menu ? null : styles.contentWrapper}>
+        {!menu ? null : <Block style={styles.subNav}>
           {
-            Object.keys(menu).map(item => <Link key={menu[item].name} href={menu[item].url}>{menu[item].name}</Link>)
+            Object.keys(menu).map(item => <SubNavItem key={menu[item].name} item={menu[item]}/>)
           }
         </Block>}
         <Block>

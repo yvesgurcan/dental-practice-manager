@@ -7,7 +7,6 @@ class SettingsComponent extends Component {
   render () {
     return (
       <PageWrapper route="/settings" menuRoute="/settings">
-        content of Settings
       </PageWrapper>
     )  
   }

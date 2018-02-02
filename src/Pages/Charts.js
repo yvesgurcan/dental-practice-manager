@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
@@ -8,7 +7,6 @@ class ChartsComponent extends Component {
   render () {
     return (
       <PageWrapper route="/charts" menuRoute="/charts">
-        content of charts
       </PageWrapper>
     )  
   }

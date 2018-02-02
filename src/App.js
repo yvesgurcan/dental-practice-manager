@@ -5,7 +5,7 @@ import store from './Store/store'
 import mapStateToProps from './Store/mapStateToProps'
 import checkUserPermissions from './Utility/checkUserPermissions'
 import Home from './Pages/Home'
-import Login from './Pages/Login'
+import SignIn from './Pages/SignIn'
 
 const Root = () => (
   <Provider store={store}>
@@ -38,9 +38,9 @@ class AppComponent extends Component {
       return (
         <Router>
           <Switch>
-            <Route path="/login" component={Login} />
+            <Route path="/signin" component={SignIn} />
             <Route path="/" render={() => (
-              <Redirect to="/login"/>
+              <Redirect to="/signin"/>
             )} />
           </Switch>
         </Router>
@@ -55,7 +55,7 @@ class AppComponent extends Component {
           {
             checkUserPermissions(routes, user).map(route => <Route key={routes[route].url} path={routes[route].url} component={routes[route].component} />)
           }
-          <Route path="/login" render={() => (
+          <Route path="/signin" render={() => (
             <Redirect to="/"/>
           )} />
           <Route path='/' component={Home} />

@@ -7,7 +7,6 @@ class XRaysComponent extends Component {
   render () {
     return (
       <PageWrapper route="/xrays" menuRoute="/xrays">
-        X
       </PageWrapper>
     )  
   }
