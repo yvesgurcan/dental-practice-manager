@@ -88,7 +88,7 @@ const routes = {
     subroutes: {
       account: {
         component: Users,
-        name: "Your Account",
+        name: "Your Practice",
         url: "/settings/account",
       },
       users: {
