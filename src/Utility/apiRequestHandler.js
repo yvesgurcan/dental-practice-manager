@@ -1,35 +1,67 @@
-// for compatibility reasons, the api config needs to be exported using `require()` instead of `import from`
-// this allows to run a mock api outside of the project in dev mode
-const internalApiEndpoint = require('./../Environment/api')
+import api from './../Environment/api'
+import axios from 'axios'
 
 const endpoints = {
-  internal: internalApiEndpoint.url,
+  internal: api.url,
 }
 
 const mockApi = true
-
 if (mockApi) endpoints.internal = "http://localhost:5000"
+
+const supportedMethods = ["get","post","put","delete"]
 
 const apiRequestHandler = (
   method,
   resource,
   payload,
   callback,
+  errorCallback,
   api = endpoints.internal
 ) => {
 
-  console.log({
+  console.log("request", {
     method,
     resource,
     payload,
     api,
   })
-  
-  const response = {client: "Gentle Care", user: {type: "hygienist", id: 888, name: "Ashlee"}}
 
-  if (callback) {
-    callback(response)
+  if (!resource && resource !== "") {
+    throw new Error(`Resource '${resource}' is not valid. Please enter an empty string if you want to access the root of the API. Endpoint: ${method} ${api}.`)
   }
+
+  if (supportedMethods.indexOf(method) === -1) {
+    throw new Error(`Method '${method}' is not supported by the API. The request method must be one of the following: '${supportedMethods.join('\', \'')}'. Endpoint: ${api}/${resource}`)
+    return null
+  }
+  
+  const parameters = {
+    method,
+    body: JSON.stringify(payload),
+  }
+
+  axios[method](
+      `${api}/${resource}`,
+      {params: payload}
+    )
+    .then((response) => {
+      console.log("response", {
+        method,
+        resource,
+        api,
+        responseData: response.data,
+      })
+      if (callback) {
+        callback(response.data)
+      }
+    })
+    .catch((error) => {
+      if (errorCallback) {
+        errorCallback(error)
+      }
+      throw new Error(`Oops! The server returned an error for ${method} ${api}/${resource}.\nError details: ${JSON.stringify(error)}`)
+    })
+
 }
 
 export default apiRequestHandler

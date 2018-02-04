@@ -15,7 +15,7 @@ function session (state = debugSession, action) {
       break
     }
     case "STORE_LOGIN": {
-      let login = {...login}
+      let login = {...state.login}
       login[action.name] = action.value
       newState = {
         ...state,
