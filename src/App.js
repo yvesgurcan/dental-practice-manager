@@ -58,7 +58,8 @@ class AppComponent extends Component {
           <Route path="/signin" render={() => (
             <Redirect to="/"/>
           )} />
-          <Route path='/' component={Home} />
+          <Route exact path={['','/index','/home']} component={Home} />
+          <Route component={Home} />
         </Switch>
       </Router>
     )
