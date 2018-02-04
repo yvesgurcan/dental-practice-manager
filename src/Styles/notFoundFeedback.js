@@ -1,4 +1,5 @@
 const notFoundFeedback = {
+  marginTop: 20,
   color: "crimson",
 }
 

@@ -4,7 +4,7 @@ import mapStateToProps from './../../../Store/mapStateToProps'
 import PageHeader from './../../Web/PageHeader'
 import Block from './../../Web/Block'
 
-class HomeComponent extends Component {
+class HomeBodyComponent extends Component {
   render () {
     const {name} = this.props.session.user
     return (
@@ -14,6 +14,6 @@ class HomeComponent extends Component {
     )  
   }
 }
-const Home = connect(mapStateToProps)(HomeComponent)
+const HomeBody = connect(mapStateToProps)(HomeBodyComponent)
 
-export default Home
+export default HomeBody
