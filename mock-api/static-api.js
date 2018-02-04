@@ -1,4 +1,4 @@
-// `node mock-api.js` starts the server locally
+// `node static-api.js` starts the server locally
 
 const express = require('express');
 
@@ -6,8 +6,21 @@ const server = express()
 const port = 5000
 const supportMethods = ["get","post","put","delete"]
 
-// use this function to create a quick mock resource
-const resourceWrapper = function resourceWrapper (method, resource, response = null) {
+// use this array to generate the endpoints procedurally
+const endpoints = [
+  {
+    method: 'get',
+    resource: '/',
+    response: {
+      message: 'Welcome to the root of the API. Nothing to see here.',
+    }
+  },
+
+]
+
+// use endpointWrapper to create a quick endpoint
+const endpointWrapper = function endpointWrapper (method, resource, response = null) {
+  console.log(`Endpoint: ${method} ${resource}`)  
   if (supportMethods.indexOf(method) === -1) {
     console.error(`Error: Unsupported method '${method}'. The method must be one of the following: '${supportMethods.join('\', \'')}'.`)
     return false
@@ -26,21 +39,6 @@ const resourceWrapper = function resourceWrapper (method, resource, response = n
 
 }
 
-// use this array to generate the endpoints
-const endpoints = [
-  {
-    method: 'get',
-    resource: '/',
-    response: {
-      message: 'Welcome to the root of the API. Nothing to see here.',
-    }
-  },
-
-]
-
-endpoints.map(endpoint => {
-  console.log(`Endpoint: ${endpoint.method} ${endpoint.resource}`)
-  return resourceWrapper(endpoint.method, endpoint.resource, endpoint.response)
-})
+endpoints.map(endpoint => endpointWrapper(endpoint.method, endpoint.resource, endpoint.response))
 
 server.listen(port, () => console.log(`${Date()} - the API is listening at http://localhost:${port}`))
