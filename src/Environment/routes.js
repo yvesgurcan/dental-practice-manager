@@ -1,5 +1,7 @@
 import Schedule from './../Pages/Schedule'
 
+import Patients from './../Pages/Patients'
+
 import Messaging from './../Pages/Messaging'
 
 import XRays from './../Pages/Xrays'
@@ -38,6 +40,18 @@ const routes = {
     component: Schedule,
     name: "Schedule",
     url: "/schedule",
+    permissions: [
+      "dentist",
+      "officeManager",
+      "hygienist",
+      "assistant",
+      "receptionist",
+    ],
+  },
+  patients: {
+    component: Patients,
+    name: "Patients",
+    url: "/patients",
     permissions: [
       "dentist",
       "officeManager",
