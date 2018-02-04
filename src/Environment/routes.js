@@ -1,6 +1,7 @@
 import Schedule from './../Pages/Schedule'
 
 import Patients from './../Pages/Patients'
+import Patient from './../Pages/Patient'
 
 import Messaging from './../Pages/Messaging'
 
@@ -59,6 +60,11 @@ const routes = {
       "assistant",
       "receptionist",
     ],
+    idRoute: {
+      component: Patient,
+      name: "Patient",
+      url: "/patients/:patientId",
+    },
   },
   xRays: {
     component: XRays,
@@ -132,7 +138,7 @@ const routes = {
           component: User,
           name: "User",
           url: "/settings/users/:userId",          
-        }
+        },
       },
     },
     permissions: [
