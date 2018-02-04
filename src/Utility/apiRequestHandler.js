@@ -32,12 +32,6 @@ const apiRequestHandler = (
 
   if (supportedMethods.indexOf(method) === -1) {
     throw new Error(`Method '${method}' is not supported by the API. The request method must be one of the following: '${supportedMethods.join('\', \'')}'. Endpoint: ${api}/${resource}`)
-    return null
-  }
-  
-  const parameters = {
-    method,
-    body: JSON.stringify(payload),
   }
 
   axios[method](

@@ -14,7 +14,23 @@ import Settings from './../Pages/Settings'
 import SettingNotFound from './../Pages/Settings/SettingNotFound'
 import Users from './../Pages/Settings/Users'
 
-/* this is where the routes are defined */
+/*
+  this is where the routes are defined
+  to create a new route, use the following template inside the routes object:
+  {
+    component: MyComponent,
+    name: "",
+    url: "/route",
+    permissions: ["userRole1", "userRole2"] || undefined,
+    subroutes: {
+      subroute1: {
+        component: MyOtherComponent,
+        name: "",
+        url: "/route/subroute",
+      },
+    }
+  },
+*/
 
 const routes = {
   schedule: {
