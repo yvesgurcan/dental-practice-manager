@@ -11,6 +11,7 @@ import Billing from './../Pages/Billing'
 import TimeTracking from './../Pages/TimeTracking'
 
 import Settings from './../Pages/Settings'
+import SettingNotFound from './../Pages/Settings/SettingNotFound'
 import Users from './../Pages/Settings/Users'
 
 /* this is where the routes are defined */
@@ -83,6 +84,7 @@ const routes = {
   },
   settings: {
     component: Settings,
+    notFoundComponent: SettingNotFound,
     name: "Settings",
     url: "/settings",
     subroutes: {

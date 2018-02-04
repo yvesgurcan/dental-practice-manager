@@ -9,6 +9,7 @@ import publicPage from './publicPage'
 import signInForm from './signInForm'
 import textbox from './textbox'
 import label from './label'
+import notFoundFeedback from './notFoundFeedback'
 
 const styles = {
   horizontalRuler,
@@ -20,9 +21,10 @@ const styles = {
   subNavItem,
   contentWrapper,
   publicPage,
-  signInForm,
   textbox,
   label,
+  signInForm,
+  notFoundFeedback,
 }
 
 export default styles

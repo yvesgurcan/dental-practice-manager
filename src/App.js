@@ -39,9 +39,9 @@ class AppComponent extends Component {
       return (
         <Router>
           <Switch>
-            <Route path="/signin" component={SignIn} />
-            <Route path="/" render={() => (
-              <Redirect to="/signin"/>
+            <Route path='/signin' component={SignIn} />
+            <Route path='/' render={() => (
+              <Redirect to='/signin'/>
             )} />
           </Switch>
         </Router>
@@ -54,12 +54,15 @@ class AppComponent extends Component {
             this.filterSubRoutes().map(subroute => <Route key={subroute.url} path={subroute.url} component={subroute.component} />)
           }
           {
-            checkUserPermissions(routes, user).map(route => <Route key={routes[route].url} path={routes[route].url} component={routes[route].component} />)
+            checkUserPermissions(routes, user).map(route => <Route exact={routes[route].notFoundComponent} key={routes[route].url} path={routes[route].url} component={routes[route].component} />)
           }
-          <Route path="/signin" render={() => (
-            <Redirect to="/"/>
+          {
+            checkUserPermissions(routes, user).filter(route => routes[route].notFoundComponent).map(route => <Route key={routes[route].url} path={routes[route].url} component={routes[route].notFoundComponent}/>)
+          }
+          <Route path='/signin' render={() => (
+            <Redirect to='/'/>
           )} />
-          <Route exact path={['','/index','/home']} component={Home} />
+          <Route exact path='/(home|index|)/' component={Home} />
           <Route component={NotFound} />
         </Switch>
       </Router>
