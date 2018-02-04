@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import store from './Store/store'
 import mapStateToProps from './Store/mapStateToProps'
 import checkUserPermissions from './Utility/checkUserPermissions'
-import Home from './Pages/Home'
 import SignIn from './Pages/SignIn'
+import Home from './Pages/Home'
+import NotFound from './Pages/NotFound'
 
 const Root = () => (
   <Provider store={store}>
@@ -59,7 +60,7 @@ class AppComponent extends Component {
             <Redirect to="/"/>
           )} />
           <Route exact path={['','/index','/home']} component={Home} />
-          <Route component={Home} />
+          <Route component={NotFound} />
         </Switch>
       </Router>
     )
