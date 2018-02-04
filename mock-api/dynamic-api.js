@@ -5,17 +5,15 @@ const bodyParser = require('body-parser')
 
 const server = express()
 const port = 5000
-const supportMethods = ["get","post","put","delete"]
+const supportedMethods = ["get","post","put","delete"]
 
-global = {
-  user: "me",
-}
+server.use(bodyParser.json())
 
 // use endpointWrapper to create a quick mock endpoint
-const endpointWrapper = function endpointWrapper (method, resource, body) {
+const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
   console.log(`Endpoint: ${method} ${resource}`)  
-  if (supportMethods.indexOf(method) === -1) {
-    console.error(`Error: Unsupported method '${method}'. The method must be one of the following: '${supportMethods.join('\', \'')}'.`)
+  if (supportedMethods.indexOf(method) === -1) {
+    console.error(`Error: Unsupported method '${method}'. The method must be one of the following: '${supportedMethods.join('\', \'')}'.`)
     return false
   }
 
@@ -24,43 +22,115 @@ const endpointWrapper = function endpointWrapper (method, resource, body) {
     return false
   }
 
-  if (!body) {
+  if (!apiBody) {
     console.error(`Warning: The body of the endpoint is not defined. The API will return 'null' when handling requests.`)
   }
 
   server[method](resource, (req, res) => {
-    let query = ""
+    let parameters = {}
     if (method === "get") {
-      query = JSON.stringify(req.query)
+      parameters = req.query
     }
-    console.log(`${Date()} - request: ${method} ${resource} ${query}`)
+    else {
+      parameters = req.body
+    }
+    console.log(`${Date()} - request: ${method} ${resource} ${JSON.stringify(parameters)}`)
 
     let response = null
-    if (!body) {
+    if (!apiBody) {
       res.send(null)
     }
     else {
-      response = body(req, res, server)
+      response = apiBody(req, res, parameters)
       res.send(response)
     }
-    console.log(`${Date()} - response: ${JSON.stringify(response)}`)
+    console.log(`${Date()} - response:\n${JSON.stringify(response)}`)
   })
+
+}
+
+// ids
+let clientId = 0
+let userId = 0
+
+// you can create a mock database in the form of a JSON object here
+global = {
+  clients: [
+    {
+      clientId: ++clientId,
+      name: "Gentle Care",
+    }
+  ],
+  users: [
+    {
+      userId: ++userId,
+      clientId: 1,
+      type: "dentist",
+      name: "Dr. Martin",
+    },
+    {
+      userId: ++userId,
+      clientId: 1,
+      type: "hygienist",
+      name: "Ashlee",
+    },
+  ],
 
 }
 
 // root
 endpointWrapper(
+  "get",
+  "/users",
+  (req, res, parameters) => {
+
+    if (!parameters.clientId) return {
+      message: "Invalid request.",
+      status: "error",
+    }
+
+    const users = global.users.filter(user => user.clientId === Number(parameters.clientId))
+
+    return {users: users, status: "success"}
+  }
+)
+endpointWrapper(
   "post",
   "/users",
-  (req, res, server) => {
+  (req, res, parameters) => {
 
+    if (!parameters.user) return {
+      message: "Invalid request.",
+      status: "error",
+    }
 
-    // TODO how do I get the body for post requests????
+    return global
+  }
+)
+endpointWrapper(
+  "put",
+  "/users",
+  (req, res, parameters) => {
 
-    if (!req.query) return null
+    if (!parameters.user) return {
+      message: "Invalid request.",
+      status: "error",
+    }
 
+    return global
+  }
+)
+endpointWrapper(
+  "delete",
+  "/users",
+  (req, res, parameters) => {
 
-    // return req
+    if (!parameters.clientId) return {
+      message: "Invalid request.",
+      status: "error",
+    }
+
+    return global
   }
 )
 
