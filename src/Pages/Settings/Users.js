@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import apiRequestHandler from './../../Utility/apiRequestHandler'
 import PageWrapper from './../../Components/PageWrapper'
+import Block from './../../Components/Web/Block'
 
 class UsersComponent extends Component {
   componentWillMount () {
@@ -17,9 +18,10 @@ class UsersComponent extends Component {
     this.props.dispatch({type: "STORE_USERS", users: response.users})
   }
   render () {
+    const {users} = this.props.settings
     return (
       <PageWrapper route="/settings/users" menuRoute="/settings">
-        content of Users
+        {(users || []).map(user => (<Block key={user.userId}>{user.name}</Block>))}
       </PageWrapper>
     )  
   }
