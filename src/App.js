@@ -51,12 +51,19 @@ class AppComponent extends Component {
       <Router>
         <Switch>
           {
+            /* id subroutes */
+            this.filterSubRoutes().filter(subroute => subroute.idRoute).map(subroute => <Route key={subroute.idRoute.url} path={subroute.idRoute.url} component={subroute.idRoute.component} />)
+          }
+          {
+            /* subroutes */
             this.filterSubRoutes().map(subroute => <Route key={subroute.url} path={subroute.url} component={subroute.component} />)
           }
           {
+            /* routes */
             checkUserPermissions(routes, user).map(route => <Route exact={routes[route].notFoundComponent ? true : false} key={routes[route].url} path={routes[route].url} component={routes[route].component} />)
           }
           {
+            /* not found routes */
             checkUserPermissions(routes, user).filter(route => routes[route].notFoundComponent).map(route => <Route key={routes[route].url} path={routes[route].url} component={routes[route].notFoundComponent}/>)
           }
           <Route path='/signin' render={() => (

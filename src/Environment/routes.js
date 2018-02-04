@@ -13,6 +13,7 @@ import TimeTracking from './../Pages/TimeTracking'
 import Settings from './../Pages/Settings'
 import SettingNotFound from './../Pages/Settings/SettingNotFound'
 import Users from './../Pages/Settings/Users'
+import User from './../Pages/Settings/User'
 
 /*
   this is where the routes are defined
@@ -113,6 +114,11 @@ const routes = {
         component: Users,
         name: "Users",
         url: "/settings/users",
+        idRoute: {
+          component: User,
+          name: "User",
+          url: "/settings/users/:userId",          
+        }
       },
     },
     permissions: [

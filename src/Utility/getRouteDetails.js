@@ -19,14 +19,20 @@ const getRouteDetails = (routes, selectedRoute, desiredProperty = null) => {
     if (!routeDetails.subroutes) {
       throw new Error(`The top route '${routeFragments[0]}' does not handle subroutes.`)
     }
-
-    const subrouteMatch = Object.keys(routeDetails.subroutes).filter(subroute => routeDetails.subroutes[subroute].url === '/' + routeFragments[0] + '/' + routeFragments[1])
+    let subrouteIdMatch = []
+    const subrouteMatch = Object.keys(routeDetails.subroutes).filter(subroute => routeDetails.subroutes[subroute].url === '/' + routeFragments[0] + '/' + routeFragments[1] + (routeFragments[2] ? "/" + routeFragments[2] : ""))
     if (subrouteMatch.length === 0) {
-      throw new Error(`The subroute route '${routeFragments[1]}' in 
-      '${selectedRoute}' could not be found in the routes object.`)
+      subrouteIdMatch = Object.keys(routeDetails.subroutes).filter(subroute => routeDetails.subroutes[subroute].idRoute).filter(subroute => routeDetails.subroutes[subroute].idRoute.url === '/' + routeFragments[0] + '/' + routeFragments[1] + (routeFragments[2] ? "/" + routeFragments[2] : ""))
+      if (subrouteIdMatch.length === 0) {
+        throw new Error(`The subroute route '${routeFragments[1]}' in 
+        '${selectedRoute}' could not be found in the routes object.`)  
+      }
     }
 
-    const subrouteDetails = routeDetails.subroutes[subrouteMatch[0]]
+    let subrouteDetails = routeDetails.subroutes[subrouteMatch[0]]
+    if (subrouteIdMatch.length > 0) {
+      subrouteDetails = routeDetails.subroutes[subrouteIdMatch[0]].idRoute
+    }
     if (desiredProperty) {
       return subrouteDetails[desiredProperty]
     }
