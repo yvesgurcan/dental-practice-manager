@@ -6,7 +6,7 @@ import PageWrapper from './../Components/PageWrapper'
 class PatientComponent extends Component {
   render () {
     return (
-      <PageWrapper route="/patients/:patientId([1-9]|[0-9]{2,}|new|add)" menuRoute="/patients">
+      <PageWrapper route='/patients/:patientId([1-9]|[0-9]{2,}|new|add)' menuRoute='/patients'>
       </PageWrapper>
     )  
   }
