@@ -65,6 +65,13 @@ global = {
     }
   ],
 
+  settings: [
+    {
+      timeZone: "PST",
+      clientId: 1,
+    },
+  ],
+
   users: [
     {
       userId: ++userId,
@@ -94,7 +101,12 @@ global = {
   ],
 
   appointments: [
-    
+    {
+      appointmentId: ++appointmentId,
+      patientId: 1,
+      clientId: 1,
+      date: "2018-02-04 14:00",
+    },
   ],
 
 }
