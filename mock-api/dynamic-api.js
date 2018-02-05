@@ -54,6 +54,8 @@ let clientId = 0
 let userId = 0
 let patientId = 0
 let appointmentId = 0
+let messageId = 0
+let workTimeId = 0
 
 // you can create a mock database in the form of a JSON object here
 global = {
@@ -62,6 +64,7 @@ global = {
     {
       clientId: ++clientId,
       name: "Gentle Care",
+      deleted: false,
     }
   ],
 
@@ -69,6 +72,13 @@ global = {
     {
       timeZone: "PST",
       clientId: 1,
+      operatories: [
+        {
+          operatoryId: 1,
+          name: "Operatory #1",
+          deleted: false,
+        },
+      ],
     },
   ],
 
@@ -79,6 +89,8 @@ global = {
       email: "martin@gentlecare.com",
       type: "dentist",
       name: "Dr. Martin",
+      rate: 110,
+      deleted: false,
     },
     {
       userId: ++userId,
@@ -86,6 +98,8 @@ global = {
       email: "ashlee@gentlecare.com",
       type: "hygienist",
       name: "Ashlee",
+      rate: 38.5,
+      deleted: false,
     },
   ],
 
@@ -97,6 +111,7 @@ global = {
       lastName: "Doe",
       email: "John@doe.com",
       provider: "Blue Cross",
+      deleted: false,
     },
   ],
 
@@ -105,7 +120,29 @@ global = {
       appointmentId: ++appointmentId,
       patientId: 1,
       clientId: 1,
+      operatoryId: 1,
       date: "2018-02-04 14:00",
+      deleted: false,
+    },
+  ],
+  
+  messages: [
+    {
+      messageId: ++messageId,
+      clientId: 1,
+      userId: 2,
+      message: "Hello!",
+    },
+  ],
+  
+  workTimes: [
+    {
+      workTimeId: ++workTimeId,
+      clientId: 1,
+      userId: 2,
+      start: "2018-02-04 09:00",
+      end: "2018-02-04 12:00",
+      deleted: false,
     },
   ],
 
