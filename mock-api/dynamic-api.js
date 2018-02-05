@@ -55,12 +55,14 @@ let userId = 0
 
 // you can create a mock database in the form of a JSON object here
 global = {
+
   clients: [
     {
       clientId: ++clientId,
       name: "Gentle Care",
     }
   ],
+
   users: [
     {
       userId: ++userId,
@@ -74,6 +76,14 @@ global = {
       type: "hygienist",
       name: "Ashlee",
     },
+  ],
+
+  patients: [
+
+  ],
+
+  appointments: [
+
   ],
 
 }
