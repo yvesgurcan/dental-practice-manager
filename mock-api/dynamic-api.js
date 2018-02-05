@@ -52,6 +52,8 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
 // ids
 let clientId = 0
 let userId = 0
+let patientId = 0
+let appointmentId = 0
 
 // you can create a mock database in the form of a JSON object here
 global = {
@@ -67,23 +69,32 @@ global = {
     {
       userId: ++userId,
       clientId: 1,
+      email: "martin@gentlecare.com",
       type: "dentist",
       name: "Dr. Martin",
     },
     {
       userId: ++userId,
       clientId: 1,
+      email: "ashlee@gentlecare.com",
       type: "hygienist",
       name: "Ashlee",
     },
   ],
 
   patients: [
-
+    {
+      patientId: ++patientId,
+      clientId: 1,
+      firstName: "John",
+      lastName: "Doe",
+      email: "John@doe.com",
+      provider: "Blue Cross",
+    },
   ],
 
   appointments: [
-
+    
   ],
 
 }
