@@ -59,6 +59,10 @@ class AppComponent extends Component {
             this.filterSubRoutes().map(subroute => <Route key={subroute.url} path={subroute.url} component={subroute.component} />)
           }
           {
+            /* id routes */
+            checkUserPermissions(routes, user).filter(route => routes[route].idRoute).map(route => <Route key={routes[route].idRoute.url} path={routes[route].idRoute.url} component={routes[route].idRoute.component} />)
+          }
+          {
             /* routes */
             checkUserPermissions(routes, user).map(route => <Route exact={routes[route].notFoundComponent ? true : false} key={routes[route].url} path={routes[route].url} component={routes[route].component} />)
           }

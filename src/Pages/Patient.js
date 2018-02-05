@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
 
-class PatientsComponent extends Component {
+class PatientComponent extends Component {
   render () {
     return (
-      <PageWrapper route="/patients/:patientId" menuRoute="/patients">
+      <PageWrapper route="/patients/:patientId([1-9]|[0-9]{2,}|new|add)" menuRoute="/patients">
       </PageWrapper>
     )  
   }
 }
-const Patients = connect(mapStateToProps)(PatientsComponent)
+const Patient = connect(mapStateToProps)(PatientComponent)
 
-export default Patients
+export default Patient

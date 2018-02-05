@@ -63,7 +63,7 @@ const routes = {
     idRoute: {
       component: Patient,
       name: "Patient",
-      url: "/patients/:patientId",
+      url: "/patients/:patientId([1-9]|[0-9]{2,}|new|add)",
     },
   },
   xRays: {
@@ -137,7 +137,7 @@ const routes = {
         idRoute: {
           component: User,
           name: "User",
-          url: "/settings/users/:userId",          
+          url: "/settings/users/:userId([1-9]|[0-9]{2,}|new|add)",          
         },
       },
     },

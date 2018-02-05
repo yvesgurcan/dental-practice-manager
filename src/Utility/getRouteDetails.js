@@ -7,15 +7,23 @@ const getRouteDetails = (routes, selectedRoute, desiredProperty = null) => {
   const routeArray = selectedRoute.split('/')
   const routeFragments = routeArray.filter((_, index) => index > 0)
 
-  const routeMatch = Object.keys(routes).filter(route => routes[route].url === '/' + routeFragments[0])
+  const routeIdMatch = Object.keys(routes).filter(route => routes[route].idRoute).filter(route => routes[route].idRoute.url === '/' + routeFragments[0] + "/" + routeFragments[1])
+
+  let routeMatch = []
+  if (routeIdMatch.length > 0) {
+    routeMatch = routeIdMatch
+  }
+  else {
+    routeMatch = Object.keys(routes).filter(route => routes[route].url === '/' + routeFragments[0])
+  }
 
   if (routeMatch.length === 0) {
     throw new Error(`The top route '${routeFragments[0]}' in 
     '${selectedRoute}' could not be found in the routes object.`)
   }
 
-  const routeDetails = routes[routeMatch[0]]
-  if (routeFragments.length > 1) {
+  let routeDetails = routes[routeMatch[0]]
+  if (routeFragments.length > 1 && routeIdMatch.length === 0) {
     if (!routeDetails.subroutes) {
       throw new Error(`The top route '${routeFragments[0]}' does not handle subroutes.`)
     }
@@ -39,6 +47,10 @@ const getRouteDetails = (routes, selectedRoute, desiredProperty = null) => {
 
     return subrouteDetails
 
+  }
+
+  if (routeIdMatch.length > 0) {
+    routeDetails = routeDetails.idRoute
   }
 
   if (desiredProperty) {
