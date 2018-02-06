@@ -23,8 +23,8 @@ class UsersComponent extends Component {
     return (
       <PageWrapper route='/settings/users' menuRoute='/settings'>
         {(users || []).map(user => (
-          <Block>
-            <RouteLink to={`/settings/users/${user.userId}`} key={user.userId}>{user.name}</RouteLink>
+          <Block key={user.userId}>
+            <RouteLink to={`/settings/users/${user.userId}`}>{user.name}</RouteLink>
           </Block>
         ))}
       </PageWrapper>

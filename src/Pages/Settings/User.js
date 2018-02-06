@@ -15,7 +15,6 @@ class UsersComponent extends Component {
     )
   }
   render () {
-    const {users} = this.props.settings
     return (
       <PageWrapper route="/settings/users/:userId([1-9]|[0-9]{2,}|new|add)" menuRoute="/settings">
       </PageWrapper>
