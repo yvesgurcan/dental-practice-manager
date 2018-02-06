@@ -2,10 +2,12 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
-
 const server = express()
+
+// config
 const port = 5000
 const supportedMethods = ["get","post","put","delete"]
+const requireAuth = true
 
 server.use(bodyParser.json())
 
@@ -16,13 +18,11 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
     console.error(`Error: Unsupported method '${method}'. The method must be one of the following: '${supportedMethods.join('\', \'')}'.`)
     return false
   }
-
-  if (!resource) {
+  else if (!resource) {
     console.error(`Error: You must enter the name of the resource. If you meant to create a resource at the root of the API, please enter '/'.`)
     return false
   }
-
-  if (!apiBody) {
+  else if (!apiBody) {
     console.error(`Warning: The body of the endpoint is not defined. The API will return 'null' when handling requests.`)
   }
 
@@ -35,6 +35,15 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
       parameters = req.body
     }
     console.log(`${Date()} - request: ${method} ${resource} ${JSON.stringify(parameters)}`)
+
+    if (requireAuth) {
+      const authorizationResults = authorize(req, res, parameters)
+      if (!authorizationResults.authorize) {
+        console.error(`${Date()} - **unauthorized request**: ${method} ${resource} ${JSON.stringify(parameters)}`)
+        res.send(authorizationResults.response)
+        return false
+      }
+    }
 
     let response = null
     if (!apiBody) {
@@ -49,7 +58,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
 
 }
 
-// ids
+// init ids
 let clientId = 0
 let userId = 0
 let patientId = 0
@@ -148,6 +157,48 @@ global = {
     },
   ],
 
+}
+
+// generic unauthorized response
+const unauthorizedResponse = {
+  message: "Invalid request.",
+  status: "unauthorized",
+}
+
+// you can enter a mock authorization function
+const authorize = function authorize (req, res, parameters) {
+  if (!parameters) {
+    return {
+      authorize: false,
+      response: unauthorizedResponse,
+    }
+  }
+  else if (!parameters.user) {
+    return {
+      authorize: false,
+      response: unauthorizedResponse,
+    }
+  }
+
+  const findUser = global.users.filter((user) => user.email === parameters.user.email && user.password === parameters.user.password)
+
+  if (findUser.length === 0) {
+    return {
+      authorize: false,
+      response: unauthorizedResponse,
+    }
+  }
+
+  const findClient = global.clients.filter((client) => findUser[0].clientId === client.clientId)
+
+  if (findClient.length === 0) {
+    return {
+      authorize: false,
+      response: unauthorizedResponse,
+    }
+  }
+
+  return {authorize: true}
 }
 
 // root
