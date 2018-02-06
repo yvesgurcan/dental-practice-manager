@@ -1,9 +1,19 @@
 const debugSession = {
+  client: {
+    clientId: 1,
+    name: "Gentle Care",
+    deleted: false,
+  },
   user: {
+    userId: 1,
+    clientId: 1,
+    email: "martin@gentlecare.com",
+    password: "123",
     type: "dentist",
-    id: 999,
-    name: "Dr. Martin",  
-  }
+    name: "Dr. Martin",
+    rate: 110,
+    deleted: false,
+  },
 }
 
 function session (state = debugSession, action) {
