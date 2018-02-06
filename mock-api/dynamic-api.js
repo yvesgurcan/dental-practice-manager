@@ -12,6 +12,7 @@ const requireAuth = true
 
 // note: for some reason (probably safer?), nested objects in the body are stringified. you need to call JSON.parse() to parse the nested objects with req.body
 server.use(bodyParser.json({extended: true}))
+server.use(bodyParser.urlencoded({extended: true}))
 
 // use endpointWrapper to create a quick mock endpoint
 const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
@@ -36,6 +37,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
     else {
       parameters = req.body
     }
+    
     console.log(`${Date()} - request: ${method} ${resource}\n`, parameters)
 
     let authorizationResults = {}
@@ -172,20 +174,26 @@ const unauthorizedResponse = {
 
 // you can enter a mock authorization function
 const authorize = function authorize (req, res, parameters) {
+
+  let requestUser = (parameters || {}).user
+  if (req.method === "GET") {
+    requestUser = JSON.parse((parameters || {}).user)
+  }
+
   if (!parameters) {
     return {
       authorize: false,
       response: unauthorizedResponse,
     }
   }
-  else if (!parameters.user) {
+  else if (!requestUser) {
     return {
       authorize: false,
       response: unauthorizedResponse,
     }
   }
 
-  const findUser = global.users.filter((user) => !user.deleted && user.email === parameters.user.email && user.password === parameters.user.password)
+  const findUser = global.users.filter((user) => !user.deleted && user.email === requestUser.email && user.password === requestUser.password)
 
   if (findUser.length === 0) {
     return {

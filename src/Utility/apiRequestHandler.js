@@ -56,7 +56,7 @@ const apiRequestHandler = (
 
   axios[method](
       `${api}/${resource}`,
-      {...payload}
+      method !== "get" ? {...payload} : {params: payload}
     )
     .then((response) => {
       console.log("response", {
