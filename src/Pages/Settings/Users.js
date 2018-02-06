@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import mapStateToProps from './../../Store/mapStateToProps'
 import apiRequestHandler from './../../Utility/apiRequestHandler'
 import PageWrapper from './../../Components/PageWrapper'
 import Block from './../../Components/Web/Block'
+import RouteLink from './../../Components/RouteLink'
 
 class UsersComponent extends Component {
   componentWillMount () {
@@ -24,7 +24,7 @@ class UsersComponent extends Component {
       <PageWrapper route='/settings/users' menuRoute='/settings'>
         {(users || []).map(user => (
           <Block>
-            <Link to={`/settings/users/${user.userId}`} key={user.userId}>{user.name}</Link>
+            <RouteLink to={`/settings/users/${user.userId}`} key={user.userId}>{user.name}</RouteLink>
           </Block>
         ))}
       </PageWrapper>
