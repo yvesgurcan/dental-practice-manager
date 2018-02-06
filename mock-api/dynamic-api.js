@@ -38,8 +38,9 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
     }
     console.log(`${Date()} - request: ${method} ${resource}\n`, parameters)
 
+    let authorizationResults = {}
     if (requireAuth) {
-      const authorizationResults = authorize(req, res, parameters)
+      authorizationResults = authorize(req, res, parameters)
       if (!authorizationResults.authorize) {
         console.error(`${Date()} - **unauthorized request**: ${method} ${resource}`, parameters)
         res.send(authorizationResults.response)
@@ -52,7 +53,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
       res.send(null)
     }
     else {
-      response = apiBody(req, res, parameters)
+      response = apiBody(req, res, parameters, authorizationResults.response)
       res.send(response)
     }
     console.log(`${Date()} - response:\n`, response)
@@ -99,7 +100,7 @@ global = {
       clientId: 1,
       email: "martin@gentlecare.com",
       password: "123",
-      type: "dentist",
+      role: "dentist",
       name: "Dr. Martin",
       rate: 110,
       deleted: false,
@@ -109,7 +110,7 @@ global = {
       clientId: 1,
       email: "ashlee@gentlecare.com",
       password: "123",
-      type: "hygienist",
+      role: "hygienist",
       name: "Ashlee",
       rate: 38.5,
       deleted: false,
@@ -163,8 +164,10 @@ global = {
 
 // generic unauthorized response
 const unauthorizedResponse = {
-  message: "Invalid request.",
-  status: "unauthorized",
+  feedback: {
+    message: "Incorrect username or password.",
+    status: "unauthorized",  
+  }
 }
 
 // you can enter a mock authorization function
@@ -172,40 +175,65 @@ const authorize = function authorize (req, res, parameters) {
   if (!parameters) {
     return {
       authorize: false,
-      response: {unauthorized: 1},
+      response: unauthorizedResponse,
     }
   }
   else if (!parameters.user) {
     return {
       authorize: false,
-      response: {unauthorized: 2},
+      response: unauthorizedResponse,
     }
   }
 
-  const requestUser = JSON.parse(parameters.user)
-
-  const findUser = global.users.filter((user) => user.email === requestUser.email && user.password === requestUser.password)
+  const findUser = global.users.filter((user) => !user.deleted && user.email === parameters.user.email && user.password === parameters.user.password)
 
   if (findUser.length === 0) {
     return {
       authorize: false,
-      response: {unauthorized: 3},
+      response: unauthorizedResponse,
     }
   }
 
-  const findClient = global.clients.filter((client) => findUser[0].clientId === client.clientId)
+  const findClient = global.clients.filter((client) => !client.deleted && findUser[0].clientId === client.clientId)
 
   if (findClient.length === 0) {
     return {
       authorize: false,
-      response: {unauthorized: 4},
+      response: unauthorizedResponse,
     }
   }
 
-  return {authorize: true}
+  return {authorize: true, response: {user: findUser[0], client: findClient[0]}}
 }
 
-// root
+// endpoints
+
+// signIn
+endpointWrapper(
+  "post",
+  "/signIn",
+  (req, res, parameters, session) => {
+
+    const publicSession = {
+      user: {
+        userId: session.user.userId,
+        name: session.user.name,
+        role: session.user.role,
+        email: session.user.email,
+        password: session.user.password,
+      },
+      client: {
+        clientId: session.client.clientId,
+        name: session.client.name,
+      },
+    }
+
+    return {session: publicSession, feedback: {status: "success"}}
+  }
+)
+
+
+// users
 endpointWrapper(
   "get",
   "/users",
@@ -214,9 +242,10 @@ endpointWrapper(
     const requestUser = JSON.parse(parameters.user)
     const users = global.users.filter(user => user.clientId === requestUser.clientId)
 
-    return {users: users, status: "success"}
+    return {users: users, feedback: {status: "success"}}
   }
 )
+
 endpointWrapper(
   "post",
   "/users",
@@ -225,6 +254,7 @@ endpointWrapper(
     return global
   }
 )
+
 endpointWrapper(
   "put",
   "/users",
@@ -233,6 +263,7 @@ endpointWrapper(
     return global
   }
 )
+
 endpointWrapper(
   "delete",
   "/users",

@@ -19,7 +19,7 @@ class PageWrapperComponent extends Component {
       <Block>
         <Nav/>
         <ContentWrapper menu={subRoutes}>
-          <Block style={styles.notFoundFeedback}>{notFound}</Block>
+          <Block style={styles.errorFeedback}>{notFound}</Block>
           <PageHeader>{pageTitle}</PageHeader>
           {this.props.children}
         </ContentWrapper>

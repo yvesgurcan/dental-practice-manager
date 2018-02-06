@@ -1,5 +1,5 @@
 const signInForm = {
-  width: 200,
+  width: 280,
   margin: "auto",
 }
 

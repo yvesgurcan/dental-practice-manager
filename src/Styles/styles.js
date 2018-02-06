@@ -9,7 +9,8 @@ import publicPage from './publicPage'
 import signInForm from './signInForm'
 import textbox from './textbox'
 import label from './label'
-import notFoundFeedback from './notFoundFeedback'
+import error from './error'
+import unauthorized from './unauthorized'
 
 const styles = {
   horizontalRuler,
@@ -24,7 +25,8 @@ const styles = {
   textbox,
   label,
   signInForm,
-  notFoundFeedback,
+  error,
+  unauthorized,
 }
 
 export default styles

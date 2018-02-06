@@ -21,16 +21,23 @@ const apiRequestHandler = (
 ) => {
 
   if (!session.user) {
-    throw new Error(`You can not make API requests without a user in the session.`)
+    if (!payload.login) {
+      throw new Error(`You can not make API requests without a user in the session.`)
+    }
+    else {
+      payload = {user: {...payload.login}}
+    }
+  }
+  else {
+    // integrate user data to the payload
+    payload.user = {
+      clientId: session.client.clientId,
+      userId: session.user.userId,
+      email: session.user.email,
+      password: session.user.password,
+    }
   }
 
-  // integrate user data to the payload
-  payload.user = {
-    clientId: session.client.clientId,
-    userId: session.user.userId,
-    email: session.user.email,
-    password: session.user.password,
-  }
 
   console.log("request", {
     method,
@@ -49,7 +56,7 @@ const apiRequestHandler = (
 
   axios[method](
       `${api}/${resource}`,
-      {params: payload}
+      {...payload}
     )
     .then((response) => {
       console.log("response", {

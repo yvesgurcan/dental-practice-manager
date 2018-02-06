@@ -1,20 +1,15 @@
 const debugSession = {
-  /*client: {
+  client: {
     clientId: 1,
     name: "Gentle Care",
-    deleted: false,
   },
   user: {
     userId: 1,
-    clientId: 1,
+    name: "Dr. Martin",
+    role: "dentist",
     email: "martin@gentlecare.com",
     password: "123",
-    type: "dentist",
-    name: "Dr. Martin",
-    rate: 110,
-    deleted: false,
   },
-  */
 }
 
 function session (state = debugSession, action) {
@@ -37,8 +32,26 @@ function session (state = debugSession, action) {
     case "AUTH_SUCCESS": {
       newState = {
         ...state,
-        user: action.user,
-        client: action.client,
+        user: {...action.user},
+        client: {...action.client},
+        login: undefined,
+        feedback: undefined,
+        allowResubmit: undefined,
+      }
+      break
+    }
+    case "AUTH_FEEDBACK": {
+      newState = {
+        ...state,
+        feedback: {...action.feedback},
+        allowResubmit: undefined,
+      }
+      break
+    }
+    case "RESUBMIT_OK": {
+      newState = {
+        ...state,
+        allowResubmit: true,
       }
       break
     }
@@ -46,6 +59,7 @@ function session (state = debugSession, action) {
       newState = {
         ...state,
         user: undefined,
+        client: undefined,
       }
       break
     }
