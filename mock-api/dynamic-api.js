@@ -1,4 +1,5 @@
 // `node dynamic-api.js` starts the server locally
+// `nodemon dynamic-api.js --inspect` facilitates debugging
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -9,7 +10,8 @@ const port = 5000
 const supportedMethods = ["get","post","put","delete"]
 const requireAuth = true
 
-server.use(bodyParser.json())
+// note: for some reason (probably safer?), nested objects in the body are stringified. you need to call JSON.parse() to parse the nested objects with req.body
+server.use(bodyParser.json({extended: true}))
 
 // use endpointWrapper to create a quick mock endpoint
 const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
@@ -34,12 +36,12 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
     else {
       parameters = req.body
     }
-    console.log(`${Date()} - request: ${method} ${resource} ${JSON.stringify(parameters)}`)
+    console.log(`${Date()} - request: ${method} ${resource}\n`, parameters)
 
     if (requireAuth) {
       const authorizationResults = authorize(req, res, parameters)
       if (!authorizationResults.authorize) {
-        console.error(`${Date()} - **unauthorized request**: ${method} ${resource} ${JSON.stringify(parameters)}`)
+        console.error(`${Date()} - **unauthorized request**: ${method} ${resource}`, parameters)
         res.send(authorizationResults.response)
         return false
       }
@@ -53,7 +55,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
       response = apiBody(req, res, parameters)
       res.send(response)
     }
-    console.log(`${Date()} - response:\n${JSON.stringify(response)}`)
+    console.log(`${Date()} - response:\n`, response)
   })
 
 }
@@ -180,7 +182,9 @@ const authorize = function authorize (req, res, parameters) {
     }
   }
 
-  const findUser = global.users.filter((user) => user.email === parameters.user.email && user.password === parameters.user.password)
+  const requestUser = JSON.parse(parameters.user)
+
+  const findUser = global.users.filter((user) => user.email === requestUser.email && user.password === requestUser.password)
 
   if (findUser.length === 0) {
     return {
