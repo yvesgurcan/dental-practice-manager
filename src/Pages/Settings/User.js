@@ -10,7 +10,8 @@ class UsersComponent extends Component {
     apiRequestHandler(
       "get",
       "users",
-      {clientId: 1},
+      {},
+      this.props.session,
       this.storeUsers,
     )
   }

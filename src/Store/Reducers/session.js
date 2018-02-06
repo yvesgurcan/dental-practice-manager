@@ -1,5 +1,5 @@
 const debugSession = {
-  client: {
+  /*client: {
     clientId: 1,
     name: "Gentle Care",
     deleted: false,
@@ -14,6 +14,7 @@ const debugSession = {
     rate: 110,
     deleted: false,
   },
+  */
 }
 
 function session (state = debugSession, action) {

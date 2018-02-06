@@ -211,12 +211,8 @@ endpointWrapper(
   "/users",
   (req, res, parameters) => {
 
-    if (!parameters.clientId) return {
-      message: "Invalid request.",
-      status: "error",
-    }
-
-    const users = global.users.filter(user => user.clientId === Number(parameters.clientId))
+    const requestUser = JSON.parse(parameters.user)
+    const users = global.users.filter(user => user.clientId === requestUser.clientId)
 
     return {users: users, status: "success"}
   }
@@ -226,11 +222,6 @@ endpointWrapper(
   "/users",
   (req, res, parameters) => {
 
-    if (!parameters.user) return {
-      message: "Invalid request.",
-      status: "error",
-    }
-
     return global
   }
 )
@@ -239,11 +230,6 @@ endpointWrapper(
   "/users",
   (req, res, parameters) => {
 
-    if (!parameters.user) return {
-      message: "Invalid request.",
-      status: "error",
-    }
-
     return global
   }
 )
@@ -251,11 +237,6 @@ endpointWrapper(
   "delete",
   "/users",
   (req, res, parameters) => {
-
-    if (!parameters.clientId) return {
-      message: "Invalid request.",
-      status: "error",
-    }
 
     return global
   }

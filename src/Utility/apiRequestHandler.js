@@ -14,15 +14,22 @@ const apiRequestHandler = (
   method,
   resource,
   payload,
+  session,
   callback,
   errorCallback,
   api = endpoints.internal
 ) => {
 
-  //
+  if (!session.user) {
+    throw new Error(`You can not make API requests without a user in the session.`)
+  }
+
+  // integrate user data to the payload
   payload.user = {
-    email: "martin@gentlecare.com",
-    password: "123",
+    clientId: session.client.clientId,
+    userId: session.user.userId,
+    email: session.user.email,
+    password: session.user.password,
   }
 
   console.log("request", {
