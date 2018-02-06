@@ -19,6 +19,12 @@ const apiRequestHandler = (
   api = endpoints.internal
 ) => {
 
+  //
+  payload.user = {
+    email: "martin@gentlecare.com",
+    password: "123",
+  }
+
   console.log("request", {
     method,
     resource,

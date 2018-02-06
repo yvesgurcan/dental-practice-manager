@@ -170,13 +170,13 @@ const authorize = function authorize (req, res, parameters) {
   if (!parameters) {
     return {
       authorize: false,
-      response: unauthorizedResponse,
+      response: {unauthorized: 1},
     }
   }
   else if (!parameters.user) {
     return {
       authorize: false,
-      response: unauthorizedResponse,
+      response: {unauthorized: 2},
     }
   }
 
@@ -185,7 +185,7 @@ const authorize = function authorize (req, res, parameters) {
   if (findUser.length === 0) {
     return {
       authorize: false,
-      response: unauthorizedResponse,
+      response: {unauthorized: 3},
     }
   }
 
@@ -194,7 +194,7 @@ const authorize = function authorize (req, res, parameters) {
   if (findClient.length === 0) {
     return {
       authorize: false,
-      response: unauthorizedResponse,
+      response: {unauthorized: 4},
     }
   }
 
