@@ -31,8 +31,18 @@ import User from './../Pages/Settings/User'
         component: MyOtherComponent,
         name: "",
         url: "/route/subroute",
+        idRoute: {
+          component: MyIdSubrouteComponent,
+          name: "",
+          url: "/route/subroute/:id",
+        },
       },
-    }
+    },
+    idRoute: {
+      component: MyIdRouteComponent,
+      name: "",
+      url: "/route/:id",
+    },
   },
 */
 
