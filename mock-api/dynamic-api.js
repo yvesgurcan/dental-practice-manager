@@ -65,6 +65,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
 
 // init ids
 let clientId = 0
+let supportUserId = 0
 let userId = 0
 let patientId = 0
 let appointmentId = 0
@@ -96,24 +97,33 @@ global = {
     },
   ],
 
+  supportUsers: [
+    {
+      supportUserId: ++supportUserId,
+      name: "Yves",
+      email: "gurcan.yves@gmail.com",
+      password: "123",
+    },
+  ],
+
   users: [
     {
       userId: ++userId,
       clientId: 1,
-      email: "martin@gentlecare.com",
-      password: "123",
-      role: "dentist",
       name: "Dr. Martin",
+      email: "martin@gentlecare.com",
+      role: "dentist",
+      password: "123",
       rate: 110,
       deleted: false,
     },
     {
       userId: ++userId,
       clientId: 1,
-      email: "ashlee@gentlecare.com",
-      password: "123",
-      role: "hygienist",
       name: "Ashlee",
+      email: "ashlee@gentlecare.com",
+      role: "hygienist",
+      password: "123",
       rate: 38.5,
       deleted: false,
     },
@@ -195,10 +205,20 @@ const authorize = function authorize (req, res, parameters) {
 
   const findUser = global.users.filter((user) => !user.deleted && user.email === requestUser.email && user.password === requestUser.password)
 
+  let findSupportUser = []
   if (findUser.length === 0) {
-    return {
-      authorize: false,
-      response: unauthorizedResponse,
+    findSupportUser = global.supportUsers.filter((supportUser) => !supportUser.deleted && supportUser.email === requestUser.email && supportUser.password === requestUser.password)
+    if (findSupportUser.length === 0) {
+      return {
+        authorize: false,
+        response: unauthorizedResponse,
+      }  
+    }
+    else {
+      return {
+        authorize: true,
+        response: {supportUser: findSupportUser[0]}
+      }
     }
   }
 
@@ -222,18 +242,31 @@ endpointWrapper(
   "/signIn",
   (req, res, parameters, session) => {
 
-    const publicSession = {
-      user: {
-        userId: session.user.userId,
-        name: session.user.name,
-        role: session.user.role,
-        email: session.user.email,
-        password: session.user.password,
-      },
-      client: {
-        clientId: session.client.clientId,
-        name: session.client.name,
-      },
+    let publicSession = {}
+    if (session.supportUser) {
+      publicSession = {
+        supportUser: {
+          superUserId: session.supportUser.supportUserId,
+          name: session.supportUser.name,
+          email: session.supportUser.email,
+          password: session.supportUser.password,
+        },
+      }
+    }
+    else {
+      publicSession = {
+        user: {
+          userId: session.user.userId,
+          name: session.user.name,
+          role: session.user.role,
+          email: session.user.email,
+          password: session.user.password,
+        },
+        client: {
+          clientId: session.client.clientId,
+          name: session.client.name,
+        },
+      }
     }
 
     return {session: publicSession, feedback: {status: "success"}}

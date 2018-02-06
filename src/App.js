@@ -7,6 +7,7 @@ import checkUserPermissions from './Utility/checkUserPermissions'
 import SignIn from './Pages/SignIn'
 import Home from './Pages/Home'
 import NotFound from './Pages/NotFound'
+import Support from './Pages/Support'
 
 const Root = () => (
   <Provider store={store}>
@@ -34,8 +35,20 @@ class AppComponent extends Component {
   render () {
     let {environment, session} = this.props
     let {routes} = environment
-    let {user} = session
-    if (!user) {
+    let {user, supportUser} = session
+    if (supportUser) {
+      return (
+        <Router>
+        <Switch>
+          <Route path='/support' component={Support} />
+          <Route path='/' render={() => (
+              <Redirect to='/support'/>
+            )} />
+        </Switch>
+      </Router>
+      )
+    }
+    if (!user && !supportUser) {
       return (
         <Router>
           <Switch>

@@ -13,13 +13,21 @@ class NavComponent extends Component {
   render () {
     let {environment, session} = this.props
     let {routes} = environment
-    let {user} = session
+    let {user, supportUser} = session
     return (
       <Block style={styles.nav}>
-        <NavItem item={{
-          name: "Home",
-          url: "/",
-        }} />
+        {supportUser
+          ?
+            <NavItem item={{
+              name: "Support",
+              url: "/",
+            }} />
+          :
+            <NavItem item={{
+              name: "Home",
+              url: "/",
+            }} />
+        }
         {
           checkUserPermissions(routes, user).map(route => <NavItem key={routes[route].url} item={routes[route]} />)
         }

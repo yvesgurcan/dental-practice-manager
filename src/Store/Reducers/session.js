@@ -1,4 +1,5 @@
 const debugSession = {
+  /*
   client: {
     clientId: 1,
     name: "Gentle Care",
@@ -10,6 +11,7 @@ const debugSession = {
     email: "martin@gentlecare.com",
     password: "123",
   },
+  */
 }
 
 function session (state = debugSession, action) {
@@ -30,6 +32,16 @@ function session (state = debugSession, action) {
       break
     }
     case "AUTH_SUCCESS": {
+      if (action.supportUser) {
+        newState = {
+          ...state,
+          supportUser: {...action.supportUser},
+          login: undefined,
+          feedback: undefined,
+          allowResubmit: undefined,
+        }
+        break
+      }
       newState = {
         ...state,
         user: {...action.user},
@@ -58,6 +70,7 @@ function session (state = debugSession, action) {
     case "SIGN_OUT": {
       newState = {
         ...state,
+        supportUser: undefined,
         user: undefined,
         client: undefined,
       }
