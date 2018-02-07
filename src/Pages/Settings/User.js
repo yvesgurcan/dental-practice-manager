@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import apiRequestHandler from './../../Utility/apiRequestHandler'
 import PageWrapper from './../../Components/PageWrapper'
-import Block from './../../Components/Web/Block'
+// import Block from './../../Components/Web/Block'
 
 class UsersComponent extends Component {
   componentWillMount () {

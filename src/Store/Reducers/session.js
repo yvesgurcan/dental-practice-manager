@@ -12,6 +12,12 @@ const debugSession = {
     password: "123",
   },
   */
+  supportUser: {
+    supportUserId: 1,
+    name: "Yves",
+    email: "gurcan.yves@gmail.com",
+    password: "123",
+  }
 }
 
 function session (state = debugSession, action) {
@@ -22,6 +28,7 @@ function session (state = debugSession, action) {
     default: {
       break
     }
+    
     case "STORE_LOGIN": {
       let login = {...state.login}
       login[action.name] = action.value
@@ -31,6 +38,24 @@ function session (state = debugSession, action) {
       }
       break
     }
+
+    case "AUTH_FEEDBACK": {
+      newState = {
+        ...state,
+        feedback: {...action.feedback},
+        allowResubmit: undefined,
+      }
+      break
+    }
+
+    case "RESUBMIT_OK": {
+      newState = {
+        ...state,
+        allowResubmit: true,
+      }
+      break
+    }
+    
     case "AUTH_SUCCESS": {
       if (action.supportUser) {
         newState = {
@@ -52,21 +77,7 @@ function session (state = debugSession, action) {
       }
       break
     }
-    case "AUTH_FEEDBACK": {
-      newState = {
-        ...state,
-        feedback: {...action.feedback},
-        allowResubmit: undefined,
-      }
-      break
-    }
-    case "RESUBMIT_OK": {
-      newState = {
-        ...state,
-        allowResubmit: true,
-      }
-      break
-    }
+
     case "SIGN_OUT": {
       newState = {
         ...state,
@@ -76,6 +87,35 @@ function session (state = debugSession, action) {
       }
       break
     }
+
+    case "SELECT_CLIENT": {
+
+      let user = {...state.user}
+      if (state.client !== action.client) {
+        user = undefined
+      }
+
+      newState = {
+        ...state,
+        client: action.client,
+        user: undefined,
+      }
+      
+      if (action.callback) {
+        action.callback(newState)
+      }
+
+      break
+    }
+
+    case "SELECT_USER": {
+      newState = {
+        ...state,
+        user: action.user,
+      }
+      break
+    }
+
   }
 
   return newState

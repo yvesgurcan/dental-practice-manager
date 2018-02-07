@@ -10,7 +10,9 @@ import signInForm from './signInForm'
 import textbox from './textbox'
 import label from './label'
 import error from './error'
+import warning from './warning'
 import unauthorized from './unauthorized'
+import spacer from './spacer'
 
 const styles = {
   horizontalRuler,
@@ -26,7 +28,9 @@ const styles = {
   label,
   signInForm,
   error,
+  warning,
   unauthorized,
+  spacer,
 }
 
 export default styles

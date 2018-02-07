@@ -6,11 +6,13 @@ function settings (state = {}, action) {
     default: {
       break
     }
+
     case "STORE_USERS": {
       newState = {
         ...state,
         users: action.users,
       }
+
       break
     }
   }

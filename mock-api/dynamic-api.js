@@ -42,7 +42,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
 
     let authorizationResults = {}
     if (requireAuth) {
-      authorizationResults = authorize(req, res, parameters)
+      authorizationResults = authorize(req, res, parameters, {method, resource})
       if (!authorizationResults.authorize) {
         console.error(`${Date()} - **unauthorized request**: ${method} ${resource}`, parameters)
         res.send(authorizationResults.response)
@@ -80,7 +80,12 @@ global = {
       clientId: ++clientId,
       name: "Gentle Care",
       deleted: false,
-    }
+    },
+    {
+      clientId: ++clientId,
+      name: "Natural Dental",
+      deleted: false,
+    },
   ],
 
   settings: [
@@ -174,6 +179,13 @@ global = {
 
 }
 
+// endpoints that are only accessible by supportUsers
+const specialAuthorizationEndpoints = [
+  {endpoint: "post /signIn", supportUserOnly: false},
+  {endpoint: "get /clients", supportUserOnly: true},
+  {endpoint: "get /users", supportUserOnly: false},
+]
+
 // generic unauthorized response
 const unauthorizedResponse = {
   feedback: {
@@ -183,7 +195,7 @@ const unauthorizedResponse = {
 }
 
 // you can enter a mock authorization function
-const authorize = function authorize (req, res, parameters) {
+const authorize = function authorize (req, res, parameters, endpoint) {
 
   let requestUser = (parameters || {}).user
   if (req.method === "GET") {
@@ -202,12 +214,23 @@ const authorize = function authorize (req, res, parameters) {
       response: unauthorizedResponse,
     }
   }
+  
+  const resourcesWithSpecialAuth = specialAuthorizationEndpoints.filter(specialAuth => specialAuth.endpoint === `${endpoint.method} ${endpoint.resource}`)
+  const resourcesForSupportUsersOnly = resourcesWithSpecialAuth.filter(specialAuth => specialAuth.supportUserOnly)
 
-  const findUser = global.users.filter((user) => !user.deleted && user.email === requestUser.email && user.password === requestUser.password)
+  let findUser = []
+  if (resourcesForSupportUsersOnly.length === 0) {
+    findUser = global.users.filter((user) => !user.deleted && user.email === requestUser.email && user.password === requestUser.password)    
+  }
 
   let findSupportUser = []
+
   if (findUser.length === 0) {
-    findSupportUser = global.supportUsers.filter((supportUser) => !supportUser.deleted && supportUser.email === requestUser.email && supportUser.password === requestUser.password)
+
+    if (resourcesWithSpecialAuth.length > 0) {
+      findSupportUser = global.supportUsers.filter((supportUser) => !supportUser.deleted && supportUser.email === requestUser.email && supportUser.password === requestUser.password)
+    }
+
     if (findSupportUser.length === 0) {
       return {
         authorize: false,
@@ -273,6 +296,16 @@ endpointWrapper(
   }
 )
 
+// support
+endpointWrapper(
+  "get",
+  "/clients",
+  (req, res, parameters) => {
+
+    const clients = global.clients.map(client => ({clientId: client.clientId, name: client.name}))
+    return {clients: clients, feedback: {status: "success"}}
+  }
+)
 
 // users
 endpointWrapper(

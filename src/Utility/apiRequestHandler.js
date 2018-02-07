@@ -20,24 +20,34 @@ const apiRequestHandler = (
   api = endpoints.internal
 ) => {
 
-  if (!session.user) {
-    if (!payload.login) {
-      throw new Error(`You can not make API requests without a user in the session.`)
+  if (!session.supportUser) {
+    if (!session.user) {
+      if (!payload.login) {
+        throw new Error(`You can not make API requests without a user in the session.`)
+      }
+      else {
+        payload = {user: {...payload.login}}
+      }
+
     }
     else {
-      payload = {user: {...payload.login}}
+      // integrate user data to the payload
+      payload.user = {
+        clientId: session.client.clientId,
+        userId: session.user.userId,
+        email: session.user.email,
+        password: session.user.password,
+      }
     }
   }
   else {
-    // integrate user data to the payload
     payload.user = {
-      clientId: session.client.clientId,
-      userId: session.user.userId,
-      email: session.user.email,
-      password: session.user.password,
+      clientId: session.client ? session.client.clientId : undefined,
+      supportUserId: session.supportUser.supportUserId,
+      email: session.supportUser.email,
+      password: session.supportUser.password,
     }
   }
-
 
   console.log("request", {
     method,
@@ -71,9 +81,17 @@ const apiRequestHandler = (
     })
     .catch((error) => {
       if (errorCallback) {
-        errorCallback(error)
+        errorCallback(error.response)
       }
-      throw new Error(`Oops! The server returned an error for ${method} ${api}/${resource}.\nError details: ${JSON.stringify(error)}`)
+      if (error.response) {
+        throw new Error(
+          `\nThe server returned an error for ${method} /${resource}.\nStatus code: ${(error.response).status} (${(error.response).statusText}).\nParameters: ${JSON.stringify(error.response.config.params)}`)  
+      }
+      else {
+        throw new Error(
+          `\nAn error occurred while requesting ${method} /${resource}:\n${error.message}.\nParameters: ${JSON.stringify(error.config.params)}`
+        )
+      }
     })
 
 }

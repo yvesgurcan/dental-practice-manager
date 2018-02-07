@@ -6,6 +6,7 @@ import styles from './../Styles/styles'
 import Block from './Web/Block'
 import PageHeader from './Web/PageHeader'
 import Nav from './Nav'
+import Feedback from './Feedback'
 import ContentWrapper from './ContentWrapper'
 
 class PageWrapperComponent extends Component {
@@ -19,7 +20,9 @@ class PageWrapperComponent extends Component {
       <Block>
         <Nav/>
         <ContentWrapper menu={subRoutes}>
-          <Block style={styles.errorFeedback}>{notFound}</Block>
+          <Block style={styles.spacer}>
+            <Feedback feedback={{status: "error", message: notFound}} />
+          </Block>
           <PageHeader>{pageTitle}</PageHeader>
           {this.props.children}
         </ContentWrapper>

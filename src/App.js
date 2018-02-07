@@ -36,7 +36,7 @@ class AppComponent extends Component {
     let {environment, session} = this.props
     let {routes} = environment
     let {user, supportUser} = session
-    if (supportUser) {
+    if (supportUser && !user) {
       return (
         <Router>
         <Switch>
@@ -63,9 +63,10 @@ class AppComponent extends Component {
     return (
       <Router>
         <Switch>
+          {supportUser ? <Route exact path='/support' component={Support} /> : null}
           {
             /* id subroutes */
-            this.filterSubRoutes().filter(subroute => subroute.idRoute).map(subroute => <Route key={subroute.idRoute.url} path={subroute.idRoute.url} component={subroute.idRoute.component} />)
+            this.filterSubRoutes().filter(subroute => subroute.idRoute).map(subroute => <Route key={subroute.idRoute.url} exact path={subroute.idRoute.url} component={subroute.idRoute.component} />)
           }
           {
             /* subroutes */

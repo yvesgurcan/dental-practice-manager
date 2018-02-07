@@ -20,13 +20,17 @@ class NavComponent extends Component {
           ?
             <NavItem item={{
               name: "Support",
-              url: "/",
+              url: "/support",
             }} />
-          :
+          : null
+        }
+        {user
+          ? 
             <NavItem item={{
               name: "Home",
               url: "/",
             }} />
+          : null
         }
         {
           checkUserPermissions(routes, user).map(route => <NavItem key={routes[route].url} item={routes[route]} />)
