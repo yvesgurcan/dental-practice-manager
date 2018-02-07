@@ -98,7 +98,7 @@ function session (state = debugSession, action) {
       newState = {
         ...state,
         client: action.client,
-        user: undefined,
+        user: user,
       }
       
       if (action.callback) {

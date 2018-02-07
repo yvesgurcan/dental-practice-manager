@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Block from './Web/Block'
-import Link from './Web/Link'
 import RouteLink from './RouteLink'
 import styles from './../Styles/styles'
 
