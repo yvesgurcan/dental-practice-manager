@@ -65,7 +65,7 @@ class SignInFormComponent extends Component {
         </Block>
         <Label>Password</Label>
         <Block>
-          <Textbox name="password" type="password" onChange={this.storeLogin} onPressEnter={this.signIn} style={{width: "100%"}} />
+          <Textbox name="password" value={(login || {}).password} type="password" onChange={this.storeLogin} onPressEnter={this.signIn} style={{width: "100%"}} />
         </Block>
         <Feedback feedback={feedback} />
         <Button onClick={this.signIn}>Sign In</Button>

@@ -78,6 +78,17 @@ function session (state = debugSession, action) {
       break
     }
 
+    case "CLEAR_PASSWORD": {
+      let login = {...state.login}
+      login.password = undefined
+      newState = {
+        ...state,
+        recoveryFeedback: {...action.feedback},
+        login: login,
+      }
+      break
+    }
+
     case "AUTH_HELP_FEEDBACK": {
       newState = {
         ...state,

@@ -14,6 +14,7 @@ import styles from './../Styles/styles'
 class ForgotPasswordFormComponent extends Component {
   componentWillMount = () => {
     this.props.dispatch({type: "AUTH_HELP_FEEDBACK", feedback: undefined})
+    this.props.dispatch({type: "CLEAR_PASSWORD"})
     this.props.dispatch({type: "RESUBMIT_OK"})
   }
   storeEmail = (input) => {
