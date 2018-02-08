@@ -16,7 +16,7 @@ server.use(bodyParser.urlencoded({extended: true}))
 
 // use endpointWrapper to create a quick mock endpoint
 const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
-  console.log(`Endpoint: ${method} ${resource}`)  
+  console.log(`Endpoint: ${method} ${resource}`)
   if (supportedMethods.indexOf(method) === -1) {
     console.error(`Error: Unsupported method '${method}'. The method must be one of the following: '${supportedMethods.join('\', \'')}'.`)
     return false
@@ -41,7 +41,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
     console.log(`${Date()} - request: ${method} ${resource}\n`, parameters)
 
     let authorizationResults = {}
-    if (requireAuth && publicEndpoints.indexOf(`${method} ${resource}`) > -1) {
+    if (requireAuth && publicEndpoints.indexOf(`${method} ${resource}`) === -1) {
       authorizationResults = authorize(req, res, parameters, {method, resource})
       if (!authorizationResults.authorize) {
         console.error(`${Date()} - **unauthorized request**: ${method} ${resource}`, parameters)
@@ -181,7 +181,7 @@ global = {
 
 // endpoints that can be consumed by any body
 const publicEndpoints = [
-  "post accountRecovery",
+  "post /accountRecovery",
 ]
 
 // endpoints that are only accessible by supportUsers

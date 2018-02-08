@@ -56,7 +56,7 @@ class ForgotPasswordFormComponent extends Component {
         <SectionHeader>Account Recovery</SectionHeader>
         <Label>Email</Label>
         <Block>
-          <Textbox name="email" value={(login || {}).email} onChange={this.storeEmail} onPressEnter={this.signIn} style={{width: "100%"}}  />
+          <Textbox name="email" value={(login || {}).email} onChange={this.storeEmail} onPressEnter={this.sendEmail} style={{width: "100%"}}  />
         </Block>
         <Feedback feedback={recoveryFeedback} />
         <Button onClick={this.sendEmail}>Send Instructions</Button>
