@@ -22,11 +22,16 @@ const apiRequestHandler = (
 
   if (!session.supportUser) {
     if (!session.user) {
-      if (!payload.login) {
+      if (!payload.login && !payload.email) {
         throw new Error(`You can not make API requests without a user in the session.`)
       }
       else {
-        payload = {user: {...payload.login}}
+        if (payload.login) {
+          payload = {user: {...payload.login}}
+        }
+        else if (payload.email) {
+          payload = {user: {email: payload.email}}
+        }
       }
 
     }

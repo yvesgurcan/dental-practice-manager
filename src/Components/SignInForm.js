@@ -52,22 +52,22 @@ class SignInFormComponent extends Component {
     }
   }
   render () {
-    let {feedback} = this.props.session
+    let {feedback, login} = this.props.session
     return (
       <Block style={styles.signInForm}>
-          <Label>Email</Label>
-          <Block>
-            <Textbox name="email" onChange={this.storeLogin} onPressEnter={this.signIn} style={{width: "100%"}}  />
-          </Block>
-          <Label>Password</Label>
-          <Block>
-            <Textbox name="password" type="password" onChange={this.storeLogin} onPressEnter={this.signIn} style={{width: "100%"}} />
-          </Block>
-          <Feedback feedback={feedback} />
-          <Button onClick={this.signIn}>Sign In</Button>
-          <Block>
-            <RouteLink to='signIn/help'>Forgot your email?</RouteLink>
-          </Block>
+        <Label>Email</Label>
+        <Block>
+          <Textbox name="email" value={(login || {}).email} onChange={this.storeLogin} onPressEnter={this.signIn} style={{width: "100%"}}  />
+        </Block>
+        <Label>Password</Label>
+        <Block>
+          <Textbox name="password" type="password" onChange={this.storeLogin} onPressEnter={this.signIn} style={{width: "100%"}} />
+        </Block>
+        <Feedback feedback={feedback} />
+        <Button onClick={this.signIn}>Sign In</Button>
+        <Block style={styles.forgotPassword}>
+          <RouteLink to='/signIn/help/'>Forgot password?</RouteLink>
+        </Block>
       </Block>
     )  
   }

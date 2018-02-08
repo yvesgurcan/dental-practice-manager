@@ -41,7 +41,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
     console.log(`${Date()} - request: ${method} ${resource}\n`, parameters)
 
     let authorizationResults = {}
-    if (requireAuth) {
+    if (requireAuth && publicEndpoints.indexOf(`${method} ${resource}`) > -1) {
       authorizationResults = authorize(req, res, parameters, {method, resource})
       if (!authorizationResults.authorize) {
         console.error(`${Date()} - **unauthorized request**: ${method} ${resource}`, parameters)
@@ -179,6 +179,11 @@ global = {
 
 }
 
+// endpoints that can be consumed by any body
+const publicEndpoints = [
+  "post accountRecovery",
+]
+
 // endpoints that are only accessible by supportUsers
 const specialAuthorizationEndpoints = [
   {endpoint: "post /signIn", supportUserOnly: false},
@@ -293,6 +298,21 @@ endpointWrapper(
     }
 
     return {session: publicSession, feedback: {status: "success"}}
+  }
+)
+
+endpointWrapper(
+  "post",
+  "/accountRecovery",
+  (req, res, parameters, session) => {
+
+    const findUser = global.users.filter((user) => !user.deleted && user.email === parameters.user.email)    
+
+    if (findUser.length === 0) {
+      return {feedback: {message: `Invalid username.`, status: "unauthorized"}}
+    }
+
+    return {feedback: {message: `An email was sent to ${findUser[0].email}.`, status: "success"}}
   }
 )
 

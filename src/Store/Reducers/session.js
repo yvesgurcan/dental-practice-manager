@@ -78,6 +78,15 @@ function session (state = debugSession, action) {
       break
     }
 
+    case "AUTH_HELP_FEEDBACK": {
+      newState = {
+        ...state,
+        recoveryFeedback: {...action.feedback},
+        allowResubmit: undefined,
+      }
+      break
+    }
+
     case "SIGN_OUT": {
       newState = {
         ...state,

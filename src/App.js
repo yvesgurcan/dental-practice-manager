@@ -5,6 +5,7 @@ import store from './Store/store'
 import mapStateToProps from './Store/mapStateToProps'
 import checkUserPermissions from './Utility/checkUserPermissions'
 import SignIn from './Pages/SignIn'
+import ForgotPassword from './Pages/ForgotPassword'
 import Home from './Pages/Home'
 import NotFound from './Pages/NotFound'
 import Support from './Pages/Support'
@@ -42,8 +43,8 @@ class AppComponent extends Component {
         <Switch>
           <Route path='/support' component={Support} />
           <Route path='/' render={() => (
-              <Redirect to='/support'/>
-            )} />
+            <Redirect to='/support'/>
+          )} />
         </Switch>
       </Router>
       )
@@ -52,7 +53,8 @@ class AppComponent extends Component {
       return (
         <Router>
           <Switch>
-            <Route path='/signin' component={SignIn} />
+            <Route path='/signIn/help' component={ForgotPassword} />
+            <Route path='/signIn' component={SignIn} />
             <Route path='/' render={() => (
               <Redirect to='/signin'/>
             )} />
@@ -84,9 +86,6 @@ class AppComponent extends Component {
             /* not found routes */
             checkUserPermissions(routes, user).filter(route => routes[route].notFoundComponent).map(route => <Route key={routes[route].url} path={routes[route].url} component={routes[route].notFoundComponent}/>)
           }
-          <Route path='/signin' render={() => (
-            <Redirect to='/'/>
-          )} />
           <Route exact path='/(home|index|)/' component={Home} />
           <Route component={NotFound} />
         </Switch>

@@ -14,7 +14,7 @@ class Textbox extends Component {
   render () {
     const {name, type, value, style} = this.props
     return (
-      <input name={name} type={type} value={value} style={{...styles.textbox, ...style}} onChange={this.onChange} onKeyPress={this.onKeyPress}/>
+      <input name={name} type={type} value={value || ""} style={{...styles.textbox, ...style}} onChange={this.onChange} onKeyPress={this.onKeyPress}/>
     )  
   }
 }

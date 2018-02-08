@@ -13,7 +13,9 @@ import label from './label'
 import error from './error'
 import warning from './warning'
 import unauthorized from './unauthorized'
+import success from './success'
 import spacer from './spacer'
+import forgotPassword from './forgotPassword'
 
 const styles = {
   horizontalRuler,
@@ -32,7 +34,9 @@ const styles = {
   error,
   warning,
   unauthorized,
+  success,
   spacer,
+  forgotPassword,
 }
 
 export default styles
