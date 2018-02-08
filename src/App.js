@@ -86,6 +86,9 @@ class AppComponent extends Component {
             /* not found routes */
             checkUserPermissions(routes, user).filter(route => routes[route].notFoundComponent).map(route => <Route key={routes[route].url} path={routes[route].url} component={routes[route].notFoundComponent}/>)
           }
+          <Route path='/signIn' render={() => (
+            <Redirect to='/'/>
+          )} />
           <Route exact path='/(home|index|)/' component={Home} />
           <Route component={NotFound} />
         </Switch>

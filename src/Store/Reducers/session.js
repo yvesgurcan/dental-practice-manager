@@ -1,3 +1,7 @@
+import getLocalStorage from './../../Utility/getLocalStorage'
+import setLocalStorage from './../../Utility/setLocalStorage'
+import removeLocalStorage from './../../Utility/removeLocalStorage'
+
 const debugSession = {
   /*
   client: {
@@ -29,6 +33,30 @@ function session (state = debugSession, action) {
       break
     }
     
+    case "GET_LOCALSTORAGE_USER": {
+      const user = getLocalStorage("user")
+      if (user) {
+        newState = {
+          ...state,
+          user: {...user},
+        }  
+      }
+
+      break
+    }
+
+    case "GET_LOCALSTORAGE_SUPPORTUSER": {
+      const supportUser = getLocalStorage("supportUser")
+      if (supportUser) {
+        newState = {
+          ...state,
+          supportUser: {...supportUser},
+        }  
+      }
+
+      break
+    }
+
     case "STORE_LOGIN": {
       let login = {...state.login}
       login[action.name] = action.value
@@ -57,6 +85,7 @@ function session (state = debugSession, action) {
     }
     
     case "AUTH_SUCCESS": {
+
       if (action.supportUser) {
         newState = {
           ...state,
@@ -75,6 +104,16 @@ function session (state = debugSession, action) {
         feedback: undefined,
         allowResubmit: undefined,
       }
+      break
+    }
+
+    case "SET_LOCALSTORAGE_USER": {
+      setLocalStorage("user", {...action.user})
+      break
+    }
+
+    case "SET_LOCALSTORAGE_SUPPORTUSER": {
+      setLocalStorage("supportUser", {...action.supportUser})
       break
     }
 
@@ -106,6 +145,14 @@ function session (state = debugSession, action) {
         client: undefined,
       }
       break
+    }
+
+    case "REMOVE_LOCALSTORAGE_USER": {
+      removeLocalStorage("user")
+    }
+
+    case "REMOVE_LOCALSTORAGE_SUPPORTUSER": {
+      removeLocalStorage("supportUser")
     }
 
     case "SELECT_CLIENT": {

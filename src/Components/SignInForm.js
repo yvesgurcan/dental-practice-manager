@@ -14,6 +14,8 @@ class SignInFormComponent extends Component {
   componentWillMount = () => {
     this.props.dispatch({type: "AUTH_FEEDBACK", feedback: undefined})
     this.props.dispatch({type: "RESUBMIT_OK"})
+    this.props.dispatch({type: "GET_LOCALSTORAGE_USER"})
+    this.props.dispatch({type: "GET_LOCALSTORAGE_SUPPORTUSER"})
   }
   storeLogin = (input) => {
     this.props.dispatch({type: "STORE_LOGIN", ...input})
@@ -50,6 +52,12 @@ class SignInFormComponent extends Component {
   handleSignInResponse = (response) => {
     if (response.feedback.status === "success") {
       this.props.dispatch({type: "AUTH_SUCCESS", ...response.session})
+      if (response.session.user) {
+        this.props.dispatch({type: "SET_LOCALSTORAGE_USER", user: {...response.session.user}})        
+      }
+      else if (response.session.supportUser) {
+        this.props.dispatch({type: "SET_LOCALSTORAGE_SUPPORTUSER", supportUser: {...response.session.supportUser}})        
+      }
     }
     else if (response.feedback.status === "unauthorized") {
       this.props.dispatch({type: "AUTH_FEEDBACK", feedback: {...response.feedback}})

@@ -8,6 +8,8 @@ import NavItem from './NavItem'
 
 class NavComponent extends Component {
   signOut = () => {
+    this.props.dispatch({type: "REMOVE_LOCALSTORAGE_USER"})
+    this.props.dispatch({type: "REMOVE_LOCALSTORAGE_SUPPORTUSER"})
     this.props.dispatch({type: "SIGN_OUT"})
   }
   render () {
