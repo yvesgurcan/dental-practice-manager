@@ -11,13 +11,13 @@ const debugSession = {
     email: "martin@gentlecare.com",
     password: "123",
   },
-  */
   supportUser: {
     supportUserId: 1,
     name: "Yves",
     email: "gurcan.yves@gmail.com",
     password: "123",
   }
+  */
 }
 
 function session (state = debugSession, action) {

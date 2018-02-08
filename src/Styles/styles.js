@@ -1,7 +1,8 @@
 import horizontalRuler from './horizontalRuler'
 import nav from './nav'
 import navItem from './navItem'
-import { navItemLink, navItemLinkHover } from './navItemLink'
+import navItemLink from './navItemLink'
+import { link, linkHover } from './link'
 import subNav from './subNav'
 import subNavItem from './subNavItem'
 import contentWrapper from './contentWrapper'
@@ -19,7 +20,8 @@ const styles = {
   nav,
   navItem,
   navItemLink,
-  navItemLinkHover,
+  link,
+  linkHover,
   subNav,
   subNavItem,
   contentWrapper,

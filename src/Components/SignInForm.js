@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import apiRequestHandler from './../Utility/apiRequestHandler'
+import RouteLink from './RouteLink'
 import Block from './Web/Block'
 import Label from './Web/Label'
 import Button from './Web/Button'
@@ -64,6 +65,9 @@ class SignInFormComponent extends Component {
           </Block>
           <Feedback feedback={feedback} />
           <Button onClick={this.signIn}>Sign In</Button>
+          <Block>
+            <RouteLink to='signIn/help'>Forgot your email?</RouteLink>
+          </Block>
       </Block>
     )  
   }
