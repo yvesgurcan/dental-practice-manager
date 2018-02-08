@@ -3,7 +3,7 @@ import PublicPageWrapper from './../Components/PublicPageWrapper'
 import PageHeader from './../Components/Web/PageHeader'
 import ForgotPasswordForm from './../Components/ForgotPasswordForm'
 
-class Login extends Component {
+class ForgotPassword extends Component {
   render () {
     return (
       <PublicPageWrapper>
@@ -14,4 +14,4 @@ class Login extends Component {
   }
 }
 
-export default Login
+export default ForgotPassword

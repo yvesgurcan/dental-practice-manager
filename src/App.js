@@ -56,7 +56,7 @@ class AppComponent extends Component {
             <Route path='/signIn/help' component={ForgotPassword} />
             <Route path='/signIn' component={SignIn} />
             <Route path='/' render={() => (
-              <Redirect to='/signin'/>
+              <Redirect to='/signIn'/>
             )} />
           </Switch>
         </Router>
