@@ -11,7 +11,11 @@ import Textbox from './Web/Input/Textbox'
 import Feedback from './Feedback'
 import styles from './../Styles/styles'
 
-class SignInFormComponent extends Component {
+class ForgotPasswordFormComponent extends Component {
+  componentWillMount = () => {
+    this.props.dispatch({type: "AUTH_HELP_FEEDBACK", feedback: undefined})
+    this.props.dispatch({type: "RESUBMIT_OK"})
+  }
   storeEmail = (input) => {
     this.props.dispatch({type: "STORE_LOGIN", ...input})
     this.props.dispatch({type: "AUTH_HELP_FEEDBACK", feedback: undefined})
@@ -62,6 +66,6 @@ class SignInFormComponent extends Component {
     )  
   }
 }
-const SignInForm = connect(mapStateToProps)(SignInFormComponent)
+const ForgotPasswordForm = connect(mapStateToProps)(ForgotPasswordFormComponent)
 
-export default SignInForm
+export default ForgotPasswordForm

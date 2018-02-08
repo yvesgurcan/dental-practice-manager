@@ -11,6 +11,10 @@ import Feedback from './Feedback'
 import styles from './../Styles/styles'
 
 class SignInFormComponent extends Component {
+  componentWillMount = () => {
+    this.props.dispatch({type: "AUTH_FEEDBACK", feedback: undefined})
+    this.props.dispatch({type: "RESUBMIT_OK"})
+  }
   storeLogin = (input) => {
     this.props.dispatch({type: "STORE_LOGIN", ...input})
     this.props.dispatch({type: "AUTH_FEEDBACK", feedback: undefined})
