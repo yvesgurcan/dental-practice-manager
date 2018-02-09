@@ -9,12 +9,17 @@ import Button from './Web/Button'
 import SectionHeader from './Web/SectionHeader'
 import Textbox from './Web/Input/Textbox'
 import Dropdown from './Web/Input/Dropdown'
+import Checkbox from './Web/Input/Checkbox'
 import Feedback from './Feedback'
 import styles from './../Styles/styles'
 
 class NewUserFormComponent extends Component {
   storeUser = (input) => {
     this.props.dispatch({type: "STORE_NEW_USER", ...input})
+  }
+  toggleSendEmailToNewUser = () => {
+    const {sendEmailToNewUser} = this.state || {}
+    this.setState({sendEmailToNewUser: !sendEmailToNewUser})
   }
   createUser = () => {
     const {newUser} = this.props.support
@@ -74,10 +79,11 @@ class NewUserFormComponent extends Component {
     }
     
     if (!validationError) {
+      const {sendEmailToNewUser} = this.state || {}
       apiRequestHandler(
         "post",
         "users",
-        {newUser: newUser},
+        {newUser, sendEmailToNewUser: sendEmailToNewUser || false},
         this.props.session,
         this.handleNewUserResponse
       )  
@@ -100,9 +106,10 @@ class NewUserFormComponent extends Component {
     if (!client || !client.clientId) {
       return null
     }
-    const {userRoles} = this.props.environment
+    const {userRoles} = this.props.environment || {}
     const roleOptions = transformObjectIntoOptions(userRoles, {value: "type" , label: "title"})
-    const {newUser, newUserFeedback} = this.props.support
+    const {newUser, newUserFeedback} = this.props.support || {}
+    const {sendEmailToNewUser} = this.state || {}
     return (
       <Block style={styles.newUserForm}>
         <SectionHeader>New User</SectionHeader>
@@ -122,6 +129,9 @@ class NewUserFormComponent extends Component {
           <Dropdown name='role' value={(newUser || {}).role} placeholder='Select Role' options={roleOptions} onChange={this.storeUser} />
           </Block>
           <Feedback feedback={(newUserFeedback || {}).role} />
+          <Block>
+            <Checkbox name="sendEmailToNewUser" value={sendEmailToNewUser} onChange={this.toggleSendEmailToNewUser}>Send welcome email with password instructions.</Checkbox>
+          </Block>
           <Feedback feedback={(newUserFeedback || {}).form} />
           <Button onClick={this.createUser}>Add User</Button>
         </Block>

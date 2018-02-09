@@ -11,6 +11,7 @@ import publicPage from './publicPage'
 import signInForm from './signInForm'
 import newUserForm from './newUserForm'
 import textbox from './textbox'
+import checkbox from './checkbox'
 import dropdown from './dropdown'
 import label from './label'
 import error from './error'
@@ -34,6 +35,7 @@ const styles = {
   contentWrapper,
   publicPage,
   textbox,
+  checkbox,
   dropdown,
   label,
   signInForm,

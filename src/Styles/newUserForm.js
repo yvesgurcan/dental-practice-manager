@@ -1,5 +1,5 @@
 const newUserForm = {
-  width: 280,
+  maxWidth: 340,
 }
 
 export default newUserForm

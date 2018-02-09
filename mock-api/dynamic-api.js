@@ -188,8 +188,9 @@ const publicEndpoints = [
 const specialAuthorizationEndpoints = [
   {endpoint: "post /signIn", supportUserOnly: false},
   {endpoint: "get /clients", supportUserOnly: true},
-  {endpoint: "post /users", supportUserOnly: false},
+  {endpoint: "post /clients", supportUserOnly: true},
   {endpoint: "get /users", supportUserOnly: false},
+  {endpoint: "post /users", supportUserOnly: true},
 ]
 
 // generic unauthorized response
@@ -328,6 +329,30 @@ endpointWrapper(
   }
 )
 
+endpointWrapper(
+  "post",
+  "/clients",
+  (req, res, parameters) => {
+
+    if (!parameters.newClient) {
+      return {feedback: {message: "Please enter the name of the client.", status: "validationError"}}
+    }
+
+    if (!parameters.newClient.name) {
+      return {feedback: {message: "Please enter the name of the client.", status: "validationError"}}
+    }
+
+    const newClient = {
+      clientId: ++global.clients.length,
+      ...parameters.newClient,
+    }
+
+    global.clients.push(newClient)
+
+    return {newClient, feedback: {message: "The client was successfully created.", status: "success"}}
+  }
+)
+
 // users
 endpointWrapper(
   "get",
@@ -371,7 +396,7 @@ endpointWrapper(
 
     global.users.push(newUser)
 
-    return {newUser: newUser, feedback: {message: "The user was successfully created.", status: "success"}}
+    return {newUser, feedback: {message: "The user was successfully created.", status: "success"}}
   }
 )
 

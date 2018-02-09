@@ -5,7 +5,6 @@ import apiRequestHandler from './../Utility/apiRequestHandler'
 import transformArrayIntoOptions from './../Utility/transformArrayIntoOptions'
 import Block from './Web/Block'
 import Dropdown from './Web/Input/Dropdown'
-import Feedback from './Feedback'
 
 class SelectClientComponent extends Component {
   componentWillMount () {
@@ -41,8 +40,7 @@ class SelectClientComponent extends Component {
     this.props.dispatch({ type: 'USERS_LOADED'})
   }
   render () {
-    const {name} = this.props.session.supportUser || {}
-    const {clients, loadingUsers} = this.props.support || {}
+    const {clients} = this.props.support || {}
     const {client} = this.props.session || {}
     const clientOptions = transformArrayIntoOptions(clients, {value: "clientId", label: "name"})
     return (

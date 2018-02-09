@@ -7,6 +7,18 @@ function support (state = {}, action) {
       break
     }
 
+    case "CLEAR_SUPPORT_PAGE": {
+      newState = {
+        ...state,
+        newClient: undefined,
+        newClientFeedback: undefined,
+        newUser: undefined,
+        newUserFeedback: undefined,
+      }
+
+      break
+    }
+
     case "STORE_ALL_CLIENTS": {
       newState = {
         ...state,
@@ -30,6 +42,53 @@ function support (state = {}, action) {
         loadingUsers: undefined,
       }
 
+      break
+    }
+
+    case "STORE_NEW_CLIENT": {
+      let newClient = {...state.newClient}
+      newClient[action.name] = action.value
+      newState = {
+        ...state,
+        newClient: newClient,
+      }
+      break
+    }
+
+    case "CLEAR_NEW_CLIENT_FEEDBACK": {
+      newState = {
+        ...state,
+        newClientFeedback: undefined,
+      }
+
+      break
+    }
+
+    case "NEW_CLIENT_FEEDBACK": {
+      let newClientFeedback = {...state.newClientFeedback, ...action.feedback}
+      newState = {
+        ...state,
+        newClientFeedback: newClientFeedback,
+      }
+
+      break
+    }
+
+    case "CLEAR_NEW_CLIENT_FORM": {
+      newState = {
+        ...state,
+        newClient: undefined,
+      }
+
+      break
+    }
+
+    case "ADD_CLIENT": {
+      const clients = [...state.clients, {...action.newClient}]
+      newState = {
+        ...state,
+        clients: clients
+      }
       break
     }
 

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../../Store/mapStateToProps'
-import apiRequestHandler from './../../../Utility/apiRequestHandler'
 import styles from './../../../Styles/styles'
 import PageHeader from './../../Web/PageHeader'
 import Block from './../../Web/Block'
 import SelectClient from './../../SelectClient'
 import SelectUser from './../../SelectUser'
+import NewClientForm from './../../NewClientForm'
 import NewUserForm from './../../NewUserForm'
 
 class SupportBodyComponent extends Component {
@@ -18,6 +18,7 @@ class SupportBodyComponent extends Component {
         <Block style={styles.standardMargin}>Which user would you like to help today?</Block>
         <SelectClient />
         <SelectUser />
+        <NewClientForm />
         <NewUserForm />
       </Block>
     )
