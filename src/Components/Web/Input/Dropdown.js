@@ -31,7 +31,7 @@ class InternalDropdown extends Component {
     return (
       <select name={name} type={type} value={value || -1} style={{...styles.dropdown, ...style}} onChange={this.onChange} onKeyPress={this.onKeyPress}>
         {placeholder ? <option value={-1}>{placeholder}</option> : null}
-        {options.map(option => <option key={option.value || option.label} value={option.value}>{option.label}</option>)}
+        {(options || []).map(option => <option key={option.value || option.label} value={option.value}>{option.label}</option>)}
       </select>
     )  
   }

@@ -14,8 +14,6 @@ class SignInFormComponent extends Component {
   componentWillMount = () => {
     this.props.dispatch({type: "AUTH_FEEDBACK", feedback: undefined})
     this.props.dispatch({type: "RESUBMIT_OK"})
-    this.props.dispatch({type: "GET_LOCALSTORAGE_USER"})
-    this.props.dispatch({type: "GET_LOCALSTORAGE_SUPPORTUSER"})
   }
   storeLogin = (input) => {
     this.props.dispatch({type: "STORE_LOGIN", ...input})

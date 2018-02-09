@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../../Store/mapStateToProps'
 import apiRequestHandler from './../../../Utility/apiRequestHandler'
+import transformArrayIntoOptions from './../../../Utility/transformArrayIntoOptions'
 import PageHeader from './../../Web/PageHeader'
+import SectionHeader from './../../Web/SectionHeader'
 import Block from './../../Web/Block'
 import Dropdown from './../../Web/Input/Dropdown'
 import Feedback from './../../Feedback'
+import UserForm from './../../UserForm'
 
 class SupportBodyComponent extends Component {
   componentWillMount () {
@@ -36,6 +39,7 @@ class SupportBodyComponent extends Component {
 
     this.props.dispatch({ type: 'USERS_LOADING'})
     this.props.dispatch({ type: 'SELECT_CLIENT', client: client.object, callback: (state) => this.getUsers(state) })
+    this.props.dispatch({ type: "SET_LOCALSTORAGE_CLIENT", client: { ...client.object } })
   }
   getUsers = (state) => {
     apiRequestHandler(
@@ -47,11 +51,12 @@ class SupportBodyComponent extends Component {
     )
   }
   storeUsers = (response) => {
-    this.props.dispatch({type: 'STORE_USERS', users: response.users})
+    this.props.dispatch({ type: 'STORE_USERS', users: [ ...response.users ] })
     this.props.dispatch({ type: 'USERS_LOADED'})
   }
   selectUser = (user) => {
-    this.props.dispatch({ type: 'SELECT_USER', user: user.object })
+    this.props.dispatch({ type: 'SELECT_USER', user: { ...user.object } })
+    this.props.dispatch({ type: "SET_LOCALSTORAGE_USER", user: { ...user.object } })
   }
   render () {
     const {name} = this.props.session.supportUser || {}
@@ -59,8 +64,8 @@ class SupportBodyComponent extends Component {
     const {client} = this.props.session || {}
     const {users} = this.props.settings || {}
     const {user} = this.props.session || {}
-    const clientOptions = (clients || []).map(client => ({value: client.clientId, label: client.name, object: client}))
-    const userOptions = (users || []).map(user => ({value: user.userId, label: user.name, object: user}))
+    const clientOptions = transformArrayIntoOptions(clients, {value: "clientId", label: "name"})
+    const userOptions = transformArrayIntoOptions(users, {value: "userId", label: "name"})
     return (
       <Block>
         <PageHeader>Hi, {name}</PageHeader>
@@ -71,6 +76,8 @@ class SupportBodyComponent extends Component {
           <Dropdown name='user' value={(user || {}).userId} placeholder='Select User' options={userOptions} onChange={this.selectUser} />
           <Feedback hidden={loadingUsers || !users || users.length > 0} feedback={{status: 'warning', message: 'No user were found for this client.'}}/>
         </Block>
+        <SectionHeader>New User</SectionHeader>
+        <UserForm />
       </Block>
     )  
   }

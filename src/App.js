@@ -17,6 +17,27 @@ const Root = () => (
 )
 
 class AppComponent extends Component {
+  state = {preventSignInRedirect: true}
+  componentWillMount () {
+    this.props.dispatch({type: "GET_LOCALSTORAGE_USER"})
+    this.props.dispatch({type: "GET_LOCALSTORAGE_CLIENT"})
+    this.props.dispatch({type: "GET_LOCALSTORAGE_SUPPORTUSER"})
+  }
+  componentWillUpdate (nextProps, nextState) {
+    if (nextProps.session.user === undefined && nextState.preventSignInRedirect) {
+      this.setState({preventSignInRedirect: false})
+    }
+    else if (this.props.session.supportUser === undefined && nextState.preventSignInRedirect) {
+      this.setState({preventSignInRedirect: false})
+    }
+
+  }
+  componentDidUpdate () {
+    if (this.state.preventSignInRedirect) {
+      this.setState({preventSignInRedirect: false})
+    }
+
+  }
   filterSubRoutes = () => {
     let {environment, session} = this.props
     let {routes} = environment
@@ -55,9 +76,9 @@ class AppComponent extends Component {
           <Switch>
             <Route path='/signIn/help' component={ForgotPassword} />
             <Route path='/signIn' component={SignIn} />
-            <Route path='/' render={() => (
+            {this.state.preventSignInRedirect ? null : <Route path='/' render={() => (
               <Redirect to='/signIn'/>
-            )} />
+            )} />}
           </Switch>
         </Router>
       )
