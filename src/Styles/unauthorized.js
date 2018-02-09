@@ -1,5 +1,7 @@
+import standardMargin from './standardMargin'
+
 const unauthorized = {
-  marginBottom: 10,
+  ...standardMargin,
   color: "crimson",
 }
 

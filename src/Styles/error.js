@@ -1,5 +1,7 @@
+import standardMargin from './standardMargin'
+
 const error = {
-  marginBottom: 10,
+  ...standardMargin,
   color: "crimson",
 }
 

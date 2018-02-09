@@ -1,4 +1,5 @@
 import horizontalRuler from './horizontalRuler'
+import standardMargin from './standardMargin'
 import nav from './nav'
 import navItem from './navItem'
 import navItemLink from './navItemLink'
@@ -21,6 +22,7 @@ import spacer from './spacer'
 import forgotPassword from './forgotPassword'
 
 const styles = {
+  standardMargin,
   horizontalRuler,
   nav,
   navItem,

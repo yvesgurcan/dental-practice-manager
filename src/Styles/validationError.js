@@ -1,5 +1,7 @@
+import standardMargin from './standardMargin'
+
 const validationError = {
-  marginBottom: 10,
+  ...standardMargin,
   color: "blue",
 }
 

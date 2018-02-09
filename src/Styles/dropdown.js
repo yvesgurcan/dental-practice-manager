@@ -1,5 +1,7 @@
+import standardMargin from './standardMargin'
+
 const dropdown = {
-  marginBottom: 10,
+  ...standardMargin,
 }
 
 export default dropdown

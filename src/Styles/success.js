@@ -1,5 +1,7 @@
+import standardMargin from './standardMargin'
+
 const success = {
-  marginBottom: 10,
+  ...standardMargin,
   color: "green",
 }
 
