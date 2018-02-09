@@ -15,6 +15,7 @@ import label from './label'
 import error from './error'
 import warning from './warning'
 import unauthorized from './unauthorized'
+import validationError from './validationError'
 import success from './success'
 import spacer from './spacer'
 import forgotPassword from './forgotPassword'
@@ -38,6 +39,7 @@ const styles = {
   error,
   warning,
   unauthorized,
+  validationError,
   success,
   spacer,
   forgotPassword,

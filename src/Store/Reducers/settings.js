@@ -15,6 +15,16 @@ function settings (state = {}, action) {
 
       break
     }
+
+    case "ADD_USER": {
+      const users = [...state.users, {...action.newUser}]
+      newState = {
+        ...state,
+        users: users
+      }
+      break
+    }
+
   }
 
   return newState

@@ -21,6 +21,10 @@ class SelectUserComponent extends Component {
     }
 
   }
+  storeUsers = (response) => {
+    this.props.dispatch({ type: 'STORE_USERS', users: [ ...response.users ] })
+    this.props.dispatch({ type: 'USERS_LOADED'})
+  }
   selectUser = (user) => {
     this.props.dispatch({ type: 'SELECT_USER', user: { ...user.object } })
     this.props.dispatch({ type: "SET_LOCALSTORAGE_USER", user: { ...user.object } })

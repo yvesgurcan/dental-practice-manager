@@ -26,7 +26,7 @@ class ForgotPasswordFormComponent extends Component {
     const {login, allowResubmit} = this.props.session
 
     if (!login || !login.email) {
-      this.props.dispatch({type: "AUTH_HELP_FEEDBACK", feedback: {message: "Please enter your username.", status: "unauthorized"}})
+      this.props.dispatch({type: "AUTH_HELP_FEEDBACK", feedback: {message: "Please enter your username.", status: "validationError"}})
       return false
     }
     else if (!allowResubmit) {

@@ -188,6 +188,7 @@ const publicEndpoints = [
 const specialAuthorizationEndpoints = [
   {endpoint: "post /signIn", supportUserOnly: false},
   {endpoint: "get /clients", supportUserOnly: true},
+  {endpoint: "post /users", supportUserOnly: false},
   {endpoint: "get /users", supportUserOnly: false},
 ]
 
@@ -345,7 +346,32 @@ endpointWrapper(
   "/users",
   (req, res, parameters) => {
 
-    return global
+    if (!parameters.newUser) {
+      return {feedback: {message: "Please enter the name, email, and role of the user.", status: "validationError"}}
+    }
+
+    if (!parameters.newUser.name) {
+      return {feedback: {message: "Please enter the name of the user.", status: "validationError"}}
+    }
+
+    if (!parameters.newUser.email) {
+      return {feedback: {message: "Please enter the email of the user.", status: "validationError"}}
+    }
+
+    if (!parameters.newUser.role) {
+      return {feedback: {message: "Please enter the role of the user.", status: "validationError"}}
+    }
+
+    const newUser = {
+      clientId: parameters.user.clientId,
+      userId: ++global.users.length,
+      password: "123",
+      ...parameters.newUser,
+    }
+
+    global.users.push(newUser)
+
+    return {newUser: newUser, feedback: {message: "The user was successfully created.", status: "success"}}
   }
 )
 

@@ -24,15 +24,15 @@ class SignInFormComponent extends Component {
     const {login, allowResubmit} = this.props.session
 
     if (!login) {
-      this.props.dispatch({type: "AUTH_FEEDBACK", feedback: {message: "Please enter your username and password.", status: "unauthorized"}})
+      this.props.dispatch({type: "AUTH_FEEDBACK", feedback: {message: "Please enter your username and password.", status: "validationError"}})
       return false
     }
     else if (!login.email) {
-      this.props.dispatch({type: "AUTH_FEEDBACK", feedback: {message: "Please enter your username.", status: "unauthorized"}})
+      this.props.dispatch({type: "AUTH_FEEDBACK", feedback: {message: "Please enter your username.", status: "validationError"}})
       return false
     }
     else if (!login.password) {
-      this.props.dispatch({type: "AUTH_FEEDBACK", feedback: {message: "Please enter your password.", status: "unauthorized"}})
+      this.props.dispatch({type: "AUTH_FEEDBACK", feedback: {message: "Please enter your password.", status: "validationError"}})
       return false
     }
     else if (!allowResubmit) {
@@ -46,6 +46,7 @@ class SignInFormComponent extends Component {
       {},
       this.handleSignInResponse
     )
+    
   }
   handleSignInResponse = (response) => {
     if (response.feedback.status === "success") {
