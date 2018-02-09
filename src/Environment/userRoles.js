@@ -1,7 +1,7 @@
 const userRoles = {
   dentist: {
     type: "dentist",
-    name: "Dentist",
+    title: "Dentist",
   },
   officeManager: {
     type: "officeManager",

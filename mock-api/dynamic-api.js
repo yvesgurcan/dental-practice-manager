@@ -188,7 +188,9 @@ const publicEndpoints = [
 const specialAuthorizationEndpoints = [
   {endpoint: "post /signIn", supportUserOnly: false},
   {endpoint: "get /clients", supportUserOnly: true},
+  {endpoint: "post /clients", supportUserOnly: true},
   {endpoint: "get /users", supportUserOnly: false},
+  {endpoint: "post /users", supportUserOnly: true},
 ]
 
 // generic unauthorized response
@@ -274,7 +276,7 @@ endpointWrapper(
     if (session.supportUser) {
       publicSession = {
         supportUser: {
-          superUserId: session.supportUser.supportUserId,
+          supportUserId: session.supportUser.supportUserId,
           name: session.supportUser.name,
           email: session.supportUser.email,
           password: session.supportUser.password,
@@ -327,6 +329,30 @@ endpointWrapper(
   }
 )
 
+endpointWrapper(
+  "post",
+  "/clients",
+  (req, res, parameters) => {
+
+    if (!parameters.newClient) {
+      return {feedback: {message: "Please enter the name of the client.", status: "validationError"}}
+    }
+
+    if (!parameters.newClient.name) {
+      return {feedback: {message: "Please enter the name of the client.", status: "validationError"}}
+    }
+
+    const newClient = {
+      clientId: ++global.clients.length,
+      ...parameters.newClient,
+    }
+
+    global.clients.push(newClient)
+
+    return {newClient, feedback: {message: "The client was successfully created.", status: "success"}}
+  }
+)
+
 // users
 endpointWrapper(
   "get",
@@ -345,7 +371,32 @@ endpointWrapper(
   "/users",
   (req, res, parameters) => {
 
-    return global
+    if (!parameters.newUser) {
+      return {feedback: {message: "Please enter the name, email, and role of the user.", status: "validationError"}}
+    }
+
+    if (!parameters.newUser.name) {
+      return {feedback: {message: "Please enter the name of the user.", status: "validationError"}}
+    }
+
+    if (!parameters.newUser.email) {
+      return {feedback: {message: "Please enter the email of the user.", status: "validationError"}}
+    }
+
+    if (!parameters.newUser.role) {
+      return {feedback: {message: "Please enter the role of the user.", status: "validationError"}}
+    }
+
+    const newUser = {
+      clientId: parameters.user.clientId,
+      userId: ++global.users.length,
+      password: "123",
+      ...parameters.newUser,
+    }
+
+    global.users.push(newUser)
+
+    return {newUser, feedback: {message: "The user was successfully created.", status: "success"}}
   }
 )
 

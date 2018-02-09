@@ -32,7 +32,19 @@ function session (state = debugSession, action) {
     default: {
       break
     }
-    
+
+    case "GET_LOCALSTORAGE_CLIENT": {
+      const client = getLocalStorage("client")
+      if (client) {
+        newState = {
+          ...state,
+          client: {...client},
+        }  
+      }
+
+      break
+    }
+
     case "GET_LOCALSTORAGE_USER": {
       const user = getLocalStorage("user")
       if (user) {
@@ -107,6 +119,11 @@ function session (state = debugSession, action) {
       break
     }
 
+    case "SET_LOCALSTORAGE_CLIENT": {
+      setLocalStorage("client", {...action.client})
+      break
+    }
+
     case "SET_LOCALSTORAGE_USER": {
       setLocalStorage("user", {...action.user})
       break
@@ -149,10 +166,12 @@ function session (state = debugSession, action) {
 
     case "REMOVE_LOCALSTORAGE_USER": {
       removeLocalStorage("user")
+      break
     }
 
     case "REMOVE_LOCALSTORAGE_SUPPORTUSER": {
       removeLocalStorage("supportUser")
+      break
     }
 
     case "SELECT_CLIENT": {

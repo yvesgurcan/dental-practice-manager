@@ -1,4 +1,5 @@
 import horizontalRuler from './horizontalRuler'
+import standardMargin from './standardMargin'
 import nav from './nav'
 import navItem from './navItem'
 import navItemLink from './navItemLink'
@@ -8,16 +9,21 @@ import subNavItem from './subNavItem'
 import contentWrapper from './contentWrapper'
 import publicPage from './publicPage'
 import signInForm from './signInForm'
+import newUserForm from './newUserForm'
 import textbox from './textbox'
+import checkbox from './checkbox'
+import dropdown from './dropdown'
 import label from './label'
 import error from './error'
 import warning from './warning'
 import unauthorized from './unauthorized'
+import validationError from './validationError'
 import success from './success'
 import spacer from './spacer'
 import forgotPassword from './forgotPassword'
 
 const styles = {
+  standardMargin,
   horizontalRuler,
   nav,
   navItem,
@@ -29,11 +35,15 @@ const styles = {
   contentWrapper,
   publicPage,
   textbox,
+  checkbox,
+  dropdown,
   label,
   signInForm,
+  newUserForm,
   error,
   warning,
   unauthorized,
+  validationError,
   success,
   spacer,
   forgotPassword,

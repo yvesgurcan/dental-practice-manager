@@ -12,8 +12,9 @@ class RouteLink extends Component {
   }
   render () {
     const {style} = this.props
+    const {onHover, restoreLinkStyle} = this
     return (
-      <Link {...this.props} style={{...style, ...this.state.linkStyle}} />
+      <Link {...this.props} onMouseEnter={onHover} onMouseLeave={restoreLinkStyle} style={{...style, ...this.state.linkStyle}} />
     )  
   }
 }

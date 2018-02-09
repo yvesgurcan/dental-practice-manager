@@ -1,8 +1,7 @@
 import standardMargin from './standardMargin'
 
-const error = {
+const dropdown = {
   ...standardMargin,
-  color: "crimson",
 }
 
-export default error
+export default dropdown

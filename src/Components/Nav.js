@@ -8,6 +8,7 @@ import NavItem from './NavItem'
 
 class NavComponent extends Component {
   signOut = () => {
+    this.props.dispatch({type: "REMOVE_LOCALSTORAGE_CLIENT"})
     this.props.dispatch({type: "REMOVE_LOCALSTORAGE_USER"})
     this.props.dispatch({type: "REMOVE_LOCALSTORAGE_SUPPORTUSER"})
     this.props.dispatch({type: "SIGN_OUT"})
@@ -18,7 +19,7 @@ class NavComponent extends Component {
     let {user, supportUser} = session
     return (
       <Block style={styles.nav}>
-        {supportUser
+        {supportUser && supportUser.supportUserId
           ?
             <NavItem item={{
               name: "Support",
@@ -26,7 +27,7 @@ class NavComponent extends Component {
             }} />
           : null
         }
-        {user
+        {user && user.userId
           ? 
             <NavItem item={{
               name: "Home",
