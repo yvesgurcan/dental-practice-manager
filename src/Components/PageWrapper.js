@@ -11,10 +11,10 @@ import ContentWrapper from './ContentWrapper'
 
 class PageWrapperComponent extends Component {
   render () {
-    const {environment, route, menuRoute, notFound} = this.props
+    const {environment, route, menuRoute, notFound, pageTitle} = this.props
     const {routes} = environment
     const routeDetails = getRouteDetails(routes, route)
-    const pageTitle = routeDetails ? routeDetails.name : null
+    const pageHeader = pageTitle || (routeDetails ? routeDetails.name : null)
     const subRoutes = getRouteDetails(routes, menuRoute, "subroutes")
     return (
       <Block>
@@ -23,7 +23,7 @@ class PageWrapperComponent extends Component {
           <Block style={styles.spacer}>
             <Feedback feedback={{status: "error", message: notFound}} />
           </Block>
-          <PageHeader>{pageTitle}</PageHeader>
+          <PageHeader>{pageHeader}</PageHeader>
           {this.props.children}
         </ContentWrapper>
       </Block>

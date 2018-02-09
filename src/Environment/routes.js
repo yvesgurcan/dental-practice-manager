@@ -146,7 +146,7 @@ const routes = {
         url: "/settings/users",
         idRoute: {
           component: User,
-          name: "User",
+          name: "New User",
           url: "/settings/users/:userId([1-9]|[0-9]{2,}|new|add)",          
         },
       },
