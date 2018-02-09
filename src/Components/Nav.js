@@ -19,7 +19,7 @@ class NavComponent extends Component {
     let {user, supportUser} = session
     return (
       <Block style={styles.nav}>
-        {supportUser
+        {supportUser && supportUser.supportUserId
           ?
             <NavItem item={{
               name: "Support",
@@ -27,7 +27,7 @@ class NavComponent extends Component {
             }} />
           : null
         }
-        {user
+        {user && user.userId
           ? 
             <NavItem item={{
               name: "Home",

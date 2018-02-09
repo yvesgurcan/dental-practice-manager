@@ -19,11 +19,11 @@ class UserFormComponent extends Component {
 
   }
   render () {
-    let {userRoles} = this.props.environment
+    const {userRoles} = this.props.environment
     const roleOptions = transformObjectIntoOptions(userRoles, {value: "type" , label: "title"})
-    let {newUser} = this.props.support
+    const {newUser} = this.props.support
     return (
-      <Block style={styles.newUserForm}>
+      <Block>
         <Label>Name</Label>
         <Block>
           <Textbox name="name" value={(newUser || {}).name} onChange={this.storeUser} onPressEnter={this.createUser} style={{width: "100%"}}  />

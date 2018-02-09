@@ -274,7 +274,7 @@ endpointWrapper(
     if (session.supportUser) {
       publicSession = {
         supportUser: {
-          superUserId: session.supportUser.supportUserId,
+          supportUserId: session.supportUser.supportUserId,
           name: session.supportUser.name,
           email: session.supportUser.email,
           password: session.supportUser.password,
