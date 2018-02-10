@@ -15,10 +15,13 @@ class UsersComponent extends Component {
       this.storeUsers,
     )
   }
+  storeUsers = (response) => {
+    this.props.dispatch({type: 'STORE_USERS', users: response.users})
+  }
   render () {
     const {users} = this.props.settings
     const {userId} = this.props.match.params
-    const userMatch = users.filter(user => user.userId === Number(userId))
+    const userMatch = (users || []).filter(user => user.userId === Number(userId))
     const user = userMatch.length > 0 ? userMatch[0] : {}
     return (
       <PageWrapper pageTitle={user.name} route="/settings/users/:userId([1-9]|[0-9]{2,}|new|add)" menuRoute="/settings">

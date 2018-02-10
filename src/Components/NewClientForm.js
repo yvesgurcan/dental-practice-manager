@@ -70,7 +70,7 @@ class NewClientFormComponent extends Component {
   render () {
     const {newClient, newClientFeedback} = this.props.support
     return (
-      <Block style={styles.newUserForm}>
+      <Block style={styles.formWrapper}>
         <SectionHeader>New Client</SectionHeader>
         <Block>
           <Label>Name</Label>

@@ -4,11 +4,9 @@ import mapStateToProps from './../Store/mapStateToProps'
 import apiRequestHandler from './../Utility/apiRequestHandler'
 import RouteLink from './RouteLink'
 import Block from './Web/Block'
-import Label from './Web/Label'
 import Button from './Web/Button'
 import SectionHeader from './Web/SectionHeader'
-import Textbox from './Web/Input/Textbox'
-import Feedback from './Feedback'
+import FormGroup from './Web/Input/FormGroup'
 import styles from './../Styles/styles'
 
 class ForgotPasswordFormComponent extends Component {
@@ -54,11 +52,14 @@ class ForgotPasswordFormComponent extends Component {
     return (
       <Block style={styles.signInForm}>
         <SectionHeader>Account Recovery</SectionHeader>
-        <Label>Email</Label>
-        <Block>
-          <Textbox name="email" value={(login || {}).email} onChange={this.storeEmail} onPressEnter={this.sendEmail} style={{width: "100%"}}  />
-        </Block>
-        <Feedback feedback={recoveryFeedback} />
+        <FormGroup
+          label='Email'
+          name='email'
+          value={(login || {}).email}
+          onChange={this.storeEmail}
+          onPressEnter={this.sendEmail}
+          feedback={recoveryFeedback}
+        />
         <Button onClick={this.sendEmail}>Send Instructions</Button>
         <Block style={styles.forgotPassword}>
           <RouteLink to='/signIn'>I remember my password now!</RouteLink>

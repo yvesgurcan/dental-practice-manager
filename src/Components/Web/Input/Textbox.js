@@ -4,7 +4,7 @@ import styles from './../../../Styles/styles'
 class Textbox extends Component {
   onChange = (input) => {
     const {value, name} = input.target
-    this.props.onChange({name, value, input: "textbox"})
+    if (this.props.onChange) this.props.onChange({name, value, input: "textbox"})
   }
   onKeyPress = (input) => {
     if (input.key === "Enter" && this.props.onPressEnter) {

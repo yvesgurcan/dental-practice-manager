@@ -5,6 +5,7 @@ import apiRequestHandler from './../Utility/apiRequestHandler'
 import transformArrayIntoOptions from './../Utility/transformArrayIntoOptions'
 import Block from './Web/Block'
 import Dropdown from './Web/Input/Dropdown'
+import FormGroup from './Web/Input/FormGroup'
 
 class SelectClientComponent extends Component {
   componentWillMount () {
@@ -44,11 +45,14 @@ class SelectClientComponent extends Component {
     const {client} = this.props.session || {}
     const clientOptions = transformArrayIntoOptions(clients, {value: "clientId", label: "name"})
     return (
-      <Block>
-        <Block>
-          <Dropdown name='client' value={(client || {}).clientId} placeholder='Select Client' options={clientOptions} onChange={this.selectClient} />
-        </Block>
-      </Block>
+      <FormGroup
+        label="Client"
+        name="client"
+        value={(client || {}).clientId}
+        placeholder='Select Client'
+        options={clientOptions}
+        onChange={this.selectClient}
+      />
     )  
   }
 }

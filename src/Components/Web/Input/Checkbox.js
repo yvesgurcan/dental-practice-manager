@@ -8,7 +8,7 @@ class Checkbox extends Component {
     this.props.onChange({name, checked, value, input: "checkbox"})
   }
   render () {
-    const {name, type, value, checked, style} = this.props
+    const {name, value, checked, style} = this.props
     return (
       <span>
         <input name={name} id={name} type={"checkbox"} checked={value || checked || false} style={{...styles.checkbox, ...style}} onChange={this.onChange}/>

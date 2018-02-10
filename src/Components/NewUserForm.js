@@ -4,12 +4,9 @@ import mapStateToProps from './../Store/mapStateToProps'
 import apiRequestHandler from './../Utility/apiRequestHandler'
 import transformObjectIntoOptions from './../Utility/transformObjectIntoOptions'
 import Block from './Web/Block'
-import Label from './Web/Label'
 import Button from './Web/Button'
 import SectionHeader from './Web/SectionHeader'
-import Textbox from './Web/Input/Textbox'
-import Dropdown from './Web/Input/Dropdown'
-import Checkbox from './Web/Input/Checkbox'
+import FormGroup from './Web/Input/FormGroup'
 import Feedback from './Feedback'
 import styles from './../Styles/styles'
 
@@ -111,27 +108,41 @@ class NewUserFormComponent extends Component {
     const {newUser, newUserFeedback} = this.props.support || {}
     const {sendEmailToNewUser} = this.state || {}
     return (
-      <Block style={styles.newUserForm}>
+      <Block style={styles.formWrapper}>
         <SectionHeader>New User</SectionHeader>
         <Block>
-          <Label>Name</Label>
-          <Block>
-            <Textbox name="name" value={(newUser || {}).name} onChange={this.storeUser} onPressEnter={this.createUser} style={{width: "100%"}}  />
-          </Block>
-          <Feedback feedback={(newUserFeedback || {}).name} />
-          <Label>Email</Label>
-          <Block>
-            <Textbox name="email" value={(newUser || {}).email} onChange={this.storeUser} onPressEnter={this.createUser} style={{width: "100%"}}  />
-          </Block>
-          <Feedback feedback={(newUserFeedback || {}).email} />
-          <Label>Role</Label>
-          <Block>
-          <Dropdown name='role' value={(newUser || {}).role} placeholder='Select Role' options={roleOptions} onChange={this.storeUser} />
-          </Block>
-          <Feedback feedback={(newUserFeedback || {}).role} />
-          <Block>
-            <Checkbox name="sendEmailToNewUser" value={sendEmailToNewUser} onChange={this.toggleSendEmailToNewUser}>Send welcome email with password instructions.</Checkbox>
-          </Block>
+          <FormGroup
+            label="Name"
+            name="name"
+            value={(newUser || {}).name}
+            onChange={this.storeUser}
+            onPressEnter={this.createUser}
+            feedback={(newUserFeedback || {}).name}
+          />
+          <FormGroup
+            label="Email"
+            name="email"
+            value={(newUser || {}).email}
+            onChange={this.storeUser}
+            onPressEnter={this.createUser}
+            feedback={(newUserFeedback || {}).name}
+          />
+          <FormGroup
+            label="Role"
+            name="role"
+            value={(newUser || {}).role}
+            placeholder='Select Role'
+            options={roleOptions}
+            onChange={this.storeUser}
+            feedback={(newUserFeedback || {}).name}
+          />
+          <FormGroup
+            checkbox
+            label="Send welcome email with password instructions."
+            name="sendEmailToNewUser"
+            value={sendEmailToNewUser}
+            onChange={this.toggleSendEmailToNewUser}
+          />
           <Feedback feedback={(newUserFeedback || {}).form} />
           <Button onClick={this.createUser}>Add User</Button>
         </Block>

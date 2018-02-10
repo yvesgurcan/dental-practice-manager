@@ -4,8 +4,7 @@ import mapStateToProps from './../Store/mapStateToProps'
 import apiRequestHandler from './../Utility/apiRequestHandler'
 import transformArrayIntoOptions from './../Utility/transformArrayIntoOptions'
 import Block from './Web/Block'
-import Dropdown from './Web/Input/Dropdown'
-import Feedback from './Feedback'
+import FormGroup from './Web/Input/FormGroup'
 
 class SelectUserComponent extends Component {
   componentWillMount () {
@@ -39,12 +38,15 @@ class SelectUserComponent extends Component {
     const {user} = this.props.session || {}
     const userOptions = transformArrayIntoOptions(users, {value: "userId", label: "name"})
     return (
-      <Block>
-        <Block>
-          <Dropdown name='user' value={(user || {}).userId} placeholder='Select User' options={userOptions} onChange={this.selectUser} />
-          <Feedback hidden={loadingUsers || !users || users.length > 0} feedback={{status: 'warning', message: 'No user were found for this client.'}}/>
-        </Block>
-      </Block>
+      <FormGroup
+        label="User"
+        name="user"
+        value={(user || {}).userId}
+        placeholder='Select User'
+        options={userOptions}
+        onChange={this.selectUser}
+        feedback={loadingUsers || !users || users.length > 0 ? null : {status: 'warning', message: 'No user were found for this client.'}}
+      />
     )  
   }
 }

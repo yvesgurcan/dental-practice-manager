@@ -15,11 +15,13 @@ class SupportBodyComponent extends Component {
     return (
       <Block>
         <PageHeader>Hi, {name}</PageHeader>
-        <Block style={styles.standardMargin}>Which user would you like to help today?</Block>
-        <SelectClient />
-        <SelectUser />
-        <NewClientForm />
-        <NewUserForm />
+        <Block style={styles.formWrapper}>
+          <Block style={styles.standardMargin}>Which user would you like to help today?</Block>
+          <SelectClient />
+          <SelectUser />
+          <NewClientForm />
+          <NewUserForm />
+        </Block>
       </Block>
     )
   }

@@ -9,7 +9,7 @@ import subNavItem from './subNavItem'
 import contentWrapper from './contentWrapper'
 import publicPage from './publicPage'
 import signInForm from './signInForm'
-import newUserForm from './newUserForm'
+import formWrapper from './formWrapper'
 import textbox from './textbox'
 import checkbox from './checkbox'
 import dropdown from './dropdown'
@@ -39,7 +39,7 @@ const styles = {
   dropdown,
   label,
   signInForm,
-  newUserForm,
+  formWrapper,
   error,
   warning,
   unauthorized,
