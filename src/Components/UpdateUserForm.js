@@ -145,6 +145,7 @@ class UpdateUserFormComponent extends Component {
             :
             null
           }
+          <Button onClick={this.updateUser}>Update User</Button>
         </Block>
       </Block>
     )
