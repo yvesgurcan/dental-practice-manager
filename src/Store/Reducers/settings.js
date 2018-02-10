@@ -25,6 +25,15 @@ function settings (state = {}, action) {
       break
     }
 
+    case "SELECT_UPDATE_USER": {
+      newState = {
+        ...state,
+        updateUser: {...action.user},
+      }
+
+      break
+    }
+
   }
 
   return newState

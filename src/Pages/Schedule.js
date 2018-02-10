@@ -5,9 +5,12 @@ import PageWrapper from './../Components/PageWrapper'
 import ScheduleBody from './../Components/Content/Schedule/ScheduleBody'
 
 class ScheduleComponent extends Component {
+  componentWillMount () {
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+  }
   render () {
     return (
-      <PageWrapper route="/schedule" menuRoute="/schedule">
+      <PageWrapper menuRoute="/schedule">
         <ScheduleBody />
       </PageWrapper>
     )  

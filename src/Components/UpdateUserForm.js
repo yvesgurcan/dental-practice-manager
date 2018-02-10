@@ -10,19 +10,19 @@ import FormGroup from './Web/Input/FormGroup'
 import Feedback from './Feedback'
 import styles from './../Styles/styles'
 
-class NewUserFormComponent extends Component {
+class UpdateUserFormComponent extends Component {
   storeUser = (input) => {
-    this.props.dispatch({type: "STORE_NEW_USER", ...input})
+    this.props.dispatch({type: "STORE_USER", ...input})
   }
   toggleSendEmailToNewUser = () => {
     const {sendEmailToNewUser} = this.state || {}
     this.setState({sendEmailToNewUser: !sendEmailToNewUser})
   }
-  createUser = () => {
-    const {newUser} = this.props.support
-    if (!newUser) {
+  updateUser = () => {
+    const {updateUser} = this.props.settings || {}
+    if (!updateUser) {
       this.props.dispatch({
-        type: "NEW_USER_FEEDBACK",
+        type: "UPDATE_USER_FEEDBACK",
         feedback: {
           form: {
             message: "Please enter the name, email, and role of the user.",
@@ -35,11 +35,11 @@ class NewUserFormComponent extends Component {
 
     let validationError = false
 
-    this.props.dispatch({type: "CLEAR_NEW_USER_FEEDBACK"})
-    if (!newUser.name) {
+    this.props.dispatch({type: "CLEAR_UPDATE_USER_FORM"})
+    if (!updateUser.name) {
       validationError = true
       this.props.dispatch({
-        type: "NEW_USER_FEEDBACK",
+        type: "UPDATE_USER_FEEDBACK",
         feedback: {
           name: {
             message: "Please enter the name of the user.",
@@ -49,10 +49,10 @@ class NewUserFormComponent extends Component {
       })
     }
 
-    if (!newUser.email) {
+    if (!updateUser.email) {
       validationError = true
       this.props.dispatch({
-        type: "NEW_USER_FEEDBACK",
+        type: "UPDATE_USER_FEEDBACK",
         feedback: {
           email: {
             message: "Please enter the email of the user.",
@@ -62,10 +62,10 @@ class NewUserFormComponent extends Component {
       })
     }
 
-    if (!newUser.role) {
+    if (!updateUser.role) {
       validationError = true
       this.props.dispatch({
-        type: "NEW_USER_FEEDBACK",
+        type: "UPDATE_USER_FEEDBACK",
         feedback: {
           role: {
             message: "Please select the role of the user.",
@@ -78,9 +78,9 @@ class NewUserFormComponent extends Component {
     if (!validationError) {
       const {sendEmailToNewUser} = this.state || {}
       apiRequestHandler(
-        "post",
+        "put",
         "users",
-        {newUser, sendEmailToNewUser: sendEmailToNewUser || false},
+        {updateUser, sendEmailToNewUser: sendEmailToNewUser || false},
         this.props.session,
         this.handleNewUserResponse
       )  
@@ -89,67 +89,67 @@ class NewUserFormComponent extends Component {
   }
   handleNewUserResponse = (response) => {
     if (response.feedback.status === "success") {
-      this.props.dispatch({type: "ADD_USER", newUser: {...response.newUser}})
-      this.props.dispatch({type: "CLEAR_NEW_USER_FORM", newUser: {...response.newUser}})
-      this.props.dispatch({type: "NEW_USER_FEEDBACK", feedback: {form: {...response.feedback}}})
+      this.props.dispatch({type: "UPDATE_USER", updateUser: {...response.updateUser}})
+      this.props.dispatch({type: "CLEAR_UPDATE_USER_FORM", updateUser: {...response.updateUser}})
+      this.props.dispatch({type: "UPDATE_USER_FEEDBACK", feedback: {form: {...response.feedback}}})
     }
     else {
-      this.props.dispatch({type: "CLEAR_NEW_USER_FEEDBACK"})
-      this.props.dispatch({type: "NEW_USER_FEEDBACK", feedback: {form: {...response.feedback}}})
+      this.props.dispatch({type: "CLEAR_UPDATE_USER_FORM"})
+      this.props.dispatch({type: "UPDATE_USER_FEEDBACK", feedback: {form: {...response.feedback}}})
     }
   }
   render () {
-    const {client} = this.props.session
-    if (!client || !client.clientId) {
-      return null
-    }
+    this.props.match
+    const {userId} = this.props.routeData.params
+    const {updateUser, updateUserFeedback} = this.props.settings || {}
     const {userRoles} = this.props.environment || {}
     const roleOptions = transformObjectIntoOptions(userRoles, {value: "type" , label: "title"})
-    const {newUser, newUserFeedback} = this.props.support || {}
     const {sendEmailToNewUser} = this.state || {}
     return (
       <Block style={styles.formWrapper}>
-        <SectionHeader>New User</SectionHeader>
         <Block>
           <FormGroup
             label="Name"
             name="name"
-            value={(newUser || {}).name}
+            value={(updateUser || {}).name}
             onChange={this.storeUser}
-            onPressEnter={this.createUser}
-            feedback={(newUserFeedback || {}).name}
+            onPressEnter={this.updateUser}
+            feedback={(updateUserFeedback || {}).name}
           />
           <FormGroup
             label="Email"
             name="email"
-            value={(newUser || {}).email}
+            value={(updateUser || {}).email}
             onChange={this.storeUser}
-            onPressEnter={this.createUser}
-            feedback={(newUserFeedback || {}).email}
+            onPressEnter={this.updateUser}
+            feedback={(updateUserFeedback || {}).name}
           />
           <FormGroup
             label="Role"
             name="role"
-            value={(newUser || {}).role}
+            value={(updateUser || {}).role}
             placeholder='Select Role'
             options={roleOptions}
             onChange={this.storeUser}
-            feedback={(newUserFeedback || {}).role}
+            feedback={(updateUserFeedback || {}).name}
           />
-          <FormGroup
-            checkbox
-            label="Send welcome email with password instructions."
-            name="sendEmailToNewUser"
-            value={sendEmailToNewUser}
-            onChange={this.toggleSendEmailToNewUser}
-          />
-          <Feedback feedback={(newUserFeedback || {}).form} />
-          <Button onClick={this.createUser}>Add User</Button>
+          {userId === "add" || userId === "new"
+            ?
+            <FormGroup
+              checkbox
+              label="Send welcome email with password instructions."
+              name="sendEmailToNewUser"
+              value={sendEmailToNewUser}
+              onChange={this.toggleSendEmailToNewUser}
+            />
+            :
+            null
+          }
         </Block>
       </Block>
     )
   }
 }
-const NewUserForm = connect(mapStateToProps)(NewUserFormComponent)
+const UpdateUserForm = connect(mapStateToProps)(UpdateUserFormComponent)
 
-export default NewUserForm
+export default UpdateUserForm

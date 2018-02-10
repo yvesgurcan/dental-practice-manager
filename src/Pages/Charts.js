@@ -5,9 +5,12 @@ import PageWrapper from './../Components/PageWrapper'
 import ChartsBody from './../Components/Content/Charts/ChartsBody'
 
 class ChartsComponent extends Component {
+  componentWillMount () {
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+  }
   render () {
     return (
-      <PageWrapper route="/charts" menuRoute="/charts">
+      <PageWrapper menuRoute="/charts">
         <ChartsBody />
       </PageWrapper>
     )  

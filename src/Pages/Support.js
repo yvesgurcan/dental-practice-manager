@@ -5,6 +5,9 @@ import PageWrapper from './../Components/PageWrapper'
 import SupportBody from './../Components/Content/Support/SupportBody'
 
 class SupportComponent extends Component {
+  componentWillMount () {
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+  }
   render () {
     return (
       <PageWrapper>

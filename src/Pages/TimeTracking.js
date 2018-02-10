@@ -5,9 +5,12 @@ import PageWrapper from './../Components/PageWrapper'
 import TimeTrackingBody from './../Components/Content/TimeTracking/TimeTrackingBody'
 
 class PayrollComponent extends Component {
+  componentWillMount () {
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+  }
   render () {
     return (
-      <PageWrapper route="/timetracking" menuRoute="/timetracking">
+      <PageWrapper menuRoute="/timetracking">
         <TimeTrackingBody />
       </PageWrapper>
     )  

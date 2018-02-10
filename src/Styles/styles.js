@@ -1,3 +1,4 @@
+import block from './block'
 import horizontalRuler from './horizontalRuler'
 import standardMargin from './standardMargin'
 import nav from './nav'
@@ -21,8 +22,10 @@ import validationError from './validationError'
 import success from './success'
 import spacer from './spacer'
 import forgotPassword from './forgotPassword'
+import userList from './userList'
 
 const styles = {
+  block,
   standardMargin,
   horizontalRuler,
   nav,
@@ -47,6 +50,7 @@ const styles = {
   success,
   spacer,
   forgotPassword,
+  userList,
 }
 
 export default styles

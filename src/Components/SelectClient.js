@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import apiRequestHandler from './../Utility/apiRequestHandler'
 import transformArrayIntoOptions from './../Utility/transformArrayIntoOptions'
-import Block from './Web/Block'
-import Dropdown from './Web/Input/Dropdown'
 import FormGroup from './Web/Input/FormGroup'
 
 class SelectClientComponent extends Component {

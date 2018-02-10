@@ -5,6 +5,9 @@ import PageWrapper from './../Components/PageWrapper'
 import HomeBody from './../Components/Content/Home/HomeBody'
 
 class HomeComponent extends Component {
+  componentWillMount () {
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+  }
   render () {
     return (
       <PageWrapper>

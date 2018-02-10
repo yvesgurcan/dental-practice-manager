@@ -4,6 +4,9 @@ import PageHeader from './../Components/Web/PageHeader'
 import SignInForm from './../Components/SignInForm'
 
 class Login extends Component {
+  componentWillMount () {
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+  }
   render () {
     return (
       <PublicPageWrapper>

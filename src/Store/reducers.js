@@ -4,6 +4,7 @@ import schedule from './Reducers/schedule'
 import session from './Reducers/session'
 import settings from './Reducers/settings'
 import support from './Reducers/support'
+import routeData from './Reducers/routeData'
 
 export default combineReducers({
   environment,
@@ -11,4 +12,5 @@ export default combineReducers({
   support,
   session,
   schedule,
+  routeData,
 })

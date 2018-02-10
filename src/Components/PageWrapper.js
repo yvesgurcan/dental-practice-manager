@@ -11,9 +11,10 @@ import ContentWrapper from './ContentWrapper'
 
 class PageWrapperComponent extends Component {
   render () {
+    const {path} = this.props.routeData || {}
     const {environment, route, menuRoute, notFound, pageTitle} = this.props
     const {routes} = environment
-    const routeDetails = getRouteDetails(routes, route)
+    const routeDetails = getRouteDetails(routes, route || path)
     const pageHeader = pageTitle || (routeDetails ? routeDetails.name : null)
     const subRoutes = getRouteDetails(routes, menuRoute, "subroutes")
     return (

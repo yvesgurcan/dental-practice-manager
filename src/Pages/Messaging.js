@@ -5,9 +5,12 @@ import PageWrapper from './../Components/PageWrapper'
 import MessagingBody from './../Components/Content/Messaging/MessagingBody'
 
 class CheckInComponent extends Component {
+  componentWillMount () {
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+  }
   render () {
     return (
-      <PageWrapper route="/messaging" menuRoute="/messaging">
+      <PageWrapper menuRoute="/messaging">
         <MessagingBody />
       </PageWrapper>
     )  

@@ -1,33 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
-import apiRequestHandler from './../../Utility/apiRequestHandler'
 import PageWrapper from './../../Components/PageWrapper'
-import Block from './../../Components/Web/Block'
-import RouteLink from './../../Components/RouteLink'
+import UsersBody from './../../Components/Content/Settings/UsersBody'
 
 class UsersComponent extends Component {
   componentWillMount () {
-    apiRequestHandler(
-      "get",
-      "users",
-      {},
-      this.props.session,
-      this.storeUsers,
-    )
-  }
-  storeUsers = (response) => {
-    this.props.dispatch({type: 'STORE_USERS', users: response.users})
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
   }
   render () {
-    const {users} = this.props.settings
     return (
-      <PageWrapper route='/settings/users' menuRoute='/settings'>
-        {(users || []).map(user => (
-          <Block key={user.userId}>
-            <RouteLink to={`/settings/users/${user.userId}`}>{user.name}</RouteLink>
-          </Block>
-        ))}
+      <PageWrapper menuRoute='/settings'>
+        <UsersBody />
       </PageWrapper>
     )  
   }

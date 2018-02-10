@@ -5,9 +5,12 @@ import PageWrapper from './../Components/PageWrapper'
 import PatientsBody from './../Components/Content/Patients/PatientsBody'
 
 class PatientsComponent extends Component {
+  componentWillMount () {
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+  }
   render () {
     return (
-      <PageWrapper route="/patients" menuRoute="/patients">
+      <PageWrapper menuRoute="/patients">
         <PatientsBody />
       </PageWrapper>
     )  

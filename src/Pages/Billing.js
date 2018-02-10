@@ -5,9 +5,12 @@ import PageWrapper from './../Components/PageWrapper'
 import BillingBody from './../Components/Content/Billing/BillingBody'
 
 class BillingComponent extends Component {
+  componentWillMount () {
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+  }
   render () {
     return (
-      <PageWrapper route="/billing" menuRoute="/billing">
+      <PageWrapper menuRoute="/billing">
         <BillingBody />
       </PageWrapper>
     )  

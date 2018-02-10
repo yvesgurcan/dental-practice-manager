@@ -5,9 +5,12 @@ import SettingsBody from './../Components/Content/Settings/SettingsBody'
 import PageWrapper from './../Components/PageWrapper'
 
 class SettingsComponent extends Component {
+  componentWillMount () {
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+  }
   render () {
     return (
-      <PageWrapper route="/settings" menuRoute="/settings">
+      <PageWrapper menuRoute="/settings">
         <SettingsBody />
       </PageWrapper>
     )  

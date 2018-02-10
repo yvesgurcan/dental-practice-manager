@@ -4,9 +4,12 @@ import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
 
 class XRaysComponent extends Component {
+  componentWillMount () {
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+  }
   render () {
     return (
-      <PageWrapper route="/xrays" menuRoute="/xrays">
+      <PageWrapper menuRoute="/xrays">
       </PageWrapper>
     )  
   }
