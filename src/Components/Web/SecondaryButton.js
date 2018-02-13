@@ -2,17 +2,17 @@ import React, { Component } from 'react'
 import styles from './../../Styles/styles'
 
 class Button extends Component {
-  state = {style: styles.button}
+  state = {style: styles.secondaryButton}
   onHover = () => {
-    this.setState({style: styles.buttonHover})
+    this.setState({style: styles.secondaryButtonHover})
   }
   onClick = (input) => {
-    this.setState({style: styles.buttonClick})
+    this.setState({style: styles.secondaryButtonClick})
     setTimeout(this.restoreStyle, 200)
     this.props.onClick(input)
   }
   restoreStyle = () => {
-    this.setState({style: styles.button})
+    this.setState({style: styles.secondaryButton})
   }
   render () {
     const {style} = this.props

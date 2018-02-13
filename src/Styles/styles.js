@@ -1,3 +1,5 @@
+import {button, buttonHover, buttonClick} from './button'
+import {secondaryButton, secondaryButtonHover, secondaryButtonClick} from './secondaryButton'
 import block from './block'
 import horizontalRuler from './horizontalRuler'
 import standardMargin from './standardMargin'
@@ -12,7 +14,7 @@ import publicPage from './publicPage'
 import signInForm from './signInForm'
 import formWrapper from './formWrapper'
 import textbox from './textbox'
-import checkbox from './checkbox'
+import {checkbox, checkboxChecked} from './checkbox'
 import dropdown from './dropdown'
 import label from './label'
 import error from './error'
@@ -25,6 +27,12 @@ import forgotPassword from './forgotPassword'
 import userList from './userList'
 
 const styles = {
+  button,
+  buttonHover,
+  buttonClick,
+  secondaryButton,
+  secondaryButtonHover,
+  secondaryButtonClick,
   block,
   standardMargin,
   horizontalRuler,
@@ -39,6 +47,7 @@ const styles = {
   publicPage,
   textbox,
   checkbox,
+  checkboxChecked,
   dropdown,
   label,
   signInForm,

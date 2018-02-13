@@ -344,7 +344,7 @@ endpointWrapper(
 
     const newClient = {
       clientId: ++global.clients.length,
-      ...parameters.newClient,
+      // ...parameters.newClient,
     }
 
     global.clients.push(newClient)
@@ -391,7 +391,7 @@ endpointWrapper(
       clientId: parameters.user.clientId,
       userId: ++global.users.length,
       password: "123",
-      ...parameters.newUser,
+      // ...parameters.newUser,
     }
 
     global.users.push(newUser)

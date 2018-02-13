@@ -10,9 +10,10 @@ class Link extends Component {
     this.setState({linkStyle: styles.link})
   }
   render () {
-    let {children, href, target, style} = this.props
+    const {children, href, target, style} = this.props
+    const {onHover, restoreLinkStyle} = this
     return (
-      <a href={href} target={target} style={{...style, ...this.state.linkStyle}}>{children}</a>
+      <a href={href} target={target} onMouseEnter={onHover} onMouseLeave={restoreLinkStyle} style={{...style, ...this.state.linkStyle}}>{children}</a>
     )  
   }
 }

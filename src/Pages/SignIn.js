@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import mapStateToProps from './../Store/mapStateToProps'
 import PublicPageWrapper from './../Components/PublicPageWrapper'
 import PageHeader from './../Components/Web/PageHeader'
 import SignInForm from './../Components/SignInForm'
 
-class Login extends Component {
+class LoginComponent extends Component {
   componentWillMount () {
     this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
   }
@@ -16,5 +18,6 @@ class Login extends Component {
     )  
   }
 }
+const Login = connect(mapStateToProps)(LoginComponent)
 
 export default Login

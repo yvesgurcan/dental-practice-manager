@@ -5,6 +5,7 @@ import apiRequestHandler from './../Utility/apiRequestHandler'
 import transformObjectIntoOptions from './../Utility/transformObjectIntoOptions'
 import Block from './Web/Block'
 import Button from './Web/Button'
+import SecondaryButton from './Web/SecondaryButton'
 import SectionHeader from './Web/SectionHeader'
 import FormGroup from './Web/Input/FormGroup'
 import Feedback from './Feedback'
@@ -146,6 +147,7 @@ class UpdateUserFormComponent extends Component {
             null
           }
           <Button onClick={this.updateUser}>Update User</Button>
+          <SecondaryButton onClick={this.signIn}>Reset Password</SecondaryButton>
         </Block>
       </Block>
     )
