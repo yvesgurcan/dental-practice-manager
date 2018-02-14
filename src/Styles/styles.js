@@ -16,6 +16,7 @@ import formWrapper from './formWrapper'
 import textbox from './textbox'
 import {checkbox, checkboxChecked} from './checkbox'
 import dropdown from './dropdown'
+import dropdownContainer from './dropdownContainer'
 import label from './label'
 import error from './error'
 import warning from './warning'
@@ -49,6 +50,7 @@ const styles = {
   checkbox,
   checkboxChecked,
   dropdown,
+  dropdownContainer,
   label,
   signInForm,
   formWrapper,

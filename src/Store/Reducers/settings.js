@@ -34,6 +34,39 @@ function settings (state = {}, action) {
       break
     }
 
+    case "STORE_USER": {
+      const updateUser = {...state.updateUser}
+      updateUser[action.name] = action.value
+      newState = {
+        ...state,
+        updateUser: {...updateUser},
+      }
+
+      break
+    }
+
+    case "CLEAR_UPDATE_USER_FEEDBACK": {
+      newState = {
+        ...state,
+        updateUserFeedback: undefined,
+      }
+
+      break
+    }
+
+    case "UPDATE_USER_FEEDBACK": {
+      const updateUserFeedback = {
+        ...state.updateUserFeedback,
+        ...action.feedback,
+      }
+      newState = {
+        ...state,
+        updateUserFeedback: updateUserFeedback,
+      }
+
+      break
+    }
+
   }
 
   return newState

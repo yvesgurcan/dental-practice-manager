@@ -29,10 +29,12 @@ class InternalDropdown extends Component {
     if (this.props.hidden) return null
     const {name, type, value, style, options, placeholder} = this.props
     return (
-      <select name={name} type={type} value={value || -1} style={{...styles.dropdown, ...style}} onChange={this.onChange} onKeyPress={this.onKeyPress}>
-        {placeholder ? <option value={-1}>{placeholder}</option> : null}
-        {(options || []).map(option => <option key={option.value || option.label} value={option.value}>{option.label}</option>)}
-      </select>
+      <span style={styles.dropdownContainer}>
+        <select name={name} type={type} value={value || -1} style={{...styles.dropdown, ...style}} onChange={this.onChange} onKeyPress={this.onKeyPress}>
+          {placeholder ? <option value={-1}>{placeholder}</option> : null}
+          {(options || []).map(option => <option key={option.value || option.label} value={option.value}>{option.label}</option>)}
+        </select>
+      </span>
     )  
   }
 }

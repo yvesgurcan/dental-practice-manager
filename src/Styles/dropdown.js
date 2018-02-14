@@ -2,8 +2,8 @@ import standardMargin from './standardMargin'
 
 const dropdown = {
   ...standardMargin,
+  webkitAppearance: "none",
   border: "transparent",
-  borderBottom: "1px solid lightgray",
 }
 
 export default dropdown

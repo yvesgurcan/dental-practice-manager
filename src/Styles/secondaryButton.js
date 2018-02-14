@@ -4,6 +4,7 @@ export const secondaryButton = {
   border: "1px solid lightgray",
   cursor: "pointer",
   marginRight: 5,
+  marginBottom: 5,
   padding: 7,
 }
 

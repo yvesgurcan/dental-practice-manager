@@ -234,9 +234,7 @@ const authorize = function authorize (req, res, parameters, endpoint) {
 
   if (findUser.length === 0) {
 
-    if (resourcesWithSpecialAuth.length > 0) {
-      findSupportUser = global.supportUsers.filter((supportUser) => !supportUser.deleted && supportUser.email === requestUser.email && supportUser.password === requestUser.password)
-    }
+    findSupportUser = global.supportUsers.filter((supportUser) => !supportUser.deleted && supportUser.email === requestUser.email && supportUser.password === requestUser.password)
 
     if (findSupportUser.length === 0) {
       return {
@@ -344,7 +342,7 @@ endpointWrapper(
 
     const newClient = {
       clientId: ++global.clients.length,
-      // ...parameters.newClient,
+      ...parameters.newClient,
     }
 
     global.clients.push(newClient)
@@ -391,7 +389,7 @@ endpointWrapper(
       clientId: parameters.user.clientId,
       userId: ++global.users.length,
       password: "123",
-      // ...parameters.newUser,
+      ...parameters.newUser,
     }
 
     global.users.push(newUser)
@@ -405,7 +403,30 @@ endpointWrapper(
   "/users",
   (req, res, parameters) => {
 
-    return global
+    const userMatch = global.users.filter(user => parameters.updateUser.userId)
+
+    if (userMatch.length === 0) {
+      return {feedback: {message: "The user could not be found.", status: "error"}}
+    }
+
+    const userToUpdate = userMatch[0]
+
+    const updateUser = {
+      ...parameters.updateUser,
+      userId: userToUpdate.userId,
+      clientId: userToUpdate.clientId,
+      password: userToUpdate.password,
+      deleted: false,
+    }
+
+    global.users = global.users.map(user => {
+      if (user.userId === updateUser.userId) {
+        return updateUser
+      }
+      return user
+    })
+
+    return {feedback: {message: "The user was successfully updated.", status: "success"}}
   }
 )
 

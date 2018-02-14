@@ -36,7 +36,8 @@ class UpdateUserFormComponent extends Component {
 
     let validationError = false
 
-    this.props.dispatch({type: "CLEAR_UPDATE_USER_FORM"})
+    this.props.dispatch({type: "CLEAR_UPDATE_USER_FEEDBACK"})
+    
     if (!updateUser.name) {
       validationError = true
       this.props.dispatch({
@@ -83,21 +84,81 @@ class UpdateUserFormComponent extends Component {
         "users",
         {updateUser, sendEmailToNewUser: sendEmailToNewUser || false},
         this.props.session,
-        this.handleNewUserResponse
+        this.handleUpdateUserResponse
       )  
     }
 
   }
-  handleNewUserResponse = (response) => {
+  handleUpdateUserResponse = (response) => {
     if (response.feedback.status === "success") {
+      const {updateUser} = this.props.settings || {}
       this.props.dispatch({type: "UPDATE_USER", updateUser: {...response.updateUser}})
-      this.props.dispatch({type: "CLEAR_UPDATE_USER_FORM", updateUser: {...response.updateUser}})
+      this.props.dispatch({type: "CLEAR_UPDATE_USER_FEEDBACK"})
       this.props.dispatch({type: "UPDATE_USER_FEEDBACK", feedback: {form: {...response.feedback}}})
+      this.props.updateUserNameTitle(updateUser.name)
     }
     else {
-      this.props.dispatch({type: "CLEAR_UPDATE_USER_FORM"})
+      this.props.dispatch({type: "CLEAR_UPDATE_USER_FEEDBACK"})
       this.props.dispatch({type: "UPDATE_USER_FEEDBACK", feedback: {form: {...response.feedback}}})
     }
+  }
+  sendForgotPasswordEmail = () => {
+    const {updateUser} = this.props.settings || {}
+
+    this.props.dispatch({type: "CLEAR_UPDATE_USER_FEEDBACK"})
+
+    if (!updateUser.name) {
+      this.props.dispatch({
+        type: "UPDATE_USER_FEEDBACK",
+        feedback: {
+          name: {
+            message: "Please enter the name of the user.",
+            status: "validationError",
+          },
+        },
+      })
+    }
+
+    if (!updateUser.role) {
+      this.props.dispatch({
+        type: "UPDATE_USER_FEEDBACK",
+        feedback: {
+          role: {
+            message: "Please select the role of the user.",
+            status: "validationError",
+          },
+        },
+      })
+    }
+
+    if (!updateUser.email) {
+      this.props.dispatch({
+        type: "UPDATE_USER_FEEDBACK",
+        feedback: {
+          email: {
+            message: "Please enter the email of the user.",
+            status: "validationError",
+          },
+        },
+      })
+      return false
+    }
+
+    apiRequestHandler(
+      "post",
+      "accountRecovery",
+      {email: updateUser.email},
+      {},
+      this.handleAccountRecoveryResponse
+    )
+  }
+  handleAccountRecoveryResponse = (response) => {
+    this.props.dispatch({
+      type: "UPDATE_USER_FEEDBACK",
+      feedback: {
+        form: {...response.feedback},
+      },
+    })
   }
   render () {
     this.props.match
@@ -123,7 +184,7 @@ class UpdateUserFormComponent extends Component {
             value={(updateUser || {}).email}
             onChange={this.storeUser}
             onPressEnter={this.updateUser}
-            feedback={(updateUserFeedback || {}).name}
+            feedback={(updateUserFeedback || {}).email}
           />
           <FormGroup
             label="Role"
@@ -132,7 +193,7 @@ class UpdateUserFormComponent extends Component {
             placeholder='Select Role'
             options={roleOptions}
             onChange={this.storeUser}
-            feedback={(updateUserFeedback || {}).name}
+            feedback={(updateUserFeedback || {}).role}
           />
           {userId === "add" || userId === "new"
             ?
@@ -146,8 +207,9 @@ class UpdateUserFormComponent extends Component {
             :
             null
           }
+          <Feedback feedback={(updateUserFeedback || {}).form} />
           <Button onClick={this.updateUser}>Update User</Button>
-          <SecondaryButton onClick={this.signIn}>Reset Password</SecondaryButton>
+          <SecondaryButton onClick={this.sendForgotPasswordEmail}>Reset Password</SecondaryButton>
         </Block>
       </Block>
     )

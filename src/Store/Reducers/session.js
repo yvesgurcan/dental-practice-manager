@@ -3,25 +3,6 @@ import setLocalStorage from './../../Utility/setLocalStorage'
 import removeLocalStorage from './../../Utility/removeLocalStorage'
 
 const debugSession = {
-  /*
-  client: {
-    clientId: 1,
-    name: "Gentle Care",
-  },
-  user: {
-    userId: 1,
-    name: "Dr. Martin",
-    role: "dentist",
-    email: "martin@gentlecare.com",
-    password: "123",
-  },
-  supportUser: {
-    supportUserId: 1,
-    name: "Yves",
-    email: "gurcan.yves@gmail.com",
-    password: "123",
-  }
-  */
 }
 
 function session (state = debugSession, action) {

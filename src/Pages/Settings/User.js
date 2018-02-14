@@ -36,17 +36,20 @@ class UserComponent extends Component {
     const {userId} = this.props.match.params
     const userMatch = (users || []).filter(user => user.userId === Number(userId))
     const user = userMatch.length > 0 ? userMatch[0] : null
-    this.setState({temporaryTitle: undefined})
     if (user) {
+      this.setState({temporaryTitle: user.name})
       this.props.dispatch({type: 'SELECT_UPDATE_USER', user})
     }
+  }
+  updateUserNameTitle = (name) => {
+    this.setState({temporaryTitle: name})
   }
   render () {
     const {updateUser} = this.props.settings
     const {temporaryTitle} = this.state
     return (
-      <PageWrapper pageTitle={temporaryTitle || (updateUser || {}).name} menuRoute='/settings'>
-        <UserBody />
+      <PageWrapper pageTitle={temporaryTitle} menuRoute='/settings'>
+        <UserBody updateUserNameTitle={this.updateUserNameTitle} />
       </PageWrapper>
     )  
   }

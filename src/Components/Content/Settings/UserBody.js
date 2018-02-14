@@ -9,7 +9,7 @@ class UserBodyComponent extends Component {
   render () {
     return (
     <Block>
-      <UpdateUserForm />
+      <UpdateUserForm updateUserNameTitle={this.props.updateUserNameTitle} />
     </Block>
     )  
   }
