@@ -96,11 +96,21 @@ class UpdateUserFormComponent extends Component {
       this.props.dispatch({type: "CLEAR_UPDATE_USER_FEEDBACK"})
       this.props.dispatch({type: "UPDATE_USER_FEEDBACK", feedback: {form: {...response.feedback}}})
       this.props.updateUserNameTitle(updateUser.name)
+      apiRequestHandler(
+        "get",
+        "users",
+        {},
+        this.props.session,
+        this.storeUsers,
+      )
     }
     else {
       this.props.dispatch({type: "CLEAR_UPDATE_USER_FEEDBACK"})
       this.props.dispatch({type: "UPDATE_USER_FEEDBACK", feedback: {form: {...response.feedback}}})
     }
+  }
+  storeUsers = (response) => {
+    this.props.dispatch({type: 'STORE_USERS', users: response.users})
   }
   sendForgotPasswordEmail = () => {
     const {updateUser} = this.props.settings || {}
