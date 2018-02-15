@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../../Store/mapStateToProps'
-import styles from './../../../Styles/styles'
 import PageHeader from './../../Web/PageHeader'
 import Block from './../../Web/Block'
 import SelectClient from './../../SelectClient'
@@ -11,6 +10,7 @@ import NewUserForm from './../../NewUserForm'
 
 class SupportBodyComponent extends Component {
   render () {
+    const {styles} = this.props.environment
     const {name} = this.props.session.supportUser || {}
     return (
       <Block>

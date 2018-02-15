@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import mapStateToProps from './../Store/mapStateToProps'
 import Block from './Web/Block'
 import RouteLink from './RouteLink'
-import styles from './../Styles/styles'
 
-class SubNavItem extends Component {
+class SubNavItemComponent extends Component {
   render () {
+    const { styles } = this.props.environment
     let {item, onClick} = this.props
     return (
       <Block style={styles.subNavItem} onClick={onClick}>
@@ -13,5 +15,6 @@ class SubNavItem extends Component {
     )
   }
 }
+const SubNavItem = connect(mapStateToProps)(SubNavItemComponent)
 
 export default SubNavItem

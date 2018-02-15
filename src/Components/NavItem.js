@@ -4,7 +4,6 @@ import mapStateToProps from './../Store/mapStateToProps'
 import Block from './Web/Block'
 import Link from './Web/Link'
 import RouteLink from './RouteLink'
-import styles from './../Styles/styles'
 
 class NavItemComponent extends Component {
   onClick = (input) => {
@@ -12,6 +11,7 @@ class NavItemComponent extends Component {
     if (this.props.onClick) this.props.onClick(input)
   }
   render () {
+    let { styles } = this.props.environment
     let {item} = this.props
     return (
       <Block style={styles.navItem} onClick={this.onClick} onMouseEnter={this.onHover} onMouseLeave={this.restoreLinkStyle}>

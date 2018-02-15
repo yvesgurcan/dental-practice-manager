@@ -4,7 +4,6 @@ import mapStateToProps from './../../../Store/mapStateToProps'
 import apiRequestHandler from './../../../Utility/apiRequestHandler'
 import Block from './../../../Components/Web/Block'
 import RouteLink from './../../../Components/RouteLink'
-import styles from './../../../Styles/styles'
 
 class UsersBodyComponent extends Component {
   componentWillMount () {
@@ -20,6 +19,7 @@ class UsersBodyComponent extends Component {
     this.props.dispatch({type: 'STORE_USERS', users: response.users})
   }
   render () {
+    const {styles} = this.props.environment
     const {users} = this.props.settings
     return (
     <Block>

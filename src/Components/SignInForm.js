@@ -7,7 +7,6 @@ import Block from './Web/Block'
 import Button from './Web/Button'
 import FormGroup from './Web/Input/FormGroup'
 import Feedback from './Feedback'
-import styles from './../Styles/styles'
 
 class SignInFormComponent extends Component {
   componentWillMount = () => {
@@ -62,6 +61,7 @@ class SignInFormComponent extends Component {
     }
   }
   render () {
+    const { styles } = this.props.environment
     let {feedback, login} = this.props.session
     return (
       <Block style={styles.signInForm}>

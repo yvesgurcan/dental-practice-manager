@@ -8,7 +8,6 @@ import Button from './Web/Button'
 import SectionHeader from './Web/SectionHeader'
 import Textbox from './Web/Input/Textbox'
 import Feedback from './Feedback'
-import styles from './../Styles/styles'
 
 class NewClientFormComponent extends Component {
   storeClient = (input) => {
@@ -68,6 +67,7 @@ class NewClientFormComponent extends Component {
     }
   }
   render () {
+    const { styles } = this.props.environment
     const {newClient, newClientFeedback} = this.props.support
     return (
       <Block style={styles.formWrapper}>

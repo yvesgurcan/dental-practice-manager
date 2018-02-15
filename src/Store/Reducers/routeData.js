@@ -1,5 +1,5 @@
 function routeData (state = null, action) {
-
+  let newState = {...state}
 
   switch (action.type) {
     default: {
@@ -7,21 +7,17 @@ function routeData (state = null, action) {
     }
 
     case "STORE_ROUTE": {
-      let newState = {...state}
       newState = {
         path: action.path,
         url: action.url,
         isExact: action.isExact,
         params: {...action.params},
       }
-
-      return newState
-      break
     }
 
   }
 
-  return state
+  return newState
 }
 
 export default routeData

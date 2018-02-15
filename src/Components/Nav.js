@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import checkUserPermissions from './../Utility/checkUserPermissions'
-import styles from './../Styles/styles'
 import Block from './Web/Block'
 import NavItem from './NavItem'
 
@@ -15,7 +14,7 @@ class NavComponent extends Component {
   }
   render () {
     let {environment, session} = this.props
-    let {routes} = environment
+    let {styles, routes} = environment
     let {user, supportUser} = session
     return (
       <Block style={styles.nav}>

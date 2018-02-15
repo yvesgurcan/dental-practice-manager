@@ -8,7 +8,6 @@ import Button from './Web/Button'
 import SectionHeader from './Web/SectionHeader'
 import FormGroup from './Web/Input/FormGroup'
 import Feedback from './Feedback'
-import styles from './../Styles/styles'
 
 class NewUserFormComponent extends Component {
   storeUser = (input) => {
@@ -103,6 +102,7 @@ class NewUserFormComponent extends Component {
     if (!client || !client.clientId) {
       return null
     }
+    const { styles } = this.props.environment
     const {userRoles} = this.props.environment || {}
     const roleOptions = transformObjectIntoOptions(userRoles, {value: "type" , label: "title"})
     const {newUser, newUserFeedback} = this.props.support || {}

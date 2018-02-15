@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
-import styles from './../../../Styles/styles'
+import { connect } from 'react-redux'
+import mapStateToProps from './../../../Store/mapStateToProps'
 
-class Checkbox extends Component {
+class CheckboxComponent extends Component {
   onChange = (input) => {
     const {checked, name} = input.target
     const value = checked
     this.props.onChange({name, checked, value, input: "checkbox"})
   }
   render () {
+    const {styles} = this.props.environment
     const {name, value, checked, style} = this.props
     return (
       <span>
@@ -17,5 +19,6 @@ class Checkbox extends Component {
     )  
   }
 }
+const Checkbox = connect(mapStateToProps)(CheckboxComponent)
 
 export default Checkbox

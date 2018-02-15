@@ -2,7 +2,7 @@ import standardMargin from './standardMargin'
 
 export const checkbox = {
   ...standardMargin,
-  webkitAppearance: "none",
+  WebkitAppearance: "none",
   border: "1px solid lightgray",
   height: 11,
   width: 11,

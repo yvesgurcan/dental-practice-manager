@@ -1,4 +1,11 @@
 export default (window) => {
+  if (window.tablet) {
+    return ({
+      nav: {
+        background: "red",
+      },
+    })
+  }
   return ({
     nav: {
       display: "grid",

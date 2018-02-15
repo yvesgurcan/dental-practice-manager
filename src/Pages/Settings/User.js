@@ -45,7 +45,6 @@ class UserComponent extends Component {
     this.setState({temporaryTitle: name})
   }
   render () {
-    const {updateUser} = this.props.settings
     const {temporaryTitle} = this.state
     return (
       <PageWrapper pageTitle={temporaryTitle} menuRoute='/settings'>

@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import styles from './../Styles/styles'
+import { connect } from 'react-redux'
+import mapStateToProps from './../Store/mapStateToProps'
 import Block from './Web/Block'
 
-class PublicPageWrapper extends Component {
+class PublicPageWrapperComponent extends Component {
   render () {
+    const { styles } = this.props.environment
     return (
       <Block>
         <Block style={styles.publicPage}>
@@ -13,5 +15,6 @@ class PublicPageWrapper extends Component {
     )  
   }
 }
+const PublicPageWrapper = connect(mapStateToProps)(PublicPageWrapperComponent)
 
 export default PublicPageWrapper

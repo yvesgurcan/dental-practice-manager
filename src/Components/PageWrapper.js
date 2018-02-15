@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import getRouteDetails from './../Utility/getRouteDetails'
-import styles from './../Styles/styles'
 import Block from './Web/Block'
 import PageHeader from './Web/PageHeader'
 import Nav from './Nav'
@@ -11,6 +10,7 @@ import ContentWrapper from './ContentWrapper'
 
 class PageWrapperComponent extends Component {
   render () {
+    const { styles } = this.props.environment
     const {path} = this.props.routeData || {}
     const {environment, route, menuRoute, notFound, pageTitle} = this.props
     const {routes} = environment

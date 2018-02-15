@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import styles from './../Styles/styles'
+import { connect } from 'react-redux'
+import mapStateToProps from './../Store/mapStateToProps'
 import Block from './Web/Block'
 import SubNavItem from './SubNavItem'
 
-class ContentWrapper extends Component {
+class ContentWrapperComponent extends Component {
   render () {
+    const { styles } = this.props.environment
     const { menu } = this.props
     return (
       <Block style={!menu ? null : styles.contentWrapper}>
@@ -20,5 +22,6 @@ class ContentWrapper extends Component {
     )  
   }
 }
+const ContentWrapper = connect(mapStateToProps)(ContentWrapperComponent)
 
 export default ContentWrapper

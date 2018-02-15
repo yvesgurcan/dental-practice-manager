@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
-import styles from './../../Styles/styles'
+import { connect } from 'react-redux'
+import mapStateToProps from './../../Store/mapStateToProps'
 
-class Label extends Component {
+class LabelComponent extends Component {
   render () {
+    const { styles } = this.props.environment
+    const { children } = this.props
     return (
-      <label {...this.props} style={{...styles.label, ...this.props.style}}/>
+      <label children={children} style={{...styles.label, ...this.props.style}}/>
     )  
   }
 }
+const Label = connect(mapStateToProps)(LabelComponent)
 
 export default Label

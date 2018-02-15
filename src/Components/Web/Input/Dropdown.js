@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import styles from './../../../Styles/styles'
+import { connect } from 'react-redux'
+import mapStateToProps from './../../../Store/mapStateToProps'
 
 class Dropdown extends Component {
   render () {
@@ -10,7 +11,7 @@ class Dropdown extends Component {
   }
 }
 
-class InternalDropdown extends Component {
+class InternalDropdownComponent extends Component {
   onChange = (input) => {
     const {options} = this.props
     const {value, name} = input.target
@@ -26,6 +27,7 @@ class InternalDropdown extends Component {
     }
   }
   render () {
+    const {styles} = this.props.environment
     if (this.props.hidden) return null
     const {name, type, value, style, options, placeholder} = this.props
     return (
@@ -38,5 +40,6 @@ class InternalDropdown extends Component {
     )  
   }
 }
+const InternalDropdown = connect(mapStateToProps)(InternalDropdownComponent)
 
 export default Dropdown

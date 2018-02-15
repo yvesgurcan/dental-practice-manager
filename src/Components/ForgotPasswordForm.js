@@ -7,7 +7,6 @@ import Block from './Web/Block'
 import Button from './Web/Button'
 import SectionHeader from './Web/SectionHeader'
 import FormGroup from './Web/Input/FormGroup'
-import styles from './../Styles/styles'
 
 class ForgotPasswordFormComponent extends Component {
   componentWillMount = () => {
@@ -48,6 +47,7 @@ class ForgotPasswordFormComponent extends Component {
     }
   }
   render () {
+    const { styles } = this.props.environment
     let {recoveryFeedback, login} = this.props.session
     return (
       <Block style={styles.signInForm}>

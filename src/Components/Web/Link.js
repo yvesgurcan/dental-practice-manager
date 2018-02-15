@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
-import styles from './../../Styles/styles'
+import { connect } from 'react-redux'
+import mapStateToProps from './../../Store/mapStateToProps'
 
-class Link extends Component {
-  state = {linkStyle: styles.link}
+class LinkComponent extends Component {
+  state = {linkStyle: this.props.environment.styles.link}
   onHover = () => {
+    const {styles} = this.props.environment
     this.setState({linkStyle: styles.linkHover})
   }
   restoreLinkStyle = () => {
+    const {styles} = this.props.environment
     this.setState({linkStyle: styles.link})
   }
   render () {
@@ -17,5 +20,6 @@ class Link extends Component {
     )  
   }
 }
+const Link = connect(mapStateToProps)(LinkComponent)
 
 export default Link

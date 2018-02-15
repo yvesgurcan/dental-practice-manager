@@ -22,6 +22,11 @@ class AppComponent extends Component {
     this.props.dispatch({type: "GET_LOCALSTORAGE_USER"})
     this.props.dispatch({type: "GET_LOCALSTORAGE_CLIENT"})
     this.props.dispatch({type: "GET_LOCALSTORAGE_SUPPORTUSER"})
+    window.addEventListener("resize", this.storeStyles, false)
+    this.storeStyles()
+  }
+  storeStyles = () => {
+    this.props.dispatch({type: "STORE_STYLES", window: {height: window.innerHeight, width: window.innerWidth}})
   }
   componentWillUpdate (nextProps, nextState) {
     if (nextProps.session.user === undefined && nextState.preventSignInRedirect) {

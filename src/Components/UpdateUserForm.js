@@ -6,10 +6,8 @@ import transformObjectIntoOptions from './../Utility/transformObjectIntoOptions'
 import Block from './Web/Block'
 import Button from './Web/Button'
 import SecondaryButton from './Web/SecondaryButton'
-import SectionHeader from './Web/SectionHeader'
 import FormGroup from './Web/Input/FormGroup'
 import Feedback from './Feedback'
-import styles from './../Styles/styles'
 
 class UpdateUserFormComponent extends Component {
   storeUser = (input) => {
@@ -171,10 +169,9 @@ class UpdateUserFormComponent extends Component {
     })
   }
   render () {
-    this.props.match
     const {userId} = this.props.routeData.params
     const {updateUser, updateUserFeedback} = this.props.settings || {}
-    const {userRoles} = this.props.environment || {}
+    const { styles, userRoles } = this.props.environment || {}
     const roleOptions = transformObjectIntoOptions(userRoles, {value: "type" , label: "title"})
     const {sendEmailToNewUser} = this.state || {}
     return (
