@@ -27,11 +27,11 @@ class CancelButtonComponent extends Component {
     this.mounted = false
   }
   render () {
-    const { style, children, environment } = this.props || {}
+    const { style, children, environment, disabled } = this.props || {}
     const { cancelButton } = environment || {}
     const {onHover, onClick, restoreStyle} = this || {}
     return (
-      <button children={children  || cancelButton.cancelLabel} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
+      <button disabled={disabled} children={children  || cancelButton.cancelLabel} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
     )  
   }
 }

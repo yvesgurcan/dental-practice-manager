@@ -233,7 +233,7 @@ class UpdateUserFormComponent extends Component {
           }
           <Feedback feedback={(updateUserFeedback || {}).form} />
           <CancelButton onClick={this.cancel}>{cancelButtonLabel}</CancelButton>
-          <Button onClick={this.updateUser}>Update User</Button>
+          <Button disabled={cancelButtonLabel} onClick={this.updateUser}>Update User</Button>
           <SecondaryButton onClick={this.sendForgotPasswordEmail}>Reset Password</SecondaryButton>
         </Block>
       </Block>
