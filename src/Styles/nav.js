@@ -1,4 +1,11 @@
-export default (window) => {
+export default (viewport) => {
+  if (viewport.menu) {
+    return ({
+      nav: {
+        borderBottom: "1px solid darkgray",
+      },
+    })
+  }
   return ({
     nav: {
       display: "grid",

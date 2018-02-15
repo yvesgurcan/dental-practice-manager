@@ -1,16 +1,17 @@
-export default (window) => {
-  if (window.tablet) {
+import standardMargin from './navItem.js'
+
+export default (viewport) => {
+  if (viewport.menu) {
     return ({
-      nav: {
-        background: "red",
+      navButton: {
+        cursor: "pointer",
+        borderBottom: "1px solid darkgray",
       },
     })
   }
   return ({
-    nav: {
-      display: "grid",
-      gridTemplateColumns: "repeat(11, max-content)",
-      border: "1px solid darkgray",  
+    navButton: {
+      display: "none",
     },
   })
 }

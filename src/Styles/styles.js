@@ -6,6 +6,7 @@ import standardMargin from './standardMargin'
 import nav from './nav'
 import navItem from './navItem'
 import navItemLink from './navItemLink'
+import navButton from './navButton'
 import { link, linkHover } from './link'
 import subNav from './subNav'
 import subNavItem from './subNavItem'
@@ -29,39 +30,49 @@ import userList from './userList'
 
 const styles = (viewport) => {
   return ({
+    // utility
+    standardMargin,
+    spacer,
+    // web
+    block,
+    horizontalRuler,
+    // input
+    label,
+    textbox,
+    checkbox,
+    checkboxChecked,
+    dropdown,
+    dropdownContainer,
+    // buttons
     button,
     buttonHover,
     buttonClick,
     secondaryButton,
     secondaryButtonHover,
     secondaryButtonClick,
-    block,
-    standardMargin,
-    horizontalRuler,
+    // nav
     ...nav(viewport),
-    navItem,
-    navItemLink,
+    ...navButton(viewport),
+    ...navItem(viewport),
+    ...navItemLink(viewport),
     link,
     linkHover,
-    subNav,
+    // subnav
+    ...contentWrapper(viewport),
+    ...subNav(viewport),
     subNavItem,
-    contentWrapper,
-    publicPage,
-    textbox,
-    checkbox,
-    checkboxChecked,
-    dropdown,
-    dropdownContainer,
-    label,
-    signInForm,
-    formWrapper,
+    // feedback
+    success,
     error,
+    validationError,
     warning,
     unauthorized,
-    validationError,
-    success,
-    spacer,
+    // forms
+    formWrapper,
+    signInForm,
     forgotPassword,
+    // other
+    publicPage,
     userList,
   })
 }

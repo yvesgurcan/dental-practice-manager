@@ -14,7 +14,7 @@ class NavItemComponent extends Component {
     let { styles } = this.props.environment
     let {item} = this.props
     return (
-      <Block style={styles.navItem} onClick={this.onClick} onMouseEnter={this.onHover} onMouseLeave={this.restoreLinkStyle}>
+      <Block style={styles.navItem} onClick={this.onClick}>
         {item.url
             ? <RouteLink to={item.url} style={styles.navItemLink}>{item.name}</RouteLink>
             : <Link href={item.url} style={styles.navItemLink}>{item.name}</Link>

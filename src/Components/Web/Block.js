@@ -5,9 +5,9 @@ import mapStateToProps from './../../Store/mapStateToProps'
 class BlockComponent extends Component {
   render () {
     const {styles} = this.props.environment
-    const {style, children} = this.props
+    const {style, children, onClick} = this.props
     return (
-      <div children={children} style={{...styles.block, ...style}}/>
+      <div children={children} onClick={onClick} style={{...styles.block, ...style}}/>
     )  
   }
 }

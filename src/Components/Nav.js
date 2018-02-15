@@ -10,11 +10,12 @@ class NavComponent extends Component {
     this.props.dispatch({type: "REMOVE_LOCALSTORAGE_CLIENT"})
     this.props.dispatch({type: "REMOVE_LOCALSTORAGE_USER"})
     this.props.dispatch({type: "REMOVE_LOCALSTORAGE_SUPPORTUSER"})
+    this.props.dispatch({type: "HIDE_NAV"})
     this.props.dispatch({type: "SIGN_OUT"})
   }
   render () {
     let {environment, session} = this.props
-    let {styles, routes} = environment
+    let {styles, viewport, routes} = environment
     let {user, supportUser} = session
     return (
       <Block style={styles.nav}>

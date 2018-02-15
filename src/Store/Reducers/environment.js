@@ -13,18 +13,38 @@ function environment (state = getEnvironment(), action) {
   switch (action.type) {
     default:
       break
+    
     case "STORE_STYLES": {
       const window = {...action.window}
       const breakpoints = {
         mobile: window.width <= 414,
         tablet: window.width <= 800,
         desktop: window.width > 800,
+        menu: window.width < 1000,
       }
       const viewport = {...window, ...breakpoints}
       newState = {
         ...state,
-        window: {...viewport},
+        viewport: {...viewport},
         styles: styles({...viewport}),
+      }
+
+      break
+    }
+
+    case "TOGGLE_NAV": {
+      newState = {
+        ...state,
+        showNav: !state.showNav,
+      }
+
+      break
+    }
+
+    case "HIDE_NAV": {
+      newState = {
+        ...state,
+        showNav: undefined,
       }
 
       break
