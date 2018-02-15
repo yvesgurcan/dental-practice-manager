@@ -5,6 +5,10 @@ import styles from './../../Styles/styles.js'
 const getEnvironment = () => ({
   userRoles: userRoles,
   routes: routes,
+  cancelButton: {
+    cancelLabel: "Cancel",
+    doneLabel: "Done",
+  }
 })
 
 function environment (state = getEnvironment(), action) {

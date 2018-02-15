@@ -403,6 +403,8 @@ endpointWrapper(
   "/users",
   (req, res, parameters) => {
 
+    debugger
+    
     const userMatch = global.users.filter(user => parameters.updateUser.userId)
 
     if (userMatch.length === 0) {

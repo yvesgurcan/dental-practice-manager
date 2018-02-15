@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import apiRequestHandler from './../Utility/apiRequestHandler'
@@ -6,11 +7,17 @@ import transformObjectIntoOptions from './../Utility/transformObjectIntoOptions'
 import Block from './Web/Block'
 import Button from './Web/Button'
 import SecondaryButton from './Web/SecondaryButton'
+import CancelButton from './Web/CancelButton'
 import FormGroup from './Web/Input/FormGroup'
 import Feedback from './Feedback'
 
 class UpdateUserFormComponent extends Component {
+  state = {cancelButtonLabel: this.props.environment.cancelButton.doneLabel}
   storeUser = (input) => {
+    const { cancelButtonLabel } = this.state
+    if (cancelButtonLabel) {
+      this.setState({cancelButtonLabel: undefined})
+    }
     this.props.dispatch({type: "STORE_USER", ...input})
   }
   toggleSendEmailToNewUser = () => {
@@ -89,8 +96,12 @@ class UpdateUserFormComponent extends Component {
   }
   handleUpdateUserResponse = (response) => {
     if (response.feedback.status === "success") {
-      const {updateUser} = this.props.settings || {}
-      this.props.dispatch({type: "UPDATE_USER", updateUser: {...response.updateUser}})
+      const { updateUser } = this.props.settings || {}
+      const { cancelButton } = this.props.environment || {}
+      const { cancelButtonLabel } = this.state || {}
+      if (!cancelButtonLabel) {
+        this.setState({cancelButtonLabel: cancelButton.doneLabel})
+      }
       this.props.dispatch({type: "CLEAR_UPDATE_USER_FEEDBACK"})
       this.props.dispatch({type: "UPDATE_USER_FEEDBACK", feedback: {form: {...response.feedback}}})
       this.props.updateUserNameTitle(updateUser.name)
@@ -109,6 +120,9 @@ class UpdateUserFormComponent extends Component {
   }
   storeUsers = (response) => {
     this.props.dispatch({type: 'STORE_USERS', users: response.users})
+  }
+  cancel = () => {
+    this.setState({redirect: true})
   }
   sendForgotPasswordEmail = () => {
     const {updateUser} = this.props.settings || {}
@@ -173,7 +187,10 @@ class UpdateUserFormComponent extends Component {
     const {updateUser, updateUserFeedback} = this.props.settings || {}
     const { styles, userRoles } = this.props.environment || {}
     const roleOptions = transformObjectIntoOptions(userRoles, {value: "type" , label: "title"})
-    const {sendEmailToNewUser} = this.state || {}
+    const {sendEmailToNewUser, redirect, cancelButtonLabel} = this.state || {}
+    if (redirect) {
+      return <Redirect to="/settings/users" />
+    }
     return (
       <Block style={styles.formWrapper}>
         <Block>
@@ -215,6 +232,7 @@ class UpdateUserFormComponent extends Component {
             null
           }
           <Feedback feedback={(updateUserFeedback || {}).form} />
+          <CancelButton onClick={this.cancel}>{cancelButtonLabel}</CancelButton>
           <Button onClick={this.updateUser}>Update User</Button>
           <SecondaryButton onClick={this.sendForgotPasswordEmail}>Reset Password</SecondaryButton>
         </Block>

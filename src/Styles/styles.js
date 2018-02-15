@@ -1,5 +1,6 @@
 import {button, buttonHover, buttonClick} from './button'
 import {secondaryButton, secondaryButtonHover, secondaryButtonClick} from './secondaryButton'
+import {cancelButton, cancelButtonHover, cancelButtonClick} from './cancelButton'
 import block from './block'
 import horizontalRuler from './horizontalRuler'
 import standardMargin from './standardMargin'
@@ -50,6 +51,9 @@ const styles = (viewport) => {
     secondaryButton,
     secondaryButtonHover,
     secondaryButtonClick,
+    cancelButton,
+    cancelButtonHover,
+    cancelButtonClick,
     // nav
     ...nav(viewport),
     ...navButton(viewport),
