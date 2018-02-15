@@ -12,6 +12,28 @@ class Dropdown extends Component {
 }
 
 class InternalDropdownComponent extends Component {
+  state = {styleState: this.props.environment.styles.dropdown}
+  componentWillMount = () => {
+    const { disabled } = this.props || {}
+    if (disabled) {
+      const {styles} = this.props.environment || {}
+      this.setState({ styleState: styles.dropdownDisabled })
+    }
+  }
+  componentWillUpdate = (nextProps) => {
+    const { styleState } = this.state
+    const {styles} = this.props.environment || {}
+    if (this.props.disabled && !nextProps.disabled) {
+      if (styleState !== styles.dropdown) {
+        this.setState({styleState: styles.dropdown})
+      }
+    }
+    else if (!this.props.disabled && nextProps.disabled) {
+      if (styleState !== styles.dropdownDisabled) {
+        this.setState({styleState: styles.dropdownDisabled})
+      }
+    }
+  }
   onChange = (input) => {
     const {options} = this.props
     const {value, name} = input.target
@@ -28,11 +50,12 @@ class InternalDropdownComponent extends Component {
   }
   render () {
     const {styles} = this.props.environment
+    const {styleState} = this.state || {}
     if (this.props.hidden) return null
-    const {name, type, value, style, options, placeholder} = this.props
+    const { name, value, style, options, placeholder, disabled, title } = this.props
     return (
       <span style={styles.dropdownContainer}>
-        <select name={name} type={type} value={value || -1} style={{...styles.dropdown, ...style}} onChange={this.onChange} onKeyPress={this.onKeyPress}>
+        <select name={name} disabled={disabled} title={title} value={value || -1} style={{...styleState, ...style}} onChange={this.onChange} onKeyPress={this.onKeyPress}>
           {placeholder ? <option value={-1}>{placeholder}</option> : null}
           {(options || []).map(option => <option key={option.value || option.label} value={option.value}>{option.label}</option>)}
         </select>

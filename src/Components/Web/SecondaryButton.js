@@ -4,9 +4,33 @@ import mapStateToProps from './../../Store/mapStateToProps'
 
 class SecondaryButtonComponent extends Component {
   state = {style: this.props.environment.styles.secondaryButton}
+  componentWillMount = () => {
+    const { disabled } = this.props || {}
+    if (disabled) {
+      const {styles} = this.props.environment || {}
+      this.setState({ style: styles.secondaryButtonDisabled })
+    }
+  }
+  componentWillUpdate = (nextProps) => {
+    const { style } = this.state
+    const {styles} = this.props.environment || {}
+    if (this.props.disabled && !nextProps.disabled) {
+      if (style !== styles.button) {
+        this.setState({style: styles.secondaryButton})
+      }
+    }
+    else if (!this.props.disabled && nextProps.disabled) {
+      if (style !== styles.buttonDisabled) {
+        this.setState({style: styles.secondaryButtonDisabled})
+      }
+    }
+  }
   onHover = () => {
-    const {styles} = this.props.environment
-    this.setState({style: styles.secondaryButtonHover})
+    const { disabled } = this.props || {}
+    if (!disabled) {
+      const {styles} = this.props.environment
+      this.setState({style: styles.secondaryButtonHover})
+    }
   }
   onClick = (input) => {
     const {styles} = this.props.environment
@@ -16,13 +40,14 @@ class SecondaryButtonComponent extends Component {
   }
   restoreStyle = () => {
     const {styles} = this.props.environment
-    this.setState({style: styles.secondaryButton})
+    const { disabled } = this.props || {}
+    this.setState({style: disabled ? styles.secondaryButtonDisabled : styles.secondaryButton})
   }
   render () {
-    const { children, style, disabled } = this.props || {}
+    const { children, style, disabled, title } = this.props || {}
     const {onHover, onClick, restoreStyle} = this
     return (
-      <button disabled={disabled} children={children} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
+      <button disabled={disabled} children={children} title={title} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
     )  
   }
 }

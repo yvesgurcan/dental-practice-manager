@@ -1,5 +1,3 @@
-import standardMargin from './navItem.js'
-
 export default (viewport) => {
   if (viewport.menu) {
     return ({

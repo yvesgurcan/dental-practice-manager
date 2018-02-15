@@ -15,7 +15,7 @@ class NavComponent extends Component {
   }
   render () {
     let {environment, session} = this.props
-    let {styles, viewport, routes} = environment
+    let {styles, routes} = environment
     let {user, supportUser} = session
     return (
       <Block style={styles.nav}>

@@ -7,7 +7,8 @@ import RouteLink from './RouteLink'
 
 class NavItemComponent extends Component {
   onClick = (input) => {
-    this.props.dispatch({type: "CLEAR_SUPPORT_PAGE"})
+    this.props.dispatch({type: "CLEAR_SUPPORT_VIEWS"})
+    this.props.dispatch({type: "CLEAR_SETTINGS_VIEWS"})
     if (this.props.onClick) this.props.onClick(input)
   }
   render () {

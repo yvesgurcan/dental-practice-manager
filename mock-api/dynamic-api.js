@@ -74,6 +74,32 @@ let workTimeId = 0
 
 // you can create a mock database in the form of a JSON object here
 global = {
+  userRoles: {
+    dentist: {
+      type: "dentist",
+      title: "Dentist",
+    },
+    officeManager: {
+      type: "officeManager",
+      title: "Office Manager",
+    },
+    hygienist: {
+      type: "hygienist",
+      title: "Dental Hygienist",
+    },
+    assistant: {
+      type: "assistant",
+      title: "Dental Assistant",
+    },
+    receptionist: {
+      type: "receptionist",
+      title: "Receptionist",
+    },
+    accountant: {
+      type: "accountant",
+      title: "Accountant",
+    },
+  },
 
   clients: [
     {
@@ -309,7 +335,11 @@ endpointWrapper(
     const findUser = global.users.filter((user) => !user.deleted && user.email === parameters.user.email)    
 
     if (findUser.length === 0) {
-      return {feedback: {message: `Invalid username.`, status: "unauthorized"}}
+      return {feedback: {message: `Invalid user.`, status: "unauthorized"}}
+    }
+
+    if (!findUser[0].email) {
+      return {feedback: {message: `Please enter the email of the user.`, status: "validationError"}}
     }
 
     return {feedback: {message: `An email was sent to ${findUser[0].email}.`, status: "success"}}
@@ -401,17 +431,24 @@ endpointWrapper(
 endpointWrapper(
   "put",
   "/users",
-  (req, res, parameters) => {
-
-    debugger
-    
-    const userMatch = global.users.filter(user => parameters.updateUser.userId)
+  (req, res, parameters) => {    
+    const userMatch = global.users.filter(user => user.userId === parameters.updateUser.userId)
 
     if (userMatch.length === 0) {
       return {feedback: {message: "The user could not be found.", status: "error"}}
     }
 
     const userToUpdate = userMatch[0]
+
+    if (userToUpdate.role === global.userRoles.dentist.type && parameters.updateUser.role !== global.userRoles.dentist.type) {
+      const otherDentists = global.users.filter(user => user.userId !== userToUpdate.userId && user.role === global.userRoles.dentist.type)
+
+      if (otherDentists.length === 0) {
+        return {feedback: {message: `You can not change the role of this user. At least one user must be a ${global.userRoles.dentist.title}.`, status: "validationError"}}
+
+      }
+
+    }
 
     const updateUser = {
       ...parameters.updateUser,

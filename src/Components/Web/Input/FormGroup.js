@@ -13,6 +13,8 @@ class FormGroup extends Component {
       name,
       type,
       value,
+      disabled,
+      title,
       options,
       placeholder,
       onChange,
@@ -28,13 +30,13 @@ class FormGroup extends Component {
         {
           options
           ?
-            <Dropdown name={name} value={value || ""} placeholder={placeholder} options={options} onChange={onChange} style={{...style, width: "100%"}} />
+            <Dropdown name={name} value={value || ""} disabled={disabled} title={title} placeholder={placeholder} options={options} onChange={onChange} style={{...style, width: "100%"}} />
           :
           checkbox
           ?
-            <Checkbox name={name} value={value} onChange={onChange}>{label}</Checkbox>
+            <Checkbox name={name} value={value} disabled={disabled} title={title} onChange={onChange}>{label}</Checkbox>
           :
-            <Textbox name={name} type={type} value={value || ""} onChange={onChange} onPressEnter={onPressEnter} style={{...style, width: "100%"}} />
+            <Textbox name={name} type={type} value={value || ""} disabled={disabled} title={title} onChange={onChange} onPressEnter={onPressEnter} style={{...style, width: "100%"}} />
         }
       </Block>
       <Feedback feedback={feedback} />

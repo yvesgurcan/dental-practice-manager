@@ -8,6 +8,13 @@ export const button = {
   padding: 7,
 }
 
+export const buttonDisabled = {
+  ...button,
+  background: "steelblue",
+  color: "lightgray",
+  cursor: "not-allowed",
+}
+
 export const buttonHover = {
   ...button,
   background: "royalblue",

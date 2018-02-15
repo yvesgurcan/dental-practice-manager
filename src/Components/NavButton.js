@@ -10,7 +10,6 @@ class NavButtonComponent extends Component {
   }
   render () {
     let { styles } = this.props.environment
-    let {item} = this.props
     return (
       <Block style={styles.navButton} onClick={this.openNav}>
         <FontAwesome name='bars' />

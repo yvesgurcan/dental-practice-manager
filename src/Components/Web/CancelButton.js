@@ -8,11 +8,16 @@ class CancelButtonComponent extends Component {
     this.mounted = true
   }
   onHover = () => {
-    const {styles} = this.props.environment
-    this.setState({style: styles.cancelButtonHover})
+    const { disabled } = this.props || {}
+    if (!disabled) {
+      const {styles} = this.props.environment
+      this.setState({style: styles.cancelButtonHover})
+    }
   }
   onClick = (input) => {
     const {styles} = this.props.environment
+    this.props.dispatch({type: "CLEAR_SUPPORT_VIEWS"})
+    this.props.dispatch({type: "CLEAR_SETTINGS_VIEWS"})
     this.setState({style: styles.cancelButtonClick})
     setTimeout(this.restoreStyle, 200)
     this.props.onClick(input)
@@ -27,11 +32,11 @@ class CancelButtonComponent extends Component {
     this.mounted = false
   }
   render () {
-    const { style, children, environment, disabled } = this.props || {}
+    const { style, children, environment, disabled, title } = this.props || {}
     const { cancelButton } = environment || {}
     const {onHover, onClick, restoreStyle} = this || {}
     return (
-      <button disabled={disabled} children={children  || cancelButton.cancelLabel} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
+      <button children={children  || cancelButton.cancelLabel} title={title} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
     )  
   }
 }

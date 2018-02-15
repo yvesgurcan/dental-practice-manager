@@ -7,7 +7,7 @@ function support (state = {}, action) {
       break
     }
 
-    case "CLEAR_SUPPORT_PAGE": {
+    case "CLEAR_SUPPORT_VIEWS": {
       newState = {
         ...state,
         newClient: undefined,

@@ -14,18 +14,16 @@ import Feedback from './Feedback'
 class UpdateUserFormComponent extends Component {
   state = {cancelButtonLabel: this.props.environment.cancelButton.doneLabel}
   storeUser = (input) => {
-    const { cancelButtonLabel } = this.state
-    if (cancelButtonLabel) {
-      this.setState({cancelButtonLabel: undefined})
-    }
-    this.props.dispatch({type: "STORE_USER", ...input})
+    this.setState({ cancelButtonLabel: undefined })
+    this.setState({ validationError: false })
+    this.props.dispatch({type: 'STORE_USER', ...input})
   }
   toggleSendEmailToNewUser = () => {
     const {sendEmailToNewUser} = this.state || {}
     this.setState({sendEmailToNewUser: !sendEmailToNewUser})
   }
-  updateUser = () => {
-    const {updateUser} = this.props.settings || {}
+  validateForm = (forgotPasswordRequest) => {
+    const {updateUser, users} = this.props.settings || {}
     if (!updateUser) {
       this.props.dispatch({
         type: "UPDATE_USER_FEEDBACK",
@@ -36,7 +34,7 @@ class UpdateUserFormComponent extends Component {
           },
         },
       })
-      return false
+      return { interrupt: true }
     }
 
     let validationError = false
@@ -67,6 +65,10 @@ class UpdateUserFormComponent extends Component {
           },
         },
       })
+      if (forgotPasswordRequest) {
+        return { interrupt: true }
+      }
+
     }
 
     if (!updateUser.role) {
@@ -81,9 +83,65 @@ class UpdateUserFormComponent extends Component {
         },
       })
     }
+
+    if (this.isUniqueDentist(true).error) {
+      validationError = true
+    }
+
+    this.setState({validationError: validationError})
+    return { validationError }
+
+  }
+  isUniqueDentist = (validateUpdate) => {
+    const {updateUser, users} = this.props.settings || {}
+    let validationError = false
+    let message = ''
+
+    if (!users || !updateUser) {
+      return {error: validationError, feedback: message}
+    }
+
+    const originalUser = (users).filter(user => updateUser.userId === user.userId)
+
+    if (originalUser.length > 0) {
+      const {userRoles} = this.props.environment || {}
+
+      if (originalUser[0].role === userRoles.dentist.type && (!validateUpdate || updateUser.role !== userRoles.dentist.type)) {
+        const otherDentists = users.filter(user => user.userId !== updateUser.userId && user.role === userRoles.dentist.type)
+
+        if (otherDentists.length === 0) {
+          validationError = true
+          message = `You can not change the role of this user. At least one user must be a ${userRoles.dentist.title}.`
+
+          if (validateUpdate) {
+            this.props.dispatch({
+              type: "UPDATE_USER_FEEDBACK",
+              feedback: {
+                role: {
+                  message: message,
+                  status: "validationError",
+                },
+              },
+            })
+          }
+
+        }
+
+      }
+
+    }
+    return {error: validationError, feedback: message}
+  }
+  updateUser = () => {
+
+    const validationResults = this.validateForm()
+    if (validationResults.interrupt) {
+      return false
+    }
     
-    if (!validationError) {
-      const {sendEmailToNewUser} = this.state || {}
+    if (!validationResults.validationError) {
+      const { sendEmailToNewUser } = this.state || {}
+      const { updateUser } = this.props.settings || {}
       apiRequestHandler(
         "put",
         "users",
@@ -98,10 +156,7 @@ class UpdateUserFormComponent extends Component {
     if (response.feedback.status === "success") {
       const { updateUser } = this.props.settings || {}
       const { cancelButton } = this.props.environment || {}
-      const { cancelButtonLabel } = this.state || {}
-      if (!cancelButtonLabel) {
-        this.setState({cancelButtonLabel: cancelButton.doneLabel})
-      }
+      this.setState({cancelButtonLabel: cancelButton.doneLabel})
       this.props.dispatch({type: "CLEAR_UPDATE_USER_FEEDBACK"})
       this.props.dispatch({type: "UPDATE_USER_FEEDBACK", feedback: {form: {...response.feedback}}})
       this.props.updateUserNameTitle(updateUser.name)
@@ -125,47 +180,13 @@ class UpdateUserFormComponent extends Component {
     this.setState({redirect: true})
   }
   sendForgotPasswordEmail = () => {
-    const {updateUser} = this.props.settings || {}
 
-    this.props.dispatch({type: "CLEAR_UPDATE_USER_FEEDBACK"})
-
-    if (!updateUser.name) {
-      this.props.dispatch({
-        type: "UPDATE_USER_FEEDBACK",
-        feedback: {
-          name: {
-            message: "Please enter the name of the user.",
-            status: "validationError",
-          },
-        },
-      })
-    }
-
-    if (!updateUser.role) {
-      this.props.dispatch({
-        type: "UPDATE_USER_FEEDBACK",
-        feedback: {
-          role: {
-            message: "Please select the role of the user.",
-            status: "validationError",
-          },
-        },
-      })
-    }
-
-    if (!updateUser.email) {
-      this.props.dispatch({
-        type: "UPDATE_USER_FEEDBACK",
-        feedback: {
-          email: {
-            message: "Please enter the email of the user.",
-            status: "validationError",
-          },
-        },
-      })
+    const validationResults = this.validateForm(true)
+    if (validationResults.interrupt) {
       return false
     }
 
+    const {updateUser} = this.props.settings || {}
     apiRequestHandler(
       "post",
       "accountRecovery",
@@ -187,7 +208,8 @@ class UpdateUserFormComponent extends Component {
     const {updateUser, updateUserFeedback} = this.props.settings || {}
     const { styles, userRoles } = this.props.environment || {}
     const roleOptions = transformObjectIntoOptions(userRoles, {value: "type" , label: "title"})
-    const {sendEmailToNewUser, redirect, cancelButtonLabel} = this.state || {}
+    const { sendEmailToNewUser, redirect, cancelButtonLabel, validationError } = this.state || {}
+    const isUniqueDentist = this.isUniqueDentist()
     if (redirect) {
       return <Redirect to="/settings/users" />
     }
@@ -213,6 +235,8 @@ class UpdateUserFormComponent extends Component {
           <FormGroup
             label="Role"
             name="role"
+            disabled={isUniqueDentist.error}
+            title={isUniqueDentist.error ? isUniqueDentist.feedback : undefined}
             value={(updateUser || {}).role}
             placeholder='Select Role'
             options={roleOptions}
@@ -233,8 +257,8 @@ class UpdateUserFormComponent extends Component {
           }
           <Feedback feedback={(updateUserFeedback || {}).form} />
           <CancelButton onClick={this.cancel}>{cancelButtonLabel}</CancelButton>
-          <Button disabled={cancelButtonLabel} onClick={this.updateUser}>Update User</Button>
-          <SecondaryButton onClick={this.sendForgotPasswordEmail}>Reset Password</SecondaryButton>
+          <Button disabled={Boolean(cancelButtonLabel || validationError)} title={cancelButtonLabel ? 'You must edit the user\'s info before saving the changes.' : undefined} onClick={this.updateUser}>Update User</Button>
+          <SecondaryButton disabled={Boolean(!updateUser || !updateUser.email || !cancelButtonLabel)} title={!updateUser || !updateUser.email ? "You must enter the email address of the user before resetting their password." : !cancelButtonLabel ? "You must update the user before resetting their password." : undefined} onClick={this.sendForgotPasswordEmail}>Reset Password</SecondaryButton>
         </Block>
       </Block>
     )

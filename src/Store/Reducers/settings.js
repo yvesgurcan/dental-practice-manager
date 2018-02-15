@@ -7,6 +7,16 @@ function settings (state = {}, action) {
       break
     }
 
+    case "CLEAR_SETTINGS_VIEWS": {
+      newState = {
+        ...state,
+        updateUser: undefined,
+        updateUserFeedback: undefined,
+      }
+
+      break
+    }
+
     case "STORE_USERS": {
       newState = {
         ...state,

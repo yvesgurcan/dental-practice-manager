@@ -8,6 +8,12 @@ export const secondaryButton = {
   padding: 7,
 }
 
+export const secondaryButtonDisabled = {
+  ...secondaryButton,
+  color: "lightgray",
+  cursor: "not-allowed",
+}
+
 export const secondaryButtonHover = {
   ...secondaryButton,
   color: "darkblue",
