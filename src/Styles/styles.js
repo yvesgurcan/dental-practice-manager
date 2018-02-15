@@ -27,6 +27,8 @@ import spacer from './spacer'
 import forgotPassword from './forgotPassword'
 import userList from './userList'
 
+console.log(window.innerHeight, window.innerWidth)
+
 const styles = {
   button,
   buttonHover,
