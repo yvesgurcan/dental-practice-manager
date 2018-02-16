@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../../../Store/mapStateToProps'
 import PageHeader from './../../Web/PageHeader'
 import Block from './../../Web/Block'
+import Grid from './../../Grid'
 import SelectClient from './../../SelectClient'
 import SelectUser from './../../SelectUser'
 import NewClientForm from './../../NewClientForm'
@@ -17,11 +18,14 @@ class SupportBodyComponent extends Component {
         <PageHeader>Hi, {name}</PageHeader>
         <Block style={styles.formWrapper}>
           <Block style={styles.standardMargin}>Which user would you like to help today?</Block>
+
+        </Block>
+        <Grid columns={2}>
           <SelectClient />
           <SelectUser />
           <NewClientForm />
           <NewUserForm />
-        </Block>
+        </Grid>
       </Block>
     )
   }

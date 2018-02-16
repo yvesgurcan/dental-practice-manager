@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import apiRequestHandler from './../Utility/apiRequestHandler'
 import transformArrayIntoOptions from './../Utility/transformArrayIntoOptions'
+import Block from './Web/Block'
 import FormGroup from './Web/Input/FormGroup'
 
 class SelectUserComponent extends Component {
@@ -32,20 +33,23 @@ class SelectUserComponent extends Component {
     if (!client || !client.clientId) {
       return null
     }
+    const { styles } = this.props.environment || {}
     const {loadingUsers} = this.props.support || {}
     const {users} = this.props.settings || {}
     const {user} = this.props.session || {}
     const userOptions = transformArrayIntoOptions(users, {value: "userId", label: "name"})
     return (
-      <FormGroup
-        label="User"
-        name="user"
-        value={(user || {}).userId}
-        placeholder='Select User'
-        options={userOptions}
-        onChange={this.selectUser}
-        feedback={loadingUsers || !users || users.length > 0 ? null : {status: 'warning', message: 'No user were found for this client.'}}
-      />
+      <Block style={styles.formWrapper}>
+        <FormGroup
+          label="User"
+          name="user"
+          value={(user || {}).userId}
+          placeholder='Select User'
+          options={userOptions}
+          onChange={this.selectUser}
+          feedback={loadingUsers || !users || users.length > 0 ? null : {status: 'warning', message: 'No user were found for this client.'}}
+        />
+      </Block>
     )  
   }
 }

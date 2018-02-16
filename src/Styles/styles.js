@@ -1,3 +1,6 @@
+// grids
+import grid2 from './grid2'
+import grid3 from './grid3'
 // buttons
 import {button, buttonDisabled, buttonHover, buttonClick} from './button'
 import {secondaryButton, secondaryButtonDisabled, secondaryButtonHover, secondaryButtonClick} from './secondaryButton'
@@ -63,6 +66,9 @@ const styles = (viewport) => {
     dangerButtonDisabled,
     dangerButtonHover,
     dangerButtonClick,
+    // grid
+    ...grid2(viewport),
+    ...grid3(viewport),
     // nav
     ...nav(viewport),
     ...navButton(viewport),

@@ -8,6 +8,8 @@ const endpoints = {
 const mockApi = true
 if (mockApi) endpoints.internal = "http://localhost:5000"
 
+const shortCircuitApi = true
+
 const supportedMethods = ["get","post","put","delete"]
 
 const apiRequestHandler = (
@@ -19,6 +21,8 @@ const apiRequestHandler = (
   errorCallback,
   api = endpoints.internal
 ) => {
+
+  if (shortCircuitApi) return false
 
   if (!session.supportUser) {
     if (!session.user) {

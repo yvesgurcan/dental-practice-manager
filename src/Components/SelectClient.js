@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import apiRequestHandler from './../Utility/apiRequestHandler'
 import transformArrayIntoOptions from './../Utility/transformArrayIntoOptions'
+import Block from './Web/Block'
 import FormGroup from './Web/Input/FormGroup'
 
 class SelectClientComponent extends Component {
@@ -63,18 +64,21 @@ class SelectClientComponent extends Component {
   }
   
   render () {
+    const { styles } = this.props.environment || {}
     const {clients} = this.props.support || {}
     const {client} = this.props.session || {}
     const clientOptions = transformArrayIntoOptions(clients, {value: "clientId", label: "name"})
     return (
-      <FormGroup
-        label="Client"
-        name="client"
-        value={(client || {}).clientId}
-        placeholder='Select Client'
-        options={clientOptions}
-        onChange={this.selectClient}
-      />
+      <Block style={styles.formWrapper}>
+        <FormGroup
+          label="Client"
+          name="client"
+          value={(client || {}).clientId}
+          placeholder='Select Client'
+          options={clientOptions}
+          onChange={this.selectClient}
+        />
+      </Block>
     )  
   }
 }
