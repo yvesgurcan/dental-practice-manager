@@ -142,13 +142,26 @@ class UpdateUserFormComponent extends Component {
     if (!validationResults.validationError) {
       const { sendEmailToNewUser } = this.state || {}
       const { updateUser } = this.props.settings || {}
+      const { userId } = this.props.routeData.params
+
+      if (isNaN(userId)) {
+        apiRequestHandler(
+          "post",
+          "users",
+          {newUser: updateUser, sendEmailToNewUser: sendEmailToNewUser || false},
+          this.props.session,
+          this.handleUpdateUserResponse
+        )
+        return false
+      }
+
       apiRequestHandler(
         "put",
         "users",
-        {updateUser, sendEmailToNewUser: sendEmailToNewUser || false},
+        {updateUser},
         this.props.session,
         this.handleUpdateUserResponse
-      )  
+      ) 
     }
 
   }
@@ -258,7 +271,7 @@ class UpdateUserFormComponent extends Component {
           <Feedback feedback={(updateUserFeedback || {}).form} />
           <CancelButton onClick={this.cancel}>{cancelButtonLabel}</CancelButton>
           <Button disabled={Boolean(cancelButtonLabel || validationError)} title={cancelButtonLabel ? 'You must edit the user\'s info before saving the changes.' : undefined} onClick={this.updateUser}>Update User</Button>
-          <SecondaryButton disabled={Boolean(!updateUser || !updateUser.email || !cancelButtonLabel)} title={!updateUser || !updateUser.email ? "You must enter the email address of the user before resetting their password." : !cancelButtonLabel ? "You must update the user before resetting their password." : undefined} onClick={this.sendForgotPasswordEmail}>Reset Password</SecondaryButton>
+          <SecondaryButton hidden={Boolean(isNaN(userId))} disabled={Boolean(!updateUser || !updateUser.email || !cancelButtonLabel)} title={!updateUser || !updateUser.email ? "You must enter the email address of the user before resetting their password." : !cancelButtonLabel ? "You must update the user before resetting their password." : undefined} onClick={this.sendForgotPasswordEmail}>Reset Password</SecondaryButton>
         </Block>
       </Block>
     )

@@ -216,7 +216,6 @@ const specialAuthorizationEndpoints = [
   {endpoint: "get /clients", supportUserOnly: true},
   {endpoint: "post /clients", supportUserOnly: true},
   {endpoint: "get /users", supportUserOnly: false},
-  {endpoint: "post /users", supportUserOnly: true},
 ]
 
 // generic unauthorized response

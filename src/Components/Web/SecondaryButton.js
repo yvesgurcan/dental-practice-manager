@@ -44,10 +44,10 @@ class SecondaryButtonComponent extends Component {
     this.setState({style: disabled ? styles.secondaryButtonDisabled : styles.secondaryButton})
   }
   render () {
-    const { children, style, disabled, title } = this.props || {}
+    const { children, style, disabled, title, hidden } = this.props || {}
     const {onHover, onClick, restoreStyle} = this
     return (
-      <button disabled={disabled} children={children} title={title} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
+      <button disabled={disabled} hidden={hidden} children={children} title={title} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
     )  
   }
 }

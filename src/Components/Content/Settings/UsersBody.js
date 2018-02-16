@@ -19,15 +19,25 @@ class UsersBodyComponent extends Component {
     this.props.dispatch({type: 'STORE_USERS', users: response.users})
   }
   render () {
-    const {styles} = this.props.environment
+    const {styles, userRoles} = this.props.environment
     const {users} = this.props.settings
     return (
     <Block>
-        {(users || []).map(user => (
-          <Block key={user.userId} style={styles.userList}>
-            <RouteLink to={`/settings/users/${user.userId}`}>{user.name}</RouteLink> &mdash; {user.role}
+        {(users || []).map(user => {
+          const roleMatch = Object.keys(userRoles).map(key => userRoles[key]).filter(userRole => userRole.type === user.role)
+          let role = ""
+          if (roleMatch.length > 0) {
+            role = roleMatch[0].title
+          }
+          return (
+            <Block key={user.userId} style={styles.userList}>
+            <RouteLink to={`/settings/users/${user.userId}`}>{user.name}</RouteLink> &mdash; {role}
           </Block>
-        ))}
+          )
+        })}
+        <Block style={styles.userList}>
+          <RouteLink to={`/settings/users/new`}>Add User</RouteLink>
+        </Block>
     </Block>
     )  
   }

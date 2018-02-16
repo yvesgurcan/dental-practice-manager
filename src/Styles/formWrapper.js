@@ -1,5 +1,5 @@
 const formWrapper = {
-  maxWidth: 340,
+  maxWidth: 360,
 }
 
 export default formWrapper

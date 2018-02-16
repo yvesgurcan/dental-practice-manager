@@ -44,10 +44,10 @@ class ButtonComponent extends Component {
     this.setState({style: disabled ? styles.buttonDisabled : styles.button})
   }
   render () {
-    const { style, children, disabled, title } = this.props || {}
+    const { style, children, disabled, title, hidden } = this.props || {}
     const {onHover, onClick, restoreStyle} = this
     return (
-      <button disabled={disabled} children={children} title={title} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
+      <button disabled={disabled} hidden={hidden} children={children} title={title} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
     )  
   }
 }
