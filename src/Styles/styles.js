@@ -2,6 +2,7 @@
 import {button, buttonDisabled, buttonHover, buttonClick} from './button'
 import {secondaryButton, secondaryButtonDisabled, secondaryButtonHover, secondaryButtonClick} from './secondaryButton'
 import {cancelButton, cancelButtonHover, cancelButtonClick} from './cancelButton'
+import {dangerButton, dangerButtonDisabled, dangerButtonHover, dangerButtonClick} from './dangerButton'
 import block from './block'
 import horizontalRuler from './horizontalRuler'
 import standardMargin from './standardMargin'
@@ -58,6 +59,10 @@ const styles = (viewport) => {
     cancelButton,
     cancelButtonHover,
     cancelButtonClick,
+    dangerButton,
+    dangerButtonDisabled,
+    dangerButtonHover,
+    dangerButtonClick,
     // nav
     ...nav(viewport),
     ...navButton(viewport),

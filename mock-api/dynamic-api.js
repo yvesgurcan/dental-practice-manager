@@ -31,7 +31,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
 
   server[method](resource, (req, res) => {
     let parameters = {}
-    if (method === "get") {
+    if (method === "get" || method === "delete") {
       parameters = req.query
     }
     else {
@@ -230,7 +230,7 @@ const unauthorizedResponse = {
 const authorize = function authorize (req, res, parameters, endpoint) {
 
   let requestUser = (parameters || {}).user
-  if (req.method === "GET") {
+  if (req.method === 'GET' || req.method === 'DELETE') {
     requestUser = JSON.parse((parameters || {}).user)
   }
 
@@ -387,7 +387,7 @@ endpointWrapper(
   (req, res, parameters) => {
 
     const requestUser = JSON.parse(parameters.user)
-    const users = global.users.filter(user => user.clientId === requestUser.clientId)
+    const users = global.users.filter(user => !user.deleted && user.clientId === requestUser.clientId)
 
     return {users: users, feedback: {status: "success"}}
   }
@@ -440,7 +440,7 @@ endpointWrapper(
     const userToUpdate = userMatch[0]
 
     if (userToUpdate.role === global.userRoles.dentist.type && parameters.updateUser.role !== global.userRoles.dentist.type) {
-      const otherDentists = global.users.filter(user => user.userId !== userToUpdate.userId && user.role === global.userRoles.dentist.type)
+      const otherDentists = global.users.filter(user => !user.deleted && user.userId !== userToUpdate.userId && user.role === global.userRoles.dentist.type)
 
       if (otherDentists.length === 0) {
         return {feedback: {message: `You can not change the role of this user. At least one user must be a ${global.userRoles.dentist.title}.`, status: "validationError"}}
@@ -472,8 +472,39 @@ endpointWrapper(
   "delete",
   "/users",
   (req, res, parameters) => {
+    const deleteUser = JSON.parse(parameters.deleteUser)
 
-    return global
+    const userMatch = global.users.filter(user => user.userId === deleteUser.userId)
+
+    if (userMatch.length === 0) {
+      return {feedback: {message: "The user could not be found.", status: "error"}}
+    }
+
+    const userToDelete = userMatch[0]
+
+    if (userToDelete.role === global.userRoles.dentist.type) {
+      const otherDentists = global.users.filter(user => !user.deleted && user.userId !== userToDelete.userId && user.role === global.userRoles.dentist.type)
+
+      if (otherDentists.length === 0) {
+        return {feedback: {message: `You can not delete this user. At least one user must be a ${global.userRoles.dentist.title}.`, status: "validationError"}}
+
+      }
+
+    }
+
+    const deletedUser = {
+      ...userToDelete,
+      deleted: true,
+    }
+
+    global.users = global.users.map(user => {
+      if (user.userId === deleteUser.userId) {
+        return deletedUser
+      }
+      return user
+    })
+
+    return {feedback: {message: "The user was successfully deleted.", status: "success"}}
   }
 )
 

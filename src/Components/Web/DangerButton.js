@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 
-class ButtonComponent extends Component {
-  state = {style: this.props.environment.styles.button}
-  
+class DangerButtonComponent extends Component {
+  state = {style: this.props.environment.styles.dangerButton}
+
   componentWillMount = () => {
     const { disabled } = this.props || {}
     if (disabled) {
       const {styles} = this.props.environment || {}
-      this.setState({ style: styles.buttonDisabled })
+      this.setState({ style: styles.dangerButtonDisabled })
     }
   }
 
@@ -22,12 +22,12 @@ class ButtonComponent extends Component {
     const {styles} = this.props.environment || {}
     if (this.props.disabled && !nextProps.disabled) {
       if (style !== styles.button) {
-        this.setState({style: styles.button})
+        this.setState({style: styles.dangerButton})
       }
     }
     else if (!this.props.disabled && nextProps.disabled) {
       if (style !== styles.buttonDisabled) {
-        this.setState({style: styles.buttonDisabled})
+        this.setState({style: styles.dangerButtonDisabled})
       }
     }
   }
@@ -35,23 +35,23 @@ class ButtonComponent extends Component {
   onHover = () => {
     const { disabled } = this.props || {}
     if (!disabled) {
-      const {styles} = this.props.environment || {}
-      this.setState({style: styles.buttonHover})  
+      const {styles} = this.props.environment
+      this.setState({style: styles.dangerButtonHover})
     }
   }
 
   onClick = (input) => {
-    const {styles} = this.props.environment || {}
-    this.setState({style: styles.buttonClick})
+    const {styles} = this.props.environment
+    this.setState({style: styles.dangerButtonClick})
     setTimeout(this.restoreStyle, 200)
     this.props.onClick(input)
   }
 
   restoreStyle = () => {
     if (this.mounted) {
-      const {styles} = this.props.environment || {}
+      const {styles} = this.props.environment
       const { disabled } = this.props || {}
-      this.setState({style: disabled ? styles.buttonDisabled : styles.button})
+      this.setState({style: disabled ? styles.dangerButtonDisabled : styles.dangerButton})
     }
   }
 
@@ -60,13 +60,13 @@ class ButtonComponent extends Component {
   }
 
   render () {
-    const { style, children, disabled, title, hidden } = this.props || {}
+    const { children, style, disabled, title, hidden } = this.props || {}
     const {onHover, onClick, restoreStyle} = this
     return (
       <button disabled={disabled} hidden={hidden} children={children} title={title} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
     )  
   }
 }
-const Button = connect(mapStateToProps)(ButtonComponent)
+const DangerButton = connect(mapStateToProps)(DangerButtonComponent)
 
-export default Button
+export default DangerButton

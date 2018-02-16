@@ -4,9 +4,11 @@ import mapStateToProps from './../../Store/mapStateToProps'
 
 class CancelButtonComponent extends Component {
   state = {style: this.props.environment.styles.cancelButton}
+  
   componentDidMount () {
     this.mounted = true
   }
+
   onHover = () => {
     const { disabled } = this.props || {}
     if (!disabled) {
@@ -14,6 +16,7 @@ class CancelButtonComponent extends Component {
       this.setState({style: styles.cancelButtonHover})
     }
   }
+
   onClick = (input) => {
     const {styles} = this.props.environment
     this.props.dispatch({type: "CLEAR_SUPPORT_VIEWS"})
@@ -22,15 +25,18 @@ class CancelButtonComponent extends Component {
     setTimeout(this.restoreStyle, 200)
     this.props.onClick(input)
   }
+
   restoreStyle = () => {
     if (this.mounted) {
       const {styles} = this.props.environment
       this.setState({style: styles.cancelButton})  
     }
   }
+
   componentWillUnmount () {
     this.mounted = false
   }
+  
   render () {
     const { style, children, environment, disabled, title, hidden } = this.props || {}
     const { cancelButton } = environment || {}
