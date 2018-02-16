@@ -42,7 +42,7 @@ class CancelButtonComponent extends Component {
     const { cancelButton } = environment || {}
     const {onHover, onClick, restoreStyle} = this || {}
     return (
-      <button hidden={hidden} children={children  || cancelButton.cancelLabel} title={title} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
+      <button hidden={hidden} disabled={disabled} children={children  || cancelButton.cancelLabel} title={title} onMouseEnter={onHover} onMouseLeave={restoreStyle} onClick={onClick} style={{ ...this.state.style, ...style}}/>
     )  
   }
 }

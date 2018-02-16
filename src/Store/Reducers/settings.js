@@ -77,6 +77,14 @@ function settings (state = {}, action) {
       break
     }
 
+    case 'STORE_SETTINGS': {
+      newState = {
+        ...state,
+        maxUsers: action.settings.maxUsers,
+      }
+      break
+    }
+
   }
 
   return newState

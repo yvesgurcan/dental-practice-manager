@@ -15,16 +15,38 @@ class SelectClientComponent extends Component {
       this.storeAllClients,
     )
   }
+
   storeAllClients = (response) => {
     this.props.dispatch({ type: 'STORE_ALL_CLIENTS', clients: response.clients })
   }
+
   selectClient = (client) => {
 
     this.props.dispatch({ type: 'USERS_LOADING'})
-    this.props.dispatch({ type: 'SELECT_CLIENT', client: client.object, callback: (state) => this.getUsers(state) })
+    this.props.dispatch({ type: 'SELECT_CLIENT', client: client.object, callback: (state) => this.getEnvironment(state) })
     this.props.dispatch({ type: "SET_LOCALSTORAGE_CLIENT", client: { ...client.object } })
     this.props.dispatch({ type: "REMOVE_LOCALSTORAGE_USER" })
   }
+
+  getEnvironment = (state) => {
+    this.getSettings(state)
+    this.getUsers(state)
+  }
+
+  getSettings = (state) => {
+    apiRequestHandler(
+      'get',
+      'settings',
+      {},
+      state,
+      this.storeSettings,
+    )
+  }
+
+  storeSettings = (response) => {
+    this.props.dispatch({ type: 'STORE_SETTINGS', settings: {...response.settings} })
+  }
+
   getUsers = (state) => {
     apiRequestHandler(
       'get',
@@ -34,10 +56,12 @@ class SelectClientComponent extends Component {
       this.storeUsers,
     )
   }
+
   storeUsers = (response) => {
     this.props.dispatch({ type: 'STORE_USERS', users: [ ...response.users ] })
     this.props.dispatch({ type: 'USERS_LOADED'})
   }
+  
   render () {
     const {clients} = this.props.support || {}
     const {client} = this.props.session || {}

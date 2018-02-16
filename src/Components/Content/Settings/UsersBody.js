@@ -14,10 +14,23 @@ class UsersBodyComponent extends Component {
       this.props.session,
       this.storeUsers,
     )
+    apiRequestHandler(
+      'get',
+      'settings',
+      {},
+      this.props.session,
+      this.storeSettings,
+    )
   }
+  
   storeUsers = (response) => {
     this.props.dispatch({type: 'STORE_USERS', users: response.users})
   }
+
+  storeSettings = (response) => {
+    this.props.dispatch({ type: 'STORE_SETTINGS', settings: {...response.settings} })
+  }
+
   render () {
     const {styles, userRoles} = this.props.environment
     const {users} = this.props.settings

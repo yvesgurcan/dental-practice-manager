@@ -19,7 +19,10 @@ function session (state = debugSession, action) {
       if (client) {
         newState = {
           ...state,
-          client: {...client},
+          client: {
+            clientId: client.clientId,
+            name: client.name,
+          },
         }  
       }
 
@@ -164,7 +167,10 @@ function session (state = debugSession, action) {
 
       newState = {
         ...state,
-        client: action.client,
+        client: {
+          clientId: action.client.clientId,
+          name: action.client.name,
+        },
         user: user,
       }
       

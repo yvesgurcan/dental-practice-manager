@@ -105,11 +105,13 @@ global = {
     {
       clientId: ++clientId,
       name: "Gentle Care",
+      maxUsers: 10,
       deleted: false,
     },
     {
       clientId: ++clientId,
       name: "Natural Dental",
+      maxUsers: 5,
       deleted: false,
     },
   ],
@@ -296,6 +298,7 @@ endpointWrapper(
   (req, res, parameters, session) => {
 
     let publicSession = {}
+
     if (session.supportUser) {
       publicSession = {
         supportUser: {
@@ -345,13 +348,41 @@ endpointWrapper(
   }
 )
 
+// settings
+endpointWrapper(
+  'get',
+  '/settings',
+  (req, res, parameters) => {
+
+    const requestUser = JSON.parse(parameters.user)
+
+    const settings = global.clients.filter(client => !client.deleted && client.clientId === requestUser.clientId).map(client => (
+      {
+        maxUsers: client.maxUsers,
+      }
+    ))
+
+    if (settings.length === 0) {
+      return { feedback: {status: 'error', message: 'Your settings could not be found.'} }
+    }
+
+    return { settings: settings[0], feedback: {status: 'success'} }
+  }
+)
+
 // support
 endpointWrapper(
   "get",
   "/clients",
   (req, res, parameters) => {
 
-    const clients = global.clients.map(client => ({clientId: client.clientId, name: client.name}))
+    const clients = global.clients.filter(client => !client.deleted).map(client => (
+      {
+        clientId: client.clientId,
+        name: client.name,
+        maxUsers: client.maxUsers,
+      }
+    ))
     return {clients: clients, feedback: {status: "success"}}
   }
 )

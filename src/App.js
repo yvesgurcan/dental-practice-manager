@@ -22,6 +22,7 @@ class AppComponent extends Component {
     this.props.dispatch({type: "GET_LOCALSTORAGE_USER"})
     this.props.dispatch({type: "GET_LOCALSTORAGE_CLIENT"})
     this.props.dispatch({type: "GET_LOCALSTORAGE_SUPPORTUSER"})
+    this.props.dispatch({ type: 'GET_MAX_USERS' })
     window.addEventListener("resize", this.storeStyles, false)
     this.storeStyles()
   }

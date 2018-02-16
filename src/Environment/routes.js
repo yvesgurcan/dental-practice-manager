@@ -15,6 +15,7 @@ import TimeTracking from './../Pages/TimeTracking'
 
 import Settings from './../Pages/Settings'
 import SettingNotFound from './../Pages/Settings/SettingNotFound'
+import Account from './../Pages/Settings/Account'
 import Users from './../Pages/Settings/Users'
 import User from './../Pages/Settings/User'
 
@@ -136,7 +137,7 @@ const routes = {
     url: "/settings",
     subroutes: {
       account: {
-        component: Users,
+        component: Account,
         name: "Your Practice",
         url: "/settings/account",
       },

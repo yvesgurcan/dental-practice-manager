@@ -31,14 +31,14 @@ class UpdateUserFormComponent extends Component {
   }
 
   validateForm = (forgotPasswordRequest) => {
-    const {updateUser, users} = this.props.settings || {}
+    const { updateUser } = this.props.settings || {}
     if (!updateUser) {
       this.props.dispatch({
-        type: "UPDATE_USER_FEEDBACK",
+        type: 'UPDATE_USER_FEEDBACK',
         feedback: {
           form: {
-            message: "Please enter the name, email, and role of the user.",
-            status: "validationError",
+            message: 'Please enter the name, email, and role of the user.',
+            status: 'validationError',
           },
         },
       })
