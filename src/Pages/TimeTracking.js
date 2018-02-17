@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
-import TimeTrackingBody from './../Components/Content/TimeTracking/TimeTrackingBody'
+import TimeTrackingBody from './../Components/Bodies/TimeTrackingBody'
 
 class PayrollComponent extends Component {
   componentWillMount () {

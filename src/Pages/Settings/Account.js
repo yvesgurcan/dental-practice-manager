@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import PageWrapper from './../../Components/PageWrapper'
-import AccountBody from './../../Components/Content/Settings/AccountBody'
+import AccountBody from './../../Components/Bodies/AccountBody'
 
 class AccountComponent extends Component {
   componentWillMount () {

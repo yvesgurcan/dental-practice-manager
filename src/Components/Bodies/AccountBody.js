@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import mapStateToProps from './../../../Store/mapStateToProps'
-import apiRequestHandler from './../../../Utility/apiRequestHandler'
-import Block from './../../../Components/Web/Block'
-import Text from './../../../Components/Web/Text'
-import Label from './../../../Components/Web/Label'
-import ScheduleBoundaries from './../../Forms/ScheduleBoundaries'
+import mapStateToProps from './../../Store/mapStateToProps'
+import apiRequestHandler from './../../Utility/apiRequestHandler'
+import Block from './../../Components/Web/Block'
+import Text from './../../Components/Web/Text'
+import Label from './../../Components/Web/Label'
+import ScheduleBoundaries from './../Forms/ScheduleBoundaries'
 
 class AccountBodyComponent extends Component {
   componentWillMount () {

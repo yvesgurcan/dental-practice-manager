@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
-import ScheduleBody from './../Components/Content/Schedule/ScheduleBody'
+import ScheduleBody from './../Components/Bodies/ScheduleBody'
 
 class ScheduleComponent extends Component {
   componentWillMount () {

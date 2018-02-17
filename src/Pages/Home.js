@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
-import HomeBody from './../Components/Content/Home/HomeBody'
+import HomeBody from './../Components/Bodies/HomeBody'
 
 class HomeComponent extends Component {
   componentWillMount () {

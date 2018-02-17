@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
-import BillingBody from './../Components/Content/Billing/BillingBody'
+import BillingBody from './../Components/Bodies/BillingBody'
 
 class BillingComponent extends Component {
   componentWillMount () {

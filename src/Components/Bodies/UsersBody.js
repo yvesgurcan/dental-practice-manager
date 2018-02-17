@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import mapStateToProps from './../../../Store/mapStateToProps'
-import apiRequestHandler from './../../../Utility/apiRequestHandler'
-import Block from './../../../Components/Web/Block'
-import RouteLink from './../../../Components/RouteLink'
+import mapStateToProps from './../../Store/mapStateToProps'
+import apiRequestHandler from './../../Utility/apiRequestHandler'
+import Block from './../../Components/Web/Block'
+import RouteLink from './../../Components/RouteLink'
 
 class UsersBodyComponent extends Component {
   componentWillMount () {

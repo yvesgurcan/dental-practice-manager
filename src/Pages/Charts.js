@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
-import ChartsBody from './../Components/Content/Charts/ChartsBody'
+import ChartsBody from './../Components/Bodies/ChartsBody'
 
 class ChartsComponent extends Component {
   componentWillMount () {

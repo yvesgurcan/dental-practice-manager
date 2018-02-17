@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import PageWrapper from './../../Components/PageWrapper'
-import SettingsBody from './../../Components/Content/Settings/SettingsBody'
+import SettingsBody from './../../Components/Bodies/SettingsBody'
 
 class SettingsComponent extends Component {
   render () {

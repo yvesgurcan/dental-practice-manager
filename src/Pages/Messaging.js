@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
-import MessagingBody from './../Components/Content/Messaging/MessagingBody'
+import MessagingBody from './../Components/Bodies/MessagingBody'
 
 class CheckInComponent extends Component {
   componentWillMount () {

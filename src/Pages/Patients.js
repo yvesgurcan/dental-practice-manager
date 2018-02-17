@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
-import PatientsBody from './../Components/Content/Patients/PatientsBody'
+import PatientsBody from './../Components/Bodies/PatientsBody'
 
 class PatientsComponent extends Component {
   componentWillMount () {

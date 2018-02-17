@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import apiRequestHandler from './../../Utility/apiRequestHandler'
 import PageWrapper from './../../Components/PageWrapper'
-import UserBody from './../../Components/Content/Settings/UserBody'
+import UserBody from './../../Components/Bodies/UserBody'
 
 class UserComponent extends Component {
   state = {temporaryTitle: "User"}

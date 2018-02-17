@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import mapStateToProps from './../../../Store/mapStateToProps'
-import Block from './../../Web/Block'
-import Grid from './../../Grid'
+import mapStateToProps from './../../Store/mapStateToProps'
+import Block from './../Web/Block'
+import Grid from './../Grid'
 
 class ScheduleBodyComponent extends Component {
   renderTimeSlotsOnLargeScreen = () => {
