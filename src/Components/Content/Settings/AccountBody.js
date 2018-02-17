@@ -5,6 +5,7 @@ import apiRequestHandler from './../../../Utility/apiRequestHandler'
 import Block from './../../../Components/Web/Block'
 import Text from './../../../Components/Web/Text'
 import Label from './../../../Components/Web/Label'
+import ScheduleBoundaries from './../../Forms/ScheduleBoundaries'
 
 class AccountBodyComponent extends Component {
   componentWillMount () {
@@ -33,12 +34,16 @@ class AccountBodyComponent extends Component {
   }
 
   render () {
+    const { styles } = this.props.environment || {}
     const { users, maxUsers } = this.props.settings || {}
     return (
     <Block>
-      <Label>Users:</Label>
-      {" "}
-      <Text>{(users || []).length}/{maxUsers || 0}</Text>
+      <Block style={styles.standardMargin}>
+        <Label>Users:</Label>
+        {" "}
+        <Text>{(users || []).length}/{maxUsers || 0}</Text>
+      </Block>
+      <ScheduleBoundaries />
     </Block>
     )  
   }

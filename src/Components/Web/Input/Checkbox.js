@@ -4,16 +4,17 @@ import mapStateToProps from './../../../Store/mapStateToProps'
 
 class CheckboxComponent extends Component {
   onChange = (input) => {
+    const {id} = this.props || {}
     const {checked, name} = input.target
     const value = checked
-    this.props.onChange({name, checked, value, input: "checkbox"})
+    this.props.onChange({id, name, checked, value, input: "checkbox"})
   }
   render () {
     const {styles} = this.props.environment
     const {name, value, checked, style} = this.props
     return (
       <span>
-        <input name={name} id={name} type={"checkbox"} checked={value || checked || false} style={{...(value || checked ? styles.checkboxChecked : styles.checkbox), ...style}} onChange={this.onChange}/>
+        <input name={name} type={"checkbox"} checked={value || checked || false} style={{...(value || checked ? styles.checkboxChecked : styles.checkbox), ...style}} onChange={this.onChange}/>
         <label htmlFor={name}>{this.props.children}</label>
       </span>
     )  

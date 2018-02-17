@@ -8,15 +8,19 @@ class ScheduleBodyComponent extends Component {
   renderTimeSlotsOnLargeScreen = () => {
     const { weekdays } = this.props.environment || {}
     const scheduleStart = 8.5
-    const scheduleEnd = 17.45
+    const scheduleEnd = 18.5
     const appointmentLength = 1
-    const slotsNumber = parseInt(scheduleEnd - scheduleStart)
+    const slotsNumber = parseInt(scheduleEnd - scheduleStart, 10)
     const scheduleArray = [{name: "Time"}].concat(weekdays)
     let weeklySchedule = []
-    for (let i = 0; i < slotsNumber; i++) {
+    for (let i = 0; i <= slotsNumber; i++) {
       weeklySchedule[i] = []
       scheduleArray.map((day, x) => {
-        weeklySchedule[i][x] = (<Block key={day.name + "_" + i}>{day.name}_{i}</Block>)        
+        if (x === 0) {
+          weeklySchedule[i][x] = (<Block key={scheduleStart+i*appointmentLength}>{scheduleStart+i*appointmentLength}</Block>)
+          return null
+        }
+        weeklySchedule[i][x] = (<Block key={day.name + "_" + i}>{day.name}_{i}</Block>)
         return null
       })
     }

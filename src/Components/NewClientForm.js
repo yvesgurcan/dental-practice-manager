@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import apiRequestHandler from './../Utility/apiRequestHandler'
 import Block from './Web/Block'
-import Label from './Web/Label'
 import Button from './Web/Button'
 import SectionHeader from './Web/SectionHeader'
-import Textbox from './Web/Input/Textbox'
+import FormGroup from './Web/Input/FormGroup'
 import Feedback from './Feedback'
 
 class NewClientFormComponent extends Component {
@@ -67,17 +66,31 @@ class NewClientFormComponent extends Component {
     }
   }
   render () {
-    const { styles } = this.props.environment
-    const {newClient, newClientFeedback} = this.props.support
+    const { styles, regex } = this.props.environment
+    const { newClient, newClientFeedback } = this.props.support
     return (
       <Block style={styles.formWrapper}>
         <SectionHeader>New Client</SectionHeader>
         <Block>
-          <Label>Name</Label>
-          <Block>
-            <Textbox name="name" value={(newClient || {}).name} onChange={this.storeClient} onPressEnter={this.createClient} style={{width: "100%"}}  />
-          </Block>
-          <Feedback feedback={(newClientFeedback || {}).name} />
+          <FormGroup
+            label="Name"
+            name="name"
+            value={(newClient || {}).name}
+            onChange={this.storeClient}
+            onPressEnter={this.createClient}
+            feedback={(newClientFeedback || {}).name}
+          />
+          <FormGroup
+            label='Max users'
+            name='maxUsers'
+            type='number'
+            pattern={regex.positiveNumbers}
+            maxLength={2}
+            value={(newClient || {}).maxUsers}
+            onChange={this.storeClient}
+            onPressEnter={this.createClient}
+            feedback={(newClientFeedback || {}).maxUsers}
+          />
           <Feedback feedback={(newClientFeedback || {}).form} />
           <Button onClick={this.createClient}>Add Client</Button>
         </Block>

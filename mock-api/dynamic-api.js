@@ -106,15 +106,20 @@ global = {
       clientId: ++clientId,
       name: "Gentle Care",
       maxUsers: 10,
-      scheduleStart: 8.5,
-      scheduleEnd: 17.45,
-      appointmentLength: 1,
+      scheduleStart: '08:30',
+      scheduleEnd: '17:45',
+      appointmentLength: 60,
+      daysOpen: ["Monday","Wednesday","Friday"],
       deleted: false,
     },
     {
       clientId: ++clientId,
       name: "Natural Dental",
       maxUsers: 5,
+      scheduleStart: '06:00',
+      scheduleEnd: '16:00',
+      appointmentLength: 60,
+      daysOpen: ["Monday","Tuesday","Wednesday","Thursday","Friday"],
       deleted: false,
     },
   ],
@@ -362,6 +367,10 @@ endpointWrapper(
     const settings = global.clients.filter(client => !client.deleted && client.clientId === requestUser.clientId).map(client => (
       {
         maxUsers: client.maxUsers,
+        scheduleStart: client.scheduleStart,
+        scheduleEnd: client.scheduleEnd,
+        appointmentLength: client.appointmentLength,
+        daysOpen: client.daysOpen,
       }
     ))
 

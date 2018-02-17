@@ -1,6 +1,7 @@
 import userRoles from './../../Environment/userRoles'
 import routes from './../../Environment/routes'
 import weekdays from './../../Environment/weekdays'
+import regex from './../../Environment/regex'
 import styles from './../../Styles/styles'
 
 const getEnvironment = () => ({
@@ -10,7 +11,8 @@ const getEnvironment = () => ({
   cancelButton: {
     cancelLabel: "Cancel",
     doneLabel: "Done",
-  }
+  },
+  regex,
 })
 
 function environment (state = getEnvironment(), action) {

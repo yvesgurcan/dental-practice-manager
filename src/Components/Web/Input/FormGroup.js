@@ -10,11 +10,15 @@ class FormGroup extends Component {
   render () {
     const {
       label,
+      id,
       name,
       type,
       value,
       disabled,
       title,
+      step,
+      pattern,
+      maxLength,
       options,
       placeholder,
       onChange,
@@ -22,7 +26,8 @@ class FormGroup extends Component {
       style,
       feedback,
       checkbox,
-    } = this.props
+      max,
+    } = this.props || {}
     return (
     <Block>
       {checkbox ? null : <Label>{label}</Label>}
@@ -34,9 +39,9 @@ class FormGroup extends Component {
           :
           checkbox
           ?
-            <Checkbox name={name} value={value} disabled={disabled} title={title} onChange={onChange}>{label}</Checkbox>
+            <Checkbox id={id} name={name} value={value} disabled={disabled} title={title} onChange={onChange}>{label}</Checkbox>
           :
-            <Textbox name={name} type={type} value={value || ""} disabled={disabled} title={title} onChange={onChange} onPressEnter={onPressEnter} style={{...style, width: "100%"}} />
+            <Textbox name={name} type={type} value={value || ""} max={max} step={step} disabled={disabled} title={title} pattern={pattern} maxLength={maxLength} onChange={onChange} onPressEnter={onPressEnter} style={{...style, width: "100%"}} />
         }
       </Block>
       <Feedback feedback={feedback} />

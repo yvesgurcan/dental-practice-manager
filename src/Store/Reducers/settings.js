@@ -80,8 +80,22 @@ function settings (state = {}, action) {
     case 'STORE_SETTINGS': {
       newState = {
         ...state,
-        maxUsers: action.settings.maxUsers,
+        ...action.settings,
       }
+      break
+    }
+
+    case 'STORE_SCHEDULE_BOUNDARIES': {
+      let value = action.value
+      if (action.name === 'daysOpen') {
+        value = [...(state.daysOpen || []), action.id]
+      }
+      
+      newState = {
+        ...state,
+        [action.name]: value
+      }
+
       break
     }
 
