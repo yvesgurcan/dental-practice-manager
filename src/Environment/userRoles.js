@@ -3,13 +3,13 @@ const userRoles = {
     type: "dentist",
     title: "Dentist",
   },
-  officeManager: {
-    type: "officeManager",
-    title: "Office Manager",
-  },
   headHygienist: {
     type: "headHygienist",
     title: "Head Hygienist",
+  },
+  officeManager: {
+    type: "officeManager",
+    title: "Office Manager",
   },
   hygienist: {
     type: "hygienist",
