@@ -136,7 +136,7 @@ const routes = {
     name: "Settings",
     url: "/settings",
     subroutes: {
-      account: {
+      scheduleBoundaries: {
         component: ScheduleBoundaries,
         name: "Schedule",
         url: "/settings/schedule",

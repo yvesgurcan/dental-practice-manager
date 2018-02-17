@@ -2,21 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import Block from './Web/Block'
-import SubNavItem from './Nav/SubNavItem'
+import SubNav from './Nav/SubNav'
 
 class ContentWrapperComponent extends Component {
   render () {
-    const { styles } = this.props.environment
-    const { menu } = this.props
+    const { styles } = this.props.environment || {}
+    const { menu, subRouteHome } = this.props || {}
     return (
       <Block style={!menu ? null : styles.contentWrapper}>
-        {!menu ? null :
-        <Block style={styles.subNav}>
-          {
-            Object.keys(menu).map(item => <SubNavItem key={menu[item].name} item={menu[item]}/>)
-          }
-        </Block>
-        }
+        {!menu ? null : <SubNav menu={menu} subRouteHome={subRouteHome} />}
         <Block style={styles.container}>
           {this.props.children}
         </Block>

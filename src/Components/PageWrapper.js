@@ -18,11 +18,12 @@ class PageWrapperComponent extends Component {
     const routeDetails = getRouteDetails(routes, route || path)
     const pageHeader = pageTitle || (routeDetails ? routeDetails.name : null)
     const subRoutes = getRouteDetails(routes, menuRoute, "subroutes")
+    const subRouteHome = getRouteDetails(routes, menuRoute)
     return (
       <Block>
         <NavButton />
         {viewport.tablet && !showNav ? null : <Nav/>}
-        <ContentWrapper menu={subRoutes}>
+        <ContentWrapper menu={subRoutes} subRouteHome={subRouteHome}>
           <Block style={styles.spacer}>
             <Feedback feedback={{status: "error", message: notFound}} />
           </Block>
