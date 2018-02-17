@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import mapStateToProps from './../Store/mapStateToProps'
-import apiRequestHandler from './../Utility/apiRequestHandler'
-import RouteLink from './RouteLink'
-import Block from './Web/Block'
-import Button from './Web/Button'
-import SectionHeader from './Web/SectionHeader'
-import FormGroup from './Web/Input/FormGroup'
+import mapStateToProps from './../../Store/mapStateToProps'
+import apiRequestHandler from './../../Utility/apiRequestHandler'
+import RouteLink from './../RouteLink'
+import Block from './../Web/Block'
+import Button from './../Web/Button'
+import SectionHeader from './../Web/SectionHeader'
+import FormGroup from './../Web/Input/FormGroup'
 
 class ForgotPasswordFormComponent extends Component {
   componentWillMount = () => {

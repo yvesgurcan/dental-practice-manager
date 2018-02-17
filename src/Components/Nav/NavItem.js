@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import mapStateToProps from './../Store/mapStateToProps'
-import Block from './Web/Block'
-import Link from './Web/Link'
-import RouteLink from './RouteLink'
+import mapStateToProps from './../../Store/mapStateToProps'
+import Block from './../Web/Block'
+import Link from './../Web/Link'
+import RouteLink from './../RouteLink'
 
 class NavItemComponent extends Component {
   onClick = (input) => {

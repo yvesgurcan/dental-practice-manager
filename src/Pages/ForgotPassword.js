@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import PublicPageWrapper from './../Components/PublicPageWrapper'
 import PageHeader from './../Components/Web/PageHeader'
-import ForgotPasswordForm from './../Components/ForgotPasswordForm'
+import ForgotPasswordBody from './../Components/Bodies/ForgotPasswordBody'
 
 class ForgotPasswordComponent extends Component {
   componentWillMount () {
@@ -12,8 +12,7 @@ class ForgotPasswordComponent extends Component {
   render () {
     return (
       <PublicPageWrapper>
-        <PageHeader>Dental Practice Manager</PageHeader>
-          <ForgotPasswordForm />
+        <ForgotPasswordBody />
       </PublicPageWrapper>
     )  
   }

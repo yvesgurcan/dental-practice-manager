@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import mapStateToProps from './../Store/mapStateToProps'
-import Block from './Web/Block'
-import RouteLink from './RouteLink'
+import mapStateToProps from './../../Store/mapStateToProps'
+import Block from './../Web/Block'
+import RouteLink from './../RouteLink'
 
 class SubNavItemComponent extends Component {
   onClick = (input) => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import Block from './Web/Block'
-import SubNavItem from './SubNavItem'
+import SubNavItem from './Nav/SubNavItem'
 
 class ContentWrapperComponent extends Component {
   render () {

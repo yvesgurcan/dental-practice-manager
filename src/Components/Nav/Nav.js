@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import mapStateToProps from './../Store/mapStateToProps'
-import checkUserPermissions from './../Utility/checkUserPermissions'
-import Block from './Web/Block'
+import mapStateToProps from './../../Store/mapStateToProps'
+import checkUserPermissions from './../../Utility/checkUserPermissions'
+import Block from './../Web/Block'
 import NavItem from './NavItem'
 
 class NavComponent extends Component {
