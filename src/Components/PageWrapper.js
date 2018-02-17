@@ -22,7 +22,7 @@ class PageWrapperComponent extends Component {
     return (
       <Block>
         <NavButton />
-        {viewport.tablet && !showNav ? null : <Nav/>}
+        {viewport.menu && !showNav ? null : <Nav/>}
         <ContentWrapper menu={subRoutes} subRouteHome={subRouteHome}>
           <Block style={styles.spacer}>
             <Feedback feedback={{status: "error", message: notFound}} />

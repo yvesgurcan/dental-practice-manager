@@ -1,5 +1,5 @@
-const topElementsHeight = 45
-const paddingTop = 28
+const topElementsHeight = 70
+const padding = 15
 
 export default (viewport) => {
   if (viewport.menu) {
@@ -12,9 +12,11 @@ export default (viewport) => {
   return ({
     subNav: {
       borderRight: "1px solid darkgray",
-      paddingTop: paddingTop,
-      paddingLeft: 10,
-      minHeight: `calc(100vh - ${topElementsHeight}px - ${paddingTop}px`,    
+      padding: padding,
+      minWidth: 100,
+      maxWidth: 200,
+      marginTop: 10,
+      minHeight: `calc(100vh - ${topElementsHeight}px - ${padding*2}px`,
     },
   })
 }

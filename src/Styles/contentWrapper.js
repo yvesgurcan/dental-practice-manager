@@ -1,5 +1,5 @@
 const gap = 20
-const menuWidth = 237.5
+const maxMenuWidth = 200
 
 export default (viewport) => {
   if (viewport.menu) {
@@ -8,7 +8,7 @@ export default (viewport) => {
   return ({
     contentWrapper: {
       display: "grid",
-      gridTemplateColumns: `${menuWidth}px calc(100% - ${menuWidth}px - ${gap}px)`,
+      gridTemplateColumns: `max-content calc(100% - ${maxMenuWidth}px - ${gap}px)`,
       gridColumnGap: gap,
     },
   })
