@@ -7,6 +7,10 @@ const userRoles = {
     type: "officeManager",
     title: "Office Manager",
   },
+  headHygienist: {
+    type: "headHygienist",
+    title: "Head Hygienist",
+  },
   hygienist: {
     type: "hygienist",
     title: "Dental Hygienist",
