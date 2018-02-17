@@ -9,9 +9,9 @@ class ContentWrapperComponent extends Component {
     const { styles } = this.props.environment || {}
     const { menu, subRouteHome } = this.props || {}
     return (
-      <Block style={!menu ? null : styles.contentWrapper}>
+      <Block style={!menu ? {...styles.container} : {...styles.contentWrapper, ...styles.container}}>
         {!menu ? null : <SubNav menu={menu} subRouteHome={subRouteHome} />}
-        <Block style={styles.container}>
+        <Block>
           {this.props.children}
         </Block>
       </Block>
