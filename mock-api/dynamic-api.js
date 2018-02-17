@@ -106,6 +106,9 @@ global = {
       clientId: ++clientId,
       name: "Gentle Care",
       maxUsers: 10,
+      scheduleStart: 8.5,
+      scheduleEnd: 17.45,
+      appointmentLength: 1,
       deleted: false,
     },
     {

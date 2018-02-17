@@ -1,14 +1,11 @@
 import gridColGap from './gridColGap'
 
 export default (viewport) => {
-  const gridColumnGap = gridColGap(viewport)
-  if (viewport.mobile) {
-    return null
-  }
-  const rowCount = 2
+  const rowCount = 12
   const percentage = 100/rowCount
+  const gridColumnGap = gridColGap(viewport)
   return ({
-    ["grid" + rowCount]: {
+    grid12: {
       display: "grid",
       gridTemplateColumns: `repeat(${rowCount}, calc(${percentage}% - ${gridColumnGap}px)`,
       gridColumnGap,

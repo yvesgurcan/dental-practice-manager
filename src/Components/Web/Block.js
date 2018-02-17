@@ -4,10 +4,10 @@ import mapStateToProps from './../../Store/mapStateToProps'
 
 class BlockComponent extends Component {
   render () {
-    const {styles} = this.props.environment
-    const {style, children, onClick} = this.props
+    const { styles } = this.props.environment
+    const { style, children, onClick, hidden } = this.props
     return (
-      <div children={children} onClick={onClick} style={{...styles.block, ...style}}/>
+      <div children={children} onClick={onClick} hidden={hidden} style={{...styles.block, ...style}}/>
     )  
   }
 }

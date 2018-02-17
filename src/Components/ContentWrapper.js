@@ -10,12 +10,14 @@ class ContentWrapperComponent extends Component {
     const { menu } = this.props
     return (
       <Block style={!menu ? null : styles.contentWrapper}>
-        {!menu ? null : <Block style={styles.subNav}>
+        {!menu ? null :
+        <Block style={styles.subNav}>
           {
             Object.keys(menu).map(item => <SubNavItem key={menu[item].name} item={menu[item]}/>)
           }
-        </Block>}
-        <Block>
+        </Block>
+        }
+        <Block style={styles.container}>
           {this.props.children}
         </Block>
       </Block>

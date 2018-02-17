@@ -3,17 +3,17 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import Block from './Web/Block'
 
-class GridComponent extends Component {
+class ColumnComponent extends Component {
   render () {
     const { styles } = this.props.environment || {}
-    const { columns, style } = this.props || {}
+    const { span } = this.props || {}
     return (
-      <Block style={style ? {...style} : styles["grid" + columns || 2]}>
+      <Block style={styles["column" + span || 1]}>
         {this.props.children}
       </Block>
     )
   }
 }
-const Grid = connect(mapStateToProps)(GridComponent)
+const Column = connect(mapStateToProps)(ColumnComponent)
 
-export default Grid
+export default Column

@@ -1,6 +1,14 @@
 // grids
+import container from './container'
 import grid2 from './grid2'
 import grid3 from './grid3'
+import grid4 from './grid4'
+import grid5 from './grid5'
+import grid12 from './grid12'
+import scheduleGrid from './scheduleGrid'
+import column2 from './column2'
+import column3 from './column3'
+import column4 from './column4'
 // buttons
 import {button, buttonDisabled, buttonHover, buttonClick} from './button'
 import {secondaryButton, secondaryButtonDisabled, secondaryButtonHover, secondaryButtonClick} from './secondaryButton'
@@ -67,8 +75,17 @@ const styles = (viewport) => {
     dangerButtonHover,
     dangerButtonClick,
     // grid
+    ...container(viewport),
     ...grid2(viewport),
     ...grid3(viewport),
+    ...grid4(viewport),
+    ...grid12(viewport),
+    ...grid5(viewport),
+    ...scheduleGrid(viewport),
+    // columns
+    ...column2(viewport),
+    ...column3(viewport),
+    ...column4(viewport),
     // nav
     ...nav(viewport),
     ...navButton(viewport),

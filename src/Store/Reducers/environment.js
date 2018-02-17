@@ -1,10 +1,12 @@
 import userRoles from './../../Environment/userRoles'
 import routes from './../../Environment/routes'
-import styles from './../../Styles/styles.js'
+import weekdays from './../../Environment/weekdays'
+import styles from './../../Styles/styles'
 
 const getEnvironment = () => ({
-  userRoles: userRoles,
-  routes: routes,
+  userRoles,
+  routes,
+  weekdays,
   cancelButton: {
     cancelLabel: "Cancel",
     doneLabel: "Done",
@@ -21,9 +23,9 @@ function environment (state = getEnvironment(), action) {
     case "STORE_STYLES": {
       const window = {...action.window}
       const breakpoints = {
-        mobile: window.width <= 414,
-        tablet: window.width <= 800,
-        desktop: window.width > 800,
+        mobile: window.width <= 500,
+        tablet: window.width <= 850,
+        desktop: window.width > 850,
         menu: window.width < 1000,
       }
       const viewport = {...window, ...breakpoints}
