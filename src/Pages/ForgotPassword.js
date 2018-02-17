@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import PublicPageWrapper from './../Components/PublicPageWrapper'
-import PageHeader from './../Components/Web/PageHeader'
 import ForgotPasswordBody from './../Components/Bodies/ForgotPasswordBody'
 
 class ForgotPasswordComponent extends Component {

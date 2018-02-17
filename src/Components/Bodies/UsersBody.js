@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import apiRequestHandler from './../../Utility/apiRequestHandler'
 import Block from './../../Components/Web/Block'
+import Text from './../../Components/Web/Text'
+import Label from './../../Components/Web/Label'
 import RouteLink from './../../Components/RouteLink'
 
 class UsersBodyComponent extends Component {
@@ -32,10 +34,15 @@ class UsersBodyComponent extends Component {
   }
 
   render () {
-    const {styles, userRoles} = this.props.environment
-    const {users} = this.props.settings
+    const { styles, userRoles } = this.props.environment || {}
+    const { users, maxUsers } = this.props.settings || {}
     return (
     <Block>
+        <Block style={styles.standardMargin}>
+          <Label>Users:</Label>
+          {" "}
+          <Text>{(users || []).length}/{maxUsers || 0}</Text>
+        </Block>
         {(users || []).map(user => {
           const roleMatch = Object.keys(userRoles).map(key => userRoles[key]).filter(userRole => userRole.type === user.role)
           let role = ""

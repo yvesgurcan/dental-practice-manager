@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import PageWrapper from './../../Components/PageWrapper'
-import AccountBody from './../../Components/Bodies/AccountBody'
+import ScheduleSettingsBody from './../../Components/Bodies/ScheduleSettingsBody'
 
 class AccountComponent extends Component {
   componentWillMount () {
@@ -11,7 +11,7 @@ class AccountComponent extends Component {
   render () {
     return (
       <PageWrapper menuRoute='/settings'>
-        <AccountBody />
+        <ScheduleSettingsBody />
       </PageWrapper>
     )  
   }
