@@ -7,7 +7,7 @@ const server = express()
 
 // config
 const port = 5000
-const supportedMethods = ["get","post","put","delete"]
+const supportedMethods = ['get','post','put','delete']
 const requireAuth = true
 
 // note: for some reason (probably safer?), nested objects in the body are stringified. you need to call JSON.parse() to parse the nested objects with req.body
@@ -31,7 +31,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
 
   server[method](resource, (req, res) => {
     let parameters = {}
-    if (method === "get" || method === "delete") {
+    if (method === 'get' || method === 'delete') {
       parameters = req.query
     }
     else {
@@ -71,21 +71,22 @@ let patientId = 0
 let appointmentId = 0
 let messageId = 0
 let workTimeId = 0
+let operatoryId = 0
 
 // you can create a mock database in the form of a JSON object here
 global = {
   userRoles: {
     dentist: {
-      type: "dentist",
-      title: "Dentist",
+      type: 'dentist',
+      title: 'Dentist',
     },
     {
-      type: "officeManager",
-      title: "Office Manager",
+      type: 'officeManager',
+      title: 'Office Manager',
     },
     hygienist: {
-      type: "hygienist",
-      title: "Dental Hygienist",
+      type: 'hygienist',
+      title: 'Dental Hygienist',
     },
     headHygienist: {
       type: 'headHygienist',
@@ -93,58 +94,57 @@ global = {
     },
     officeManager: 
     assistant: {
-      type: "assistant",
-      title: "Dental Assistant",
+      type: 'assistant',
+      title: 'Dental Assistant',
     },
     receptionist: {
-      type: "receptionist",
-      title: "Receptionist",
+      type: 'receptionist',
+      title: 'Receptionist',
     },
     accountant: {
-      type: "accountant",
-      title: "Accountant",
+      type: 'accountant',
+      title: 'Accountant',
     },
   },
 
   clients: [
     {
       clientId: ++clientId,
-      name: "Gentle Care",
+      name: 'Gentle Care',
       settings: {
         maxUsers: 10,
         scheduleStart: '08:30',
         scheduleEnd: '17:45',
         appointmentLength: 60,
-        daysOpen: ["Monday","Wednesday","Friday"],
+        daysOpen: ['Monday' ,'Wednesday','Friday'],
         hideDentistRole: true,
+        timeZone: 'PST',
+        operatories: [
+          {
+            operatoryId: ++operatoryId,
+            name: 'Operatory #1',
+            deleted: false,
+          },
+          {
+            operatoryId: ++operatoryId,
+            name: 'Operatory #2',
+            deleted: false,
+          },
+        ],
       },
       deleted: false,
     },
     {
       clientId: ++clientId,
-      name: "Natural Dental",
+      name: 'Natural Dental',
       settings: {
         maxUsers: 5,
         scheduleStart: '06:00',
         scheduleEnd: '16:00',
         appointmentLength: 60,
-        daysOpen: ["Monday","Tuesday","Wednesday","Thursday","Friday"],  
+        daysOpen: ['Monday','Tuesday','Wednesday','Thursday','Friday'],  
       },
       deleted: false,
-    },
-  ],
-
-  settings: [
-    {
-      timeZone: "PST",
-      clientId: 1,
-      operatories: [
-        {
-          operatoryId: 1,
-          name: "Operatory #1",
-          deleted: false,
-        },
-      ],
     },
   ],
 
@@ -196,8 +196,17 @@ global = {
       clientId: 1,
       firstName: "John",
       lastName: "Doe",
-      email: "John@doe.com",
+      email: "john@doe.com",
       provider: "Blue Cross",
+      deleted: false,
+    },
+    {
+      patientId: ++patientId,
+      clientId: 1,
+      firstName: 'Albert',
+      lastName: 'Wilson',
+      email: 'albert@me.com',
+      provider: 'Providence',
       deleted: false,
     },
   ],
