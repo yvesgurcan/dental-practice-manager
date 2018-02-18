@@ -9,6 +9,7 @@ const mockApi = true
 if (mockApi) endpoints.internal = "http://localhost:5000"
 
 const shortCircuitApi = false
+const shortCircuitNonGetRequests = true
 
 const supportedMethods = ["get","post","put","delete"]
 
@@ -22,7 +23,13 @@ const apiRequestHandler = (
   api = endpoints.internal
 ) => {
 
-  if (shortCircuitApi) return false
+  if (
+    shortCircuitApi
+    ||(method !== 'get' && shortCircuitNonGetRequests)
+  ) {
+    console.error(`The request '${method} /${resource}' has been short-circuited.`)
+    return false
+  }
 
   if (!session.supportUser) {
     if (!session.user) {

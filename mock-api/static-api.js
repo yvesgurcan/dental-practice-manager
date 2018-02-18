@@ -2,10 +2,17 @@
 // `nodemon static-api.js --inspect` facilitates debugging
 
 const express = require('express');
-
+const bodyParser = require('body-parser')
 const server = express()
+
+// note: nested objects in GET/DELETE queries are stringified. use JSON.parse() to convert them back to objects.
+server.use(bodyParser.json({extended: true}))
+server.use(bodyParser.urlencoded({extended: true}))
+
+// config
 const port = 5000
-const supportMethods = ['get','post','put','delete']
+const supportedMethods = ['get','post','put','delete']
+const requireAuth = true
 
 // init ids
 let clientId = 0
@@ -187,39 +194,279 @@ global = {
 
 }
 
-// use this array to generate the endpoints procedurally
+// use endpointWrapper to create a quick mock endpoint
+const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
+  console.log(`Endpoint: ${method} ${resource}`)
+  if (supportedMethods.indexOf(method) === -1) {
+    console.error(`Error: Unsupported method '${method}'. The method must be one of the following: '${supportedMethods.join('\', \'')}'.`)
+    return false
+  }
+  else if (!resource) {
+    console.error(`Error: You must enter the name of the resource. If you meant to create a resource at the root of the API, please enter '/'.`)
+    return false
+  }
+  else if (!apiBody) {
+    console.error(`Warning: The body of the endpoint is not defined. The API will return 'null' when handling requests.`)
+  }
+
+  server[method](resource, (req, res) => {
+    let parameters = {}
+    if (method === 'get' || method === 'delete') {
+      parameters = req.query
+    }
+    else {
+      parameters = req.body
+    }
+    
+    console.log(`${Date()} - request: ${method} ${resource}\n`, parameters)
+
+    let authorizationResults = {}
+    if (requireAuth && publicEndpoints.indexOf(`${method} ${resource}`) === -1) {
+      authorizationResults = authorize(req, res, parameters, {method, resource})
+      if (!authorizationResults.authorize) {
+        console.error(`${Date()} - **unauthorized request**: ${method} ${resource}`, parameters)
+        res.send(authorizationResults.response)
+        return false
+      }
+    }
+
+    let response = null
+    if (!apiBody) {
+      res.send(null)
+    }
+    else {
+      response = apiBody(req, res, parameters, authorizationResults.response)
+      res.send(response)
+    }
+    console.log(`${Date()} - response:\n`, response)
+  })
+
+}
+
+// you can enter endpoints that can be consumed by non-authenticated users (format: 'get /users')
+const publicEndpoints = [
+  "post /accountRecovery",
+]
+
+// you can enter endpoints that are only accessible by supportUsers (format: {endpoint: 'get /clients', supportUserOnly: true})
+const specialAuthorizationEndpoints = [
+  {endpoint: "post /signIn", supportUserOnly: false},
+  {endpoint: "get /clients", supportUserOnly: true},
+  {endpoint: "post /clients", supportUserOnly: true},
+  {endpoint: "get /users", supportUserOnly: false},
+]
+
+// you can enter a generic unauthorized response
+const unauthorizedResponse = {
+  feedback: {
+    message: "Incorrect username or password.",
+    status: "unauthorized",  
+  }
+}
+
+// you can enter a mock authorization function
+const authorize = function authorize (req, res, parameters, endpoint) {
+
+  let requestUser = (parameters || {}).user
+  if (req.method === 'GET' || req.method === 'DELETE') {
+    requestUser = JSON.parse((parameters || {}).user)
+  }
+
+  if (!parameters) {
+    return {
+      authorize: false,
+      response: unauthorizedResponse,
+    }
+  }
+  else if (!requestUser) {
+    return {
+      authorize: false,
+      response: unauthorizedResponse,
+    }
+  }
+  
+  const resourcesWithSpecialAuth = specialAuthorizationEndpoints.filter(specialAuth => specialAuth.endpoint === `${endpoint.method} ${endpoint.resource}`)
+  const resourcesForSupportUsersOnly = resourcesWithSpecialAuth.filter(specialAuth => specialAuth.supportUserOnly)
+
+  let findUser = []
+  if (resourcesForSupportUsersOnly.length === 0) {
+    findUser = global.users.filter((user) => !user.deleted && user.email === requestUser.email && user.password === requestUser.password)    
+  }
+
+  let findSupportUser = []
+
+  if (findUser.length === 0) {
+
+    findSupportUser = global.supportUsers.filter((supportUser) => !supportUser.deleted && supportUser.email === requestUser.email && supportUser.password === requestUser.password)
+
+    if (findSupportUser.length === 0) {
+      return {
+        authorize: false,
+        response: unauthorizedResponse,
+      }  
+    }
+    else {
+      return {
+        authorize: true,
+        response: {supportUser: findSupportUser[0]}
+      }
+    }
+  }
+
+  const findClient = global.clients.filter((client) => !client.deleted && findUser[0].clientId === client.clientId)
+
+  if (findClient.length === 0) {
+    return {
+      authorize: false,
+      response: unauthorizedResponse,
+    }
+  }
+
+  return {authorize: true, response: {user: findUser[0], client: findClient[0]}}
+}
+
+// endpoints
+
+// settings
+endpointWrapper(
+  'get',
+  '/settings',
+  (req, res, parameters) => {
+
+    const requestUser = JSON.parse(parameters.user)
+
+    const settings = global.clients.filter(client => !client.deleted && client.clientId === requestUser.clientId).map(client => (
+      {
+        settings: client.settings,
+      }
+    ))
+
+    if (settings.length === 0) {
+      return { feedback: {status: 'error', message: 'Your settings could not be found.'} }
+    }
+
+    return { settings: settings[0], feedback: {status: 'success'} }
+  }
+)
+
+// users
+endpointWrapper(
+  "get",
+  "/users",
+  (req, res, parameters) => {
+
+    const requestUser = JSON.parse(parameters.user)
+    const users = global.users.filter(user => !user.deleted && user.clientId === requestUser.clientId)
+
+    return {users: users, feedback: {status: "success"}}
+  }
+)
+
+// appointments
+endpointWrapper(
+  "get",
+  "/appointments",
+  (req, res, parameters) => {
+
+    const requestUser = JSON.parse(parameters.user)
+
+    const appointments = global.appointments.filter(appointment => !appointment.deleted && appointment.clientId === requestUser.clientId)
+    return {appointments: appointments, feedback: {status: "success"}}
+  }
+)
+
+// support
+endpointWrapper(
+  "get",
+  "/clients",
+  (req, res, parameters) => {
+
+    const clients = global.clients.filter(client => !client.deleted).map(client => (
+      {
+        clientId: client.clientId,
+        name: client.name,
+        maxUsers: client.maxUsers,
+      }
+    ))
+    return {clients: clients, feedback: {status: "success"}}
+  }
+)
+
+// signIn
+endpointWrapper(
+  "post",
+  "/signIn",
+  (req, res, parameters, session) => {
+
+    let publicSession = {}
+
+    if (session.supportUser) {
+      publicSession = {
+        supportUser: {
+          supportUserId: session.supportUser.supportUserId,
+          name: session.supportUser.name,
+          email: session.supportUser.email,
+          password: session.supportUser.password,
+        },
+      }
+    }
+    else {
+      publicSession = {
+        user: {
+          userId: session.user.userId,
+          name: session.user.name,
+          role: session.user.role,
+          email: session.user.email,
+          password: session.user.password,
+        },
+        client: {
+          clientId: session.client.clientId,
+          name: session.client.name,
+        },
+      }
+    }
+
+    return {session: publicSession, feedback: {status: "success"}}
+  }
+)
+
+// forgot password
+endpointWrapper(
+  "post",
+  "/accountRecovery",
+  (req, res, parameters, session) => {
+
+    const findUser = global.users.filter((user) => !user.deleted && user.email === parameters.user.email)    
+
+    if (findUser.length === 0) {
+      return {feedback: {message: `Invalid user.`, status: "unauthorized"}}
+    }
+
+    if (!findUser[0].email) {
+      return {feedback: {message: `Please enter the email of the user.`, status: "validationError"}}
+    }
+
+    return {feedback: {message: `An email was sent to ${findUser[0].email}.`, status: "success"}}
+  }
+)
+
+// you can use this array to generate the endpoints procedurally
+/*
 const endpoints = [
   {
     method: 'get',
-    resource: '/settings',
+    resource: '/',
     response: {
       message: 'Welcome to the root of the API. Nothing to see here.',
     }
   },
 
 ]
+*/
 
+// generates endpoints procedurally
+/*
 endpoints.map(endpoint => endpointWrapper(endpoint.method, endpoint.resource, endpoint.response))
-
-// use endpointWrapper to create a quick endpoint
-const endpointWrapper = function endpointWrapper (method, resource, response = null) {
-  console.log(`Endpoint: ${method} ${resource}`)  
-  if (supportMethods.indexOf(method) === -1) {
-    console.error(`Error: Unsupported method '${method}'. The method must be one of the following: '${supportMethods.join('\', \'')}'.`)
-    return false
-  }
-
-  if (!resource) {
-    console.error(`Error: You must enter the name of the resource. If you meant to create a resource at the root of the API, please enter '/'.`)
-    return false
-  }
-
-  server[method](resource, (req, res) => {
-    console.log(`${Date()} - request: ${method} ${resource}`)
-    res.send(response)
-    console.log(`${Date()} - response: ${JSON.stringify(response)}`)
-  })
-
-}
+*/
 
 server.listen(port, () => console.log(`${Date()} - the API is listening at http://localhost:${port}`))
