@@ -5,14 +5,14 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const server = express()
 
+// note: nested objects in GET/DELETE queries are stringified. use JSON.parse() to convert them back to objects.
+server.use(bodyParser.json({extended: true}))
+server.use(bodyParser.urlencoded({extended: true}))
+
 // config
 const port = 5000
 const supportedMethods = ['get','post','put','delete']
 const requireAuth = true
-
-// note: for some reason (probably safer?), nested objects in the body are stringified. you need to call JSON.parse() to parse the nested objects with req.body
-server.use(bodyParser.json({extended: true}))
-server.use(bodyParser.urlencoded({extended: true}))
 
 // use endpointWrapper to create a quick mock endpoint
 const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
@@ -243,7 +243,7 @@ global = {
 
 }
 
-// endpoints that can be consumed by any body
+// endpoints that can be consumed by non-authenticated users
 const publicEndpoints = [
   "post /accountRecovery",
 ]
