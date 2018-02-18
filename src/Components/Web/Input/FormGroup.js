@@ -15,6 +15,7 @@ class FormGroup extends Component {
       type,
       value,
       disabled,
+      readOnly,
       title,
       step,
       pattern,
@@ -35,7 +36,7 @@ class FormGroup extends Component {
         {
           options
           ?
-            <Dropdown name={name} value={value || ""} disabled={disabled} title={title} placeholder={placeholder} options={options} onChange={onChange} style={{...style, width: "100%"}} />
+            <Dropdown name={name} value={value || ""} disabled={disabled} readOnly={readOnly} title={title} placeholder={placeholder} options={options} onChange={onChange} style={{...style, width: "100%"}} />
           :
           checkbox
           ?

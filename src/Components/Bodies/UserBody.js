@@ -21,9 +21,10 @@ class UserBodyComponent extends Component {
   }
 
   render () {
+    const { limited } = this.props
     return (
     <Block>
-      <UpdateUserForm updateUserNameTitle={this.props.updateUserNameTitle} />
+      <UpdateUserForm updateUserNameTitle={this.props.updateUserNameTitle} limited={limited} />
     </Block>
     )  
   }

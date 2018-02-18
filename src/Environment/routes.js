@@ -18,6 +18,7 @@ import SettingNotFound from './../Pages/Settings/SettingNotFound'
 import ScheduleBoundaries from './../Pages/Settings/ScheduleBoundaries'
 import Users from './../Pages/Settings/Users'
 import User from './../Pages/Settings/User'
+import UserLimited from './../Pages/Settings/UserLimited'
 
 /*
   this is where the routes are defined
@@ -162,6 +163,18 @@ const routes = {
     permissions: [
       "dentist",
       "headHygienist",
+    ],
+  },
+  userProfile: {
+    component: UserLimited,
+    name: "User",
+    url: "/settings/users/2",
+    permissions: [
+      "officeManager",
+      "hygienist",
+      "assistant",
+      "receptionist",
+      "accountant",
     ],
   },
 }

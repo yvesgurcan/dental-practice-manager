@@ -363,16 +363,17 @@ class UpdateUserFormComponent extends Component {
   }
   
   render () {
+    const { limited } = this.props || {}
     const {userId} = this.props.routeData.params
     const {updateUser, updateUserFeedback} = this.props.settings || {}
     const { styles, userRoles } = this.props.environment || {}
     const roleOptions = transformObjectIntoOptions(userRoles, {value: 'type' , label: 'title'})
     const { sendEmailToNewUser, redirect, redirectToHome, cancelButtonLabel, validationError, deleteError } = this.state || {}
     const isUniqueDentist = this.isUniqueDentist()
-    if (redirect) {
+    if (redirect && !limited) {
       return <Redirect to='/settings/users' />
     }
-    if (redirectToHome) {
+    if ((redirect && limited) || redirectToHome) {
       return <Redirect to='/' />
     }
     return (
@@ -397,6 +398,7 @@ class UpdateUserFormComponent extends Component {
           <FormGroup
             label="Role"
             name="role"
+            readOnly={limited}
             disabled={isUniqueDentist.error}
             title={isUniqueDentist.feedback}
             value={(updateUser || {}).role}
@@ -419,9 +421,9 @@ class UpdateUserFormComponent extends Component {
           }
           <Feedback feedback={(updateUserFeedback || {}).form} />
           <CancelButton onClick={this.cancel}>{cancelButtonLabel}</CancelButton>
-          <Button disabled={Boolean(cancelButtonLabel || validationError)} title={cancelButtonLabel ? 'You must edit the user\'s info before saving the changes.' : undefined} onClick={this.updateUser}>{isNaN(userId) ? "Create User" : "Update User"}</Button>
-          <SecondaryButton hidden={Boolean(isNaN(userId))} disabled={Boolean(!updateUser || !updateUser.email || !cancelButtonLabel)} title={!updateUser || !updateUser.email ? "You must enter the email address of the user before resetting their password." : !cancelButtonLabel ? "You must update the user before resetting their password." : undefined} onClick={this.sendForgotPasswordEmail}>Reset Password</SecondaryButton>
-          <DangerButton hidden={Boolean(isNaN(userId))} disabled={Boolean(isUniqueDentist.error || deleteError)} title={isUniqueDentist.feedback2 || (deleteError ? "This user can not be deleted." : undefined)} onClick={this.deleteUser}>Delete User</DangerButton>
+          <Button disabled={Boolean(cancelButtonLabel || validationError)} title={cancelButtonLabel ? 'You must edit the user\'s info before saving the changes.' : undefined} onClick={this.updateUser}>{!limited && isNaN(userId) ? "Create User" : "Update User"}</Button>
+          <SecondaryButton hidden={!limited && Boolean(isNaN(userId))} disabled={Boolean(!updateUser || !updateUser.email || !cancelButtonLabel)} title={!updateUser || !updateUser.email ? "You must enter the email address of the user before resetting their password." : !cancelButtonLabel ? "You must update the user before resetting their password." : undefined} onClick={this.sendForgotPasswordEmail}>Reset Password</SecondaryButton>
+          <DangerButton hidden={limited || Boolean(isNaN(userId))} disabled={Boolean(isUniqueDentist.error || deleteError)} title={isUniqueDentist.feedback2 || (deleteError ? "This user can not be deleted." : undefined)} onClick={this.deleteUser}>Delete User</DangerButton>
         </Block>
       </Block>
     )

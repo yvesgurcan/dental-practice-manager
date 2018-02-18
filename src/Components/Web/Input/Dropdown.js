@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../../Store/mapStateToProps'
+import Block from './../Block'
 
 class Dropdown extends Component {
   render () {
@@ -49,10 +50,13 @@ class InternalDropdownComponent extends Component {
     }
   }
   render () {
-    const {styles} = this.props.environment
-    const {styleState} = this.state || {}
-    if (this.props.hidden) return null
-    const { name, value, style, options, placeholder, disabled, title } = this.props
+    const { styles } = this.props.environment || {}
+    const { styleState } = this.state || {}
+    if (hidden) return null
+    const { name, value, style, options, placeholder, disabled, title, readOnly, hidden } = this.props || {}
+    if (readOnly) {
+      return <Block style={{...styles.readOnlyField, ...style}} >{value}</Block>
+    }
     return (
       <span style={styles.dropdownContainer}>
         <select name={name} disabled={disabled} title={title} value={value || -1} style={{...styleState, ...style}} onChange={this.onChange} onKeyPress={this.onKeyPress}>
