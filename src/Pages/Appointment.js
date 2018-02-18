@@ -4,13 +4,13 @@ import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
 import AppointmentBody from './../Components/Bodies/AppointmentBody'
 
-class AppointmemtComponent extends Component {
+class AppointmentComponent extends Component {
   componentWillMount () {
     this.props.dispatch({type: 'STORE_ROUTE', ...this.props.match})
   }
   render () {
     return (
-      <PageWrapper menuRoute='/patients'>
+      <PageWrapper>
         <AppointmentBody />
       </PageWrapper>
     )  

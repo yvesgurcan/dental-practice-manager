@@ -65,7 +65,7 @@ const routes = {
     idRoute: {
       component: Appointment,
       name: 'Appointment',
-      url: '/schedule/appointments/:appointmentId([1-9]|[0-9]{2,}|new|add)'
+      url: '/schedule/:appointmentId([1-9]|[0-9]{2,}|new|add)'
     },
   },
   patients: {

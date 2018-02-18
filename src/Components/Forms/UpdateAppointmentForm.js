@@ -16,7 +16,7 @@ class UpdateAppointmentFormComponent extends Component {
   render () {
     const { styles } = this.props.environment || {}
     const { updateAppointmentFeedback } = this.props.appointments || {}
-    const [ appointments ] = this.props.appointments || {}
+    const { appointments } = this.props.appointments || {}
     const updateAppointment = {}
     return (
       <Block style={styles.formWrapper}>
