@@ -1,9 +1,10 @@
 // `node static-api.js` starts the server locally
 // `nodemon static-api.js --inspect` facilitates debugging
 
-const express = require('express');
-const bodyParser = require('body-parser')
+const express = require('express')
 const server = express()
+const bodyParser = require('body-parser')
+const moment = require('moment')
 
 // note: nested objects in GET/DELETE queries are stringified. use JSON.parse() to convert them back to objects.
 server.use(bodyParser.json({extended: true}))
@@ -371,7 +372,19 @@ endpointWrapper(
     const requestUser = JSON.parse(parameters.user)
 
     const appointments = global.appointments.filter(appointment => !appointment.deleted && appointment.clientId === requestUser.clientId)
-    return {appointments: appointments, feedback: {status: "success"}}
+
+    let weekOf = moment().startOf('week').add(1, 'day').format('YYYY-MM-DD')
+    if (parameters.start) {
+      weekOf = moment(parameters.start).startOf('week').add(1, 'day').format('YYYY-MM-DD')
+    }
+
+    const filteredAppointments = appointments.filter(appointment => {
+      const isAfter = moment(appointment.date).isAfter(moment(weekOf))
+      const isBefore = moment(appointment.date).isBefore(moment(weekOf).add(7, 'days'))
+      return isAfter && isBefore
+    })
+
+    return {appointments: filteredAppointments, weekOf: weekOf, feedback: {status: "success"}}
   }
 )
 

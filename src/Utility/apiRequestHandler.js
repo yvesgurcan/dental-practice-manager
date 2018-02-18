@@ -92,7 +92,7 @@ const apiRequestHandler = (
         responseData: response.data,
       })
 
-      if (response.data) {
+      if (response.data && method === 'get') {
         let debugDataTable = []
         let done = false
         let arrayName = undefined
