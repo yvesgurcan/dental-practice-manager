@@ -9,7 +9,7 @@ const mockApi = true
 if (mockApi) endpoints.internal = "http://localhost:5000"
 
 const shortCircuitApi = false
-const shortCircuitNonGetRequests = true
+const shortCircuitNonGetRequests = false
 
 const supportedMethods = ["get","post","put","delete"]
 
