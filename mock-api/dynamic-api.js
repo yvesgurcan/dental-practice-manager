@@ -553,6 +553,31 @@ endpointWrapper(
   }
 )
 
+// schedule
+endpointWrapper(
+  "get",
+  "/schedule",
+  (req, res, parameters) => {
+
+    const requestUser = JSON.parse(parameters.user)
+
+    const appointments = global.appointments.filter(appointment => !appointment.deleted && appointment.clientId === requestUser.clientId)
+
+    let weekOf = moment().startOf('week').add(1, 'day').format('YYYY-MM-DD')
+    if (parameters.start) {
+      weekOf = moment(parameters.start).startOf('week').add(1, 'day').format('YYYY-MM-DD')
+    }
+
+    const filteredAppointments = appointments.filter(appointment => {
+      const isAfter = moment(appointment.date).isAfter(moment(weekOf))
+      const isBefore = moment(appointment.date).isBefore(moment(weekOf).add(7, 'days'))
+      return isAfter && isBefore
+    })
+
+    return {appointments: filteredAppointments, weekOf: weekOf, feedback: {status: "success"}}
+  }
+)
+
 // appointments
 endpointWrapper(
   "get",
