@@ -14,55 +14,6 @@ const port = 5000
 const supportedMethods = ['get','post','put','delete']
 const requireAuth = true
 
-// use endpointWrapper to create a quick mock endpoint
-const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
-  console.log(`Endpoint: ${method} ${resource}`)
-  if (supportedMethods.indexOf(method) === -1) {
-    console.error(`Error: Unsupported method '${method}'. The method must be one of the following: '${supportedMethods.join('\', \'')}'.`)
-    return false
-  }
-  else if (!resource) {
-    console.error(`Error: You must enter the name of the resource. If you meant to create a resource at the root of the API, please enter '/'.`)
-    return false
-  }
-  else if (!apiBody) {
-    console.error(`Warning: The body of the endpoint is not defined. The API will return 'null' when handling requests.`)
-  }
-
-  server[method](resource, (req, res) => {
-    let parameters = {}
-    if (method === 'get' || method === 'delete') {
-      parameters = req.query
-    }
-    else {
-      parameters = req.body
-    }
-    
-    console.log(`${Date()} - request: ${method} ${resource}\n`, parameters)
-
-    let authorizationResults = {}
-    if (requireAuth && publicEndpoints.indexOf(`${method} ${resource}`) === -1) {
-      authorizationResults = authorize(req, res, parameters, {method, resource})
-      if (!authorizationResults.authorize) {
-        console.error(`${Date()} - **unauthorized request**: ${method} ${resource}`, parameters)
-        res.send(authorizationResults.response)
-        return false
-      }
-    }
-
-    let response = null
-    if (!apiBody) {
-      res.send(null)
-    }
-    else {
-      response = apiBody(req, res, parameters, authorizationResults.response)
-      res.send(response)
-    }
-    console.log(`${Date()} - response:\n`, response)
-  })
-
-}
-
 // init ids
 let clientId = 0
 let supportUserId = 0
@@ -243,12 +194,61 @@ global = {
 
 }
 
-// endpoints that can be consumed by non-authenticated users
+// use endpointWrapper to create a quick mock endpoint
+const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
+  console.log(`Endpoint: ${method} ${resource}`)
+  if (supportedMethods.indexOf(method) === -1) {
+    console.error(`Error: Unsupported method '${method}'. The method must be one of the following: '${supportedMethods.join('\', \'')}'.`)
+    return false
+  }
+  else if (!resource) {
+    console.error(`Error: You must enter the name of the resource. If you meant to create a resource at the root of the API, please enter '/'.`)
+    return false
+  }
+  else if (!apiBody) {
+    console.error(`Warning: The body of the endpoint is not defined. The API will return 'null' when handling requests.`)
+  }
+
+  server[method](resource, (req, res) => {
+    let parameters = {}
+    if (method === 'get' || method === 'delete') {
+      parameters = req.query
+    }
+    else {
+      parameters = req.body
+    }
+    
+    console.log(`${Date()} - request: ${method} ${resource}\n`, parameters)
+
+    let authorizationResults = {}
+    if (requireAuth && publicEndpoints.indexOf(`${method} ${resource}`) === -1) {
+      authorizationResults = authorize(req, res, parameters, {method, resource})
+      if (!authorizationResults.authorize) {
+        console.error(`${Date()} - **unauthorized request**: ${method} ${resource}`, parameters)
+        res.send(authorizationResults.response)
+        return false
+      }
+    }
+
+    let response = null
+    if (!apiBody) {
+      res.send(null)
+    }
+    else {
+      response = apiBody(req, res, parameters, authorizationResults.response)
+      res.send(response)
+    }
+    console.log(`${Date()} - response:\n`, response)
+  })
+
+}
+
+// you can enter endpoints that can be consumed by non-authenticated users (format: 'get /users')
 const publicEndpoints = [
   "post /accountRecovery",
 ]
 
-// endpoints that are only accessible by supportUsers
+// you can enter endpoints that are only accessible by supportUsers (format: {endpoint: 'get /clients', supportUserOnly: true})
 const specialAuthorizationEndpoints = [
   {endpoint: "post /signIn", supportUserOnly: false},
   {endpoint: "get /clients", supportUserOnly: true},
@@ -256,7 +256,7 @@ const specialAuthorizationEndpoints = [
   {endpoint: "get /users", supportUserOnly: false},
 ]
 
-// generic unauthorized response
+// you can enter a generic unauthorized response
 const unauthorizedResponse = {
   feedback: {
     message: "Incorrect username or password.",

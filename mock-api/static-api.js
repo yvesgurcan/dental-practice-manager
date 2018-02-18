@@ -362,6 +362,19 @@ endpointWrapper(
   }
 )
 
+// schedule
+endpointWrapper(
+  "get",
+  "/schedule",
+  (req, res, parameters) => {
+
+    const requestUser = JSON.parse(parameters.user)
+
+    const appointments = global.appointments.filter(appointment => !appointment.deleted && appointment.clientId === requestUser.clientId)
+    return {appointments: appointments, feedback: {status: "success"}}
+  }
+)
+
 // appointments
 endpointWrapper(
   "get",
