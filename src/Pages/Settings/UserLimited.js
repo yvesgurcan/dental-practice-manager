@@ -5,7 +5,7 @@ import apiRequestHandler from './../../Utility/apiRequestHandler'
 import PageWrapper from './../../Components/PageWrapper'
 import UserBody from './../../Components/Bodies/UserBody'
 
-class UserComponent extends Component {
+class UserLimitedComponent extends Component {
   state = {temporaryTitle: "User"}
   componentWillMount () {
     this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
@@ -28,11 +28,6 @@ class UserComponent extends Component {
     this.fetchSelectedUser(response.users)
   }
   fetchSelectedUser = (userList) => {
-    let {users} = this.props.settings || {}
-    if (userList) {
-      users = [...userList]
-    }
-
     const sessionUser = this.props.session.user || {}
     const user = sessionUser
     if (user) {
@@ -52,6 +47,6 @@ class UserComponent extends Component {
     )  
   }
 }
-const User = connect(mapStateToProps)(UserComponent)
+const UserLimited = connect(mapStateToProps)(UserLimitedComponent)
 
-export default User
+export default UserLimited

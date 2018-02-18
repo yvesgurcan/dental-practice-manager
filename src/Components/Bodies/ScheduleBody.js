@@ -1,10 +1,25 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
+import apiRequestHandler from './../../Utility/apiRequestHandler'
 import Block from './../Web/Block'
 import Grid from './../Grid/Grid'
 
 class ScheduleBodyComponent extends Component {
+  componentWillMount = () => {
+    apiRequestHandler(
+      'get',
+      'appointments',
+      {},
+      this.props.session,
+      this.storeAppointments,
+    )
+  }
+
+  storeAppointments = () => {
+    
+  }
+
   renderTimeSlotsOnLargeScreen = () => {
     const { weekdays } = this.props.environment || {}
     const scheduleStart = 8.5

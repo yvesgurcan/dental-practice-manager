@@ -327,63 +327,6 @@ const authorize = function authorize (req, res, parameters, endpoint) {
 
 // endpoints
 
-// signIn
-endpointWrapper(
-  "post",
-  "/signIn",
-  (req, res, parameters, session) => {
-
-    let publicSession = {}
-
-    if (session.supportUser) {
-      publicSession = {
-        supportUser: {
-          supportUserId: session.supportUser.supportUserId,
-          name: session.supportUser.name,
-          email: session.supportUser.email,
-          password: session.supportUser.password,
-        },
-      }
-    }
-    else {
-      publicSession = {
-        user: {
-          userId: session.user.userId,
-          name: session.user.name,
-          role: session.user.role,
-          email: session.user.email,
-          password: session.user.password,
-        },
-        client: {
-          clientId: session.client.clientId,
-          name: session.client.name,
-        },
-      }
-    }
-
-    return {session: publicSession, feedback: {status: "success"}}
-  }
-)
-
-endpointWrapper(
-  "post",
-  "/accountRecovery",
-  (req, res, parameters, session) => {
-
-    const findUser = global.users.filter((user) => !user.deleted && user.email === parameters.user.email)    
-
-    if (findUser.length === 0) {
-      return {feedback: {message: `Invalid user.`, status: "unauthorized"}}
-    }
-
-    if (!findUser[0].email) {
-      return {feedback: {message: `Please enter the email of the user.`, status: "validationError"}}
-    }
-
-    return {feedback: {message: `An email was sent to ${findUser[0].email}.`, status: "success"}}
-  }
-)
-
 // settings
 endpointWrapper(
   'get',
@@ -463,47 +406,6 @@ endpointWrapper(
     })
 
     return { hideDentistRole: newSettings.hideDentistRole, feedback: {status: 'success'} }
-  }
-)
-
-// support
-endpointWrapper(
-  "get",
-  "/clients",
-  (req, res, parameters) => {
-
-    const clients = global.clients.filter(client => !client.deleted).map(client => (
-      {
-        clientId: client.clientId,
-        name: client.name,
-        maxUsers: client.maxUsers,
-      }
-    ))
-    return {clients: clients, feedback: {status: "success"}}
-  }
-)
-
-endpointWrapper(
-  "post",
-  "/clients",
-  (req, res, parameters) => {
-
-    if (!parameters.newClient) {
-      return {feedback: {message: "Please enter the name of the client.", status: "validationError"}}
-    }
-
-    if (!parameters.newClient.name) {
-      return {feedback: {message: "Please enter the name of the client.", status: "validationError"}}
-    }
-
-    const newClient = {
-      clientId: ++global.clients.length,
-      ...parameters.newClient,
-    }
-
-    global.clients.push(newClient)
-
-    return {newClient, feedback: {message: "The client was successfully created.", status: "success"}}
   }
 )
 
@@ -648,6 +550,118 @@ endpointWrapper(
     })
 
     return {feedback: {message: "The user was successfully deleted.", status: "success"}}
+  }
+)
+
+// appointments
+endpointWrapper(
+  "get",
+  "/appointments",
+  (req, res, parameters) => {
+
+    const requestUser = JSON.parse(parameters.user)
+
+    const appointments = global.appointments.filter(appointment => !appointment.deleted && appointment.clientId === requestUser.clientId)
+    return {appointments: appointments, feedback: {status: "success"}}
+  }
+)
+
+// support
+endpointWrapper(
+  "get",
+  "/clients",
+  (req, res, parameters) => {
+
+    const clients = global.clients.filter(client => !client.deleted).map(client => (
+      {
+        clientId: client.clientId,
+        name: client.name,
+        maxUsers: client.maxUsers,
+      }
+    ))
+    return {clients: clients, feedback: {status: "success"}}
+  }
+)
+
+endpointWrapper(
+  "post",
+  "/clients",
+  (req, res, parameters) => {
+
+    if (!parameters.newClient) {
+      return {feedback: {message: "Please enter the name of the client.", status: "validationError"}}
+    }
+
+    if (!parameters.newClient.name) {
+      return {feedback: {message: "Please enter the name of the client.", status: "validationError"}}
+    }
+
+    const newClient = {
+      clientId: ++global.clients.length,
+      ...parameters.newClient,
+    }
+
+    global.clients.push(newClient)
+
+    return {newClient, feedback: {message: "The client was successfully created.", status: "success"}}
+  }
+)
+
+// signIn
+endpointWrapper(
+  "post",
+  "/signIn",
+  (req, res, parameters, session) => {
+
+    let publicSession = {}
+
+    if (session.supportUser) {
+      publicSession = {
+        supportUser: {
+          supportUserId: session.supportUser.supportUserId,
+          name: session.supportUser.name,
+          email: session.supportUser.email,
+          password: session.supportUser.password,
+        },
+      }
+    }
+    else {
+      publicSession = {
+        user: {
+          userId: session.user.userId,
+          name: session.user.name,
+          role: session.user.role,
+          email: session.user.email,
+          password: session.user.password,
+        },
+        client: {
+          clientId: session.client.clientId,
+          name: session.client.name,
+        },
+      }
+    }
+
+    return {session: publicSession, feedback: {status: "success"}}
+  }
+)
+
+// forgot password
+endpointWrapper(
+  "post",
+  "/accountRecovery",
+  (req, res, parameters, session) => {
+
+    const findUser = global.users.filter((user) => !user.deleted && user.email === parameters.user.email)    
+
+    if (findUser.length === 0) {
+      return {feedback: {message: `Invalid user.`, status: "unauthorized"}}
+    }
+
+    if (!findUser[0].email) {
+      return {feedback: {message: `Please enter the email of the user.`, status: "validationError"}}
+    }
+
+    return {feedback: {message: `An email was sent to ${findUser[0].email}.`, status: "success"}}
   }
 )
 

@@ -52,8 +52,8 @@ class InternalDropdownComponent extends Component {
   render () {
     const { styles } = this.props.environment || {}
     const { styleState } = this.state || {}
-    if (hidden) return null
     const { name, value, style, options, placeholder, disabled, title, readOnly, hidden } = this.props || {}
+    if (hidden) return null
     if (readOnly) {
       return <Block style={{...styles.readOnlyField, ...style}} >{value}</Block>
     }
