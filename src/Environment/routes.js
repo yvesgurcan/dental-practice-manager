@@ -1,4 +1,5 @@
 import Schedule from './../Pages/Schedule'
+import Appointment from './../Pages/Appointment'
 
 import Patients from './../Pages/Patients'
 import Patient from './../Pages/Patient'
@@ -61,6 +62,11 @@ const routes = {
       "assistant",
       "receptionist",
     ],
+    idRoute: {
+      component: Appointment,
+      name: 'Appointment',
+      url: '/schedule/appointments/:appointmentId([1-9]|[0-9]{2,}|new|add)'
+    },
   },
   patients: {
     component: Patients,
