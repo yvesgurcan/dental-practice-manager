@@ -80,7 +80,11 @@ global = {
       type: 'dentist',
       title: 'Dentist',
     },
-    {
+    headHygienist: {
+      type: 'headHygienist',
+      title: 'Head Hygienist',
+    },
+    officeManager: {
       type: 'officeManager',
       title: 'Office Manager',
     },
@@ -88,11 +92,6 @@ global = {
       type: 'hygienist',
       title: 'Dental Hygienist',
     },
-    headHygienist: {
-      type: 'headHygienist',
-      title: 'Head Hygienist',
-    },
-    officeManager: 
     assistant: {
       type: 'assistant',
       title: 'Dental Assistant',
