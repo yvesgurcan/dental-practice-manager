@@ -4,11 +4,16 @@ import mapStateToProps from './../../Store/mapStateToProps'
 import apiRequestHandler from './../../Utility/apiRequestHandler'
 import Block from './../Web/Block'
 import Label from './../Web/Label'
+import Button from './../Web/Button'
 import FormGroup from './../Web/Input/FormGroup'
 
 class ScheduleBoundariesComponent extends Component {
   storeScheduleBoundaries = (input) => {
     this.props.dispatch({type: 'STORE_SCHEDULE_BOUNDARIES', ...input})
+  }
+
+  updateScheduleBoundaries = () => {
+
   }
 
   render () {
@@ -39,7 +44,7 @@ class ScheduleBoundariesComponent extends Component {
           type="time"
           value={scheduleStart}
           onChange={this.storeScheduleBoundaries}
-          onPressEnter={this.storeScheduleBoundaries}
+          onPressEnter={this.updateScheduleBoundaries}
           feedback={(newScheduleBoundariesFeedback || {}).scheduleStart}
         />
         <FormGroup
@@ -48,7 +53,7 @@ class ScheduleBoundariesComponent extends Component {
           type="time"
           value={scheduleEnd}
           onChange={this.storeScheduleBoundaries}
-          onPressEnter={this.storeScheduleBoundaries}
+          onPressEnter={this.updateScheduleBoundaries}
           feedback={(newScheduleBoundariesFeedback || {}).scheduleEnd}
         />
         <FormGroup
@@ -60,9 +65,10 @@ class ScheduleBoundariesComponent extends Component {
           max={60}
           value={appointmentLength}
           onChange={this.storeScheduleBoundaries}
-          onPressEnter={this.storeScheduleBoundaries}
+          onPressEnter={this.updateScheduleBoundaries}
           feedback={(newScheduleBoundariesFeedback || {}).appointmentLength}
         />
+        <Button onClick={this.updateScheduleBoundaries}>Update Schedule Settings</Button>
       </Block>
     )
   }

@@ -2,8 +2,8 @@ export default (viewport) => {
   if (viewport.menu) {
     return ({
       navItem: {
-        paddingTop: 2.5,
-        paddingBottom: 2.5,
+        paddingTop: 4,
+        paddingBottom: 4,
       },
     })
   }

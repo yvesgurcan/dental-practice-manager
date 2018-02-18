@@ -54,6 +54,7 @@ const routes = {
     url: "/schedule",
     permissions: [
       "dentist",
+      "headHygienist",
       "officeManager",
       "hygienist",
       "assistant",
@@ -66,6 +67,7 @@ const routes = {
     url: "/patients",
     permissions: [
       "dentist",
+      "headHygienist",
       "officeManager",
       "hygienist",
       "assistant",
@@ -83,6 +85,7 @@ const routes = {
     url: "/xrays",
     permissions: [
       "dentist",
+      "headHygienist",
       "hygienist",
       "assistant",
     ],
@@ -93,6 +96,7 @@ const routes = {
     url: "/charts",
     permissions: [
       "dentist",
+      "headHygienist",
       "hygienist",
       "assistant",
     ]
@@ -103,6 +107,7 @@ const routes = {
     url: "/billing",
     permissions: [
       "dentist",
+      "headHygienist",
       "officeManager",
       "accountant",
     ],
@@ -113,6 +118,7 @@ const routes = {
     url: "/messaging",
     permissions: [
       "dentist",
+      "headHygienist",
       "officeManager",
       "hygienist",
       "assistant",
@@ -125,6 +131,7 @@ const routes = {
     url: "/timetracking",
     permissions: [
       "dentist",
+      "headHygienist",
       "officeManager",
       "hygienist",
       "assistant",
@@ -154,6 +161,7 @@ const routes = {
     },
     permissions: [
       "dentist",
+      "headHygienist",
     ],
   },
 }

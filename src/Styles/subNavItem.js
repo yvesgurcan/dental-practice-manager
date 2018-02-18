@@ -1,6 +1,6 @@
 const subNavItem = {
-  paddingTop: 2.5,
-  paddingBottom: 2.5,
+  paddingTop: 4,
+  paddingBottom: 4,
 }
 
 export default subNavItem

@@ -14,7 +14,7 @@ class CheckboxComponent extends Component {
     const {name, value, checked, style} = this.props
     return (
       <span>
-        <input name={name} type={"checkbox"} checked={value || checked || false} style={{...(value || checked ? styles.checkboxChecked : styles.checkbox), ...style}} onChange={this.onChange}/>
+        <input name={name} id={name} type={"checkbox"} checked={value || checked || false} style={{...(value || checked ? styles.checkboxChecked : styles.checkbox), ...style}} onChange={this.onChange}/>
         <label htmlFor={name}>{this.props.children}</label>
       </span>
     )  

@@ -189,6 +189,41 @@ function session (state = debugSession, action) {
       break
     }
 
+    case "UPDATE_SESSION_USER": {
+      newState = {
+        ...state,
+        user: action.user,
+      }
+
+      break
+    }
+
+    case 'HIDE_DENTIST_ROLE': {
+      const updatedUser = {
+        ...state.user,
+        role: state.user.role === 'dentist' ? 'headHygienist' : state.user.role
+      }
+      newState = {
+        ...state,
+        user: updatedUser,
+      }
+
+      break
+    }
+
+    case 'SHOW_DENTIST_ROLE': {
+      const updatedUser = {
+        ...state.user,
+        role: state.user.role === 'headHygienist' ? 'dentist' : state.user.role
+      }
+      newState = {
+        ...state,
+        user: updatedUser,
+      }
+
+      break
+    }
+
   }
 
   return newState

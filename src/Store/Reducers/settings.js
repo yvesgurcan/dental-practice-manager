@@ -82,6 +82,41 @@ function settings (state = {}, action) {
         ...state,
         ...action.settings,
       }
+
+      break
+    }
+
+    case 'HIDE_DENTIST_ROLE': {
+      const updatedUsers = [...(state.users || [])].map(user => {
+        if (user.role === 'dentist') {
+          const updatedUser = {...user, role: 'headHygienist'}
+          return updatedUser
+        }
+        return user
+      })
+      newState = {
+        ...state,
+        hideDentistRole: true,
+        users: updatedUsers,
+      }
+
+      break
+    }
+
+    case 'SHOW_DENTIST_ROLE': {
+      const updatedUsers = [...(state.users || [])].map(user => {
+        if (user.role === 'headHygienist') {
+          const updatedUser = {...user, role: 'dentist'}
+          return updatedUser
+        }
+        return user
+      })
+      newState = {
+        ...state,
+        hideDentistRole: undefined,
+        users: updatedUsers,
+      }
+
       break
     }
 

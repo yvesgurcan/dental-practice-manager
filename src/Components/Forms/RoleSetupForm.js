@@ -10,6 +10,26 @@ import Feedback from './../Feedback'
 
 class RoleSetupFormComponent extends Component {
   updateRoles = () => {
+    const { hideDentistRole } = this.props.settings || {}
+    this.props.dispatch({type: "CLEAR_FEEDBACK"})
+    apiRequestHandler(
+      'put',
+      'settings',
+      {hideDentistRole: !hideDentistRole},
+      this.props.session,
+      this.handleUpdateRoleResponse,
+    )
+
+  }
+
+  handleUpdateRoleResponse = (response) => {
+    this.props.dispatch({type: "TOGGLE_DENTIST_ROLE_FEEDBACK", feedback: {form: {...response.feedback}}})
+    if (response.hideDentistRole) {
+      this.props.dispatch({ type: 'HIDE_DENTIST_ROLE' })
+      return true
+    }
+
+    this.props.dispatch({ type: 'SHOW_DENTIST_ROLE' })
 
   }
 
@@ -21,8 +41,8 @@ class RoleSetupFormComponent extends Component {
         <Block>
           <FormGroup
             checkbox
-            label="This practice is not managed by a dentist."
-            name="hideDentistRole"
+            label='This practice is not managed by a dentist.'
+            name='hideDentistRole'
             value={hideDentistRole}
             onChange={this.updateRoles}
           />

@@ -8,12 +8,23 @@ import RoleSetupForm from '../Forms/RoleSetupForm'
 class SettingsBodyComponent extends Component {
   componentWillMount () {
     apiRequestHandler(
+      "get",
+      "users",
+      {},
+      this.props.session,
+      this.storeUsers,
+    )
+    apiRequestHandler(
       'get',
       'settings',
       {},
       this.props.session,
       this.storeSettings,
     )
+  }
+
+  storeUsers = (response) => {
+    this.props.dispatch({type: 'STORE_USERS', users: response.users})
   }
 
   storeSettings = (response) => {

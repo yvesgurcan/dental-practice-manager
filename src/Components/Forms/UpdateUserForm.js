@@ -18,7 +18,64 @@ class UpdateUserFormComponent extends Component {
   storeUser = (input) => {
     this.setState({ cancelButtonLabel: undefined })
     this.setState({ validationError: false })
+
+    if (input.name === 'role') {
+      const { userId } = this.props.routeData.params || {}
+      const sessionUser = {...this.props.session.user}
+
+      if (Number(userId) === sessionUser.userId) {
+        const { userRoles } = this.props.environment || {}
+        if (userRoles.dentist) {
+          if (input.value !== userRoles.dentist.type) {
+            this.props.dispatch({
+              type: "UPDATE_USER_FEEDBACK",
+              feedback: {
+                role: {
+                  message: "If you change your role, you will not be able to access settings anymore.",
+                  status: "warning",
+                },
+              },
+            })
+          }
+          else {
+            this.props.dispatch({
+              type: "UPDATE_USER_FEEDBACK",
+              feedback: {
+                role: undefined,
+              },
+            })      
+          }
+  
+        }
+        else if (userRoles.headHygienist) {
+          if (input.value !== userRoles.headHygienist.type) {
+            this.props.dispatch({
+              type: "UPDATE_USER_FEEDBACK",
+              feedback: {
+                role: {
+                  message: "If you change your role, you will not be able to access settings anymore.",
+                  status: "warning",
+                },
+              },
+            })
+          }
+          else {
+            this.props.dispatch({
+              type: "UPDATE_USER_FEEDBACK",
+              feedback: {
+                role: undefined,
+              },
+            })      
+          }
+          
+        }
+
+      }
+
+    }
+
     this.props.dispatch({type: 'STORE_USER', ...input})
+
   }
 
   cancel = () => {
@@ -102,6 +159,13 @@ class UpdateUserFormComponent extends Component {
   }
 
   isUniqueDentist = (validateUpdate) => {
+
+    const {userRoles} = this.props.environment || {}
+
+    if (!userRoles.dentist) {
+      return {error: false, feedback: '', feedback2: ''}
+    }
+
     const {updateUser, users} = this.props.settings || {}
     let validationError = false
     let message = ''
@@ -114,7 +178,6 @@ class UpdateUserFormComponent extends Component {
     const originalUser = (users).filter(user => updateUser.userId === user.userId)
 
     if (originalUser.length > 0) {
-      const {userRoles} = this.props.environment || {}
 
       if (originalUser[0].role === userRoles.dentist.type && (!validateUpdate || updateUser.role !== userRoles.dentist.type)) {
         const otherDentists = users.filter(user => user.userId !== updateUser.userId && user.role === userRoles.dentist.type)
@@ -173,7 +236,7 @@ class UpdateUserFormComponent extends Component {
         {updateUser},
         this.props.session,
         this.handleUpdateUserResponse
-      ) 
+      )
     }
 
   }
@@ -192,6 +255,25 @@ class UpdateUserFormComponent extends Component {
         this.props.dispatch({type: 'CLEAR_SETTINGS_VIEWS'})
         this.setState({redirect: true})
         return false
+      }
+
+      const sessionUser = {...this.props.session.user}
+      if (Number(userId) === sessionUser.userId) {
+        const { userRoles } = this.props.environment || {}
+        if (userRoles.dentist) {
+          if (updateUser.role !== userRoles.dentist.type) {
+            this.setState({ redirectToHome: true })
+          }
+
+        }
+        else if (userRoles.headHygienist) {
+          if (updateUser.role !== userRoles.headHygienist.type) {
+            this.setState({ redirectToHome: true })
+          }
+
+        }
+
+        this.props.dispatch({ type: 'UPDATE_SESSION_USER', user: updateUser })
       }
 
       this.props.updateUserNameTitle(updateUser.name)
@@ -285,10 +367,13 @@ class UpdateUserFormComponent extends Component {
     const {updateUser, updateUserFeedback} = this.props.settings || {}
     const { styles, userRoles } = this.props.environment || {}
     const roleOptions = transformObjectIntoOptions(userRoles, {value: 'type' , label: 'title'})
-    const { sendEmailToNewUser, redirect, cancelButtonLabel, validationError, deleteError } = this.state || {}
+    const { sendEmailToNewUser, redirect, redirectToHome, cancelButtonLabel, validationError, deleteError } = this.state || {}
     const isUniqueDentist = this.isUniqueDentist()
     if (redirect) {
       return <Redirect to='/settings/users' />
+    }
+    if (redirectToHome) {
+      return <Redirect to='/' />
     }
     return (
       <Block style={styles.formWrapper}>

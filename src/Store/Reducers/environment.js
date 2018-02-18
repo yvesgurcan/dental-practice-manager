@@ -58,6 +58,67 @@ function environment (state = getEnvironment(), action) {
       break
     }
 
+    case 'STORE_SETTINGS': {
+      if (action.settings.hideDentistRole) {
+        const userRolesWithoutDentist = Object.keys(userRoles).map(key => userRoles[key]).filter(role => role.type !== 'dentist')
+        let userRolesObject = {}
+        userRolesWithoutDentist.map(userRole => {
+          userRolesObject[userRole.type] = userRole
+          return null
+        })
+        newState = {
+          ...state,
+          userRoles: userRolesObject,
+        }
+
+        break
+      }
+
+      const userRolesWithoutHeadHygienist = Object.keys(userRoles).map(key => userRoles[key]).filter(role => role.type !== 'headHygienist')
+      let userRolesObject = {}
+      userRolesWithoutHeadHygienist.map(userRole => {
+        userRolesObject[userRole.type] = userRole
+        return null
+      })
+      newState = {
+        ...state,
+        userRoles: userRolesObject,
+      }
+
+      break
+      
+    }
+
+    case 'HIDE_DENTIST_ROLE': {
+      const userRolesWithoutDentist = Object.keys(userRoles).map(key => userRoles[key]).filter(role => role.type !== 'dentist')
+      let userRolesObject = {}
+      userRolesWithoutDentist.map(userRole => {
+        userRolesObject[userRole.type] = userRole
+        return null
+      })
+      newState = {
+        ...state,
+        userRoles: userRolesObject,
+      }
+
+      break
+    }
+
+    case 'SHOW_DENTIST_ROLE': {
+      const userRolesWithoutHeadHygienist = Object.keys(userRoles).map(key => userRoles[key]).filter(role => role.type !== 'headHygienist')
+      let userRolesObject = {}
+      userRolesWithoutHeadHygienist.map(userRole => {
+        userRolesObject[userRole.type] = userRole
+        return null
+      })
+      newState = {
+        ...state,
+        userRoles: userRolesObject,
+      }
+
+      break
+    }
+
   }
 
   return newState

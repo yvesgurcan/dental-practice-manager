@@ -173,6 +173,16 @@ global = {
       rate: 38.5,
       deleted: false,
     },
+    {
+      userId: ++userId,
+      clientId: 2,
+      name: "Mr Dentist",
+      email: "manager@natural.com",
+      role: "dentist",
+      password: "123",
+      rate: 21.3,
+      deleted: false,
+    },
   ],
 
   patients: [
@@ -383,6 +393,66 @@ endpointWrapper(
   }
 )
 
+endpointWrapper(
+  'put',
+  '/settings',
+  (req, res, parameters) => {
+
+    const settings = global.clients.filter(client => !client.deleted && client.clientId === parameters.user.clientId).map(client => (
+      {
+        ...client.settings,
+      }
+    ))
+
+    if (settings.length === 0) {
+      return { feedback: {status: 'error', message: 'Your settings could not be found.'} }
+    }
+
+    let hideDentistRole = settings.hideDentistRole
+    if (parameters.hideDentistRole !== undefined) {
+      hideDentistRole = parameters.hideDentistRole
+
+
+      if (hideDentistRole) {
+        global.users = global.users.map(user => {
+          if (!user.deleted && user.clientId === parameters.user.clientId && user.role === 'dentist') {
+            const updatedUser = {...user, role: 'headHygienist'}
+            return updatedUser
+          }
+          return user
+        })
+      }
+      else {
+        global.users = global.users.map(user => {
+          if (!user.deleted && user.clientId === parameters.user.clientId && user.role === 'headHygienist') {
+            const updatedUser = {...user, role: 'dentist'}
+            return updatedUser
+          }
+          return user
+        })      
+      }
+    }
+
+    const newSettings = {
+      ...settings,
+      hideDentistRole,
+    }
+
+    global.clients = global.clients.map(client => {
+      if (client.clientId === parameters.user.clientId) {
+        const clientWithNewSettings = {
+          ...client,
+          settings: newSettings,
+        }
+        return clientWithNewSettings
+      }
+      return client
+    })
+
+    return { hideDentistRole: newSettings.hideDentistRole, feedback: {status: 'success'} }
+  }
+)
+
 // support
 endpointWrapper(
   "get",
@@ -483,7 +553,23 @@ endpointWrapper(
 
     const userToUpdate = userMatch[0]
 
-    if (userToUpdate.role === global.userRoles.dentist.type && parameters.updateUser.role !== global.userRoles.dentist.type) {
+
+    const settings = global.clients.filter(client => !client.deleted && client.clientId === parameters.user.clientId).map(client => (
+      {
+        clientId: client.clientId,
+        name: client.name,
+        maxUsers: client.maxUsers,
+      }
+    ))
+
+    if (settings.length === 0) {
+      return { feedback: {status: 'error', message: 'Your settings could not be found.'} }
+    }
+
+    const hideDentistRole = settings[0].hideDentistRole
+
+
+    if (!hideDentistRole && userToUpdate.role === global.userRoles.dentist.type && parameters.updateUser.role !== global.userRoles.dentist.type) {
       const otherDentists = global.users.filter(user => !user.deleted && user.userId !== userToUpdate.userId && user.role === global.userRoles.dentist.type)
 
       if (otherDentists.length === 0) {
