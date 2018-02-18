@@ -91,6 +91,27 @@ const apiRequestHandler = (
         api,
         responseData: response.data,
       })
+
+      if (response.data) {
+        let debugDataTable = []
+        let done = false
+        let arrayName = undefined
+        Object.keys(response.data).map(key => {
+          if (!done) {
+            if (key !== 'feedback') {
+              arrayName = key
+              debugDataTable = response.data[key].map(item => item)
+              done = true
+            }
+
+          }
+
+          return null
+        })
+        console.log(`response: table representation of array '${arrayName}'`)
+        console.table(debugDataTable)  
+      }
+
       if (callback) {
         callback(response.data)
       }
