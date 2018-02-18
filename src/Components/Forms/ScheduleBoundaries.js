@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
-import apiRequestHandler from './../../Utility/apiRequestHandler'
+// import apiRequestHandler from './../../Utility/apiRequestHandler'
 import Block from './../Web/Block'
 import Label from './../Web/Label'
 import Button from './../Web/Button'

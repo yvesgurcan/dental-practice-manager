@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import apiRequestHandler from './../../Utility/apiRequestHandler'
 import Block from './../Web/Block'
-import Button from './../Web/Button'
-import SectionHeader from './../Web/SectionHeader'
 import FormGroup from './../Web/Input/FormGroup'
 import Feedback from './../Feedback'
 
@@ -34,7 +32,7 @@ class RoleSetupFormComponent extends Component {
   }
 
   render () {
-    const { styles, userRoles } = this.props.environment || {}
+    const { styles } = this.props.environment || {}
     const { hideDentistRole } = this.props.settings || {}
     return (
       <Block style={styles.formWrapper}>

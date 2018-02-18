@@ -9,7 +9,7 @@ class ScheduleBodyComponent extends Component {
   componentWillMount = () => {
     apiRequestHandler(
       'get',
-      'appointments',
+      'schedule',
       {},
       this.props.session,
       this.storeAppointments,
