@@ -16,8 +16,7 @@ class UpdatePatientFormComponent extends Component {
     const { styles } = this.props.environment || {}
     const { updatePatientFeedback } = this.props.patients || {}
     const [ patients ] = this.props.patients || {}
-    const { 
-     updatePatient = {}
+    const updatePatient = {}
     return (
       <Block style={styles.formWrapper}>
         <Block>
