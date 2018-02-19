@@ -2,8 +2,9 @@
 // `nodemon dynamic-api.js --inspect` facilitates debugging
 
 const express = require('express')
-const bodyParser = require('body-parser')
 const server = express()
+const bodyParser = require('body-parser')
+const moment = require('moment')
 
 // note: nested objects in GET/DELETE queries are stringified. use JSON.parse() to convert them back to objects.
 server.use(bodyParser.json({extended: true}))
@@ -98,6 +99,26 @@ global = {
       },
       deleted: false,
     },
+    {
+      clientId: ++clientId,
+      name: 'I\'m so alone',
+      settings: {
+        maxUsers: 1,
+        maxOperatories: 1,
+        scheduleStart: '09:15',
+        scheduleEnd: '15:50',
+        appointmentLength: 30,
+        daysOpen: ['Monday','Tuesday','Friday'],
+        operatories: [
+          {
+            operatoryId: ++operatoryId,
+            name: 'The Room',
+            deleted: false,
+          },
+        ],
+      },
+      deleted: false,
+    },
   ],
 
   supportUsers: [
@@ -138,6 +159,16 @@ global = {
       role: "dentist",
       password: "123",
       rate: 21.3,
+      deleted: false,
+    },
+    {
+      userId: ++userId,
+      clientId: 3,
+      name: "Lonely Guy",
+      email: "guy@lonely.com",
+      role: "dentist",
+      password: "123",
+      rate: 99.9,
       deleted: false,
     },
   ],
