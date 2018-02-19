@@ -20,6 +20,8 @@ import ScheduleBoundaries from './../Pages/Settings/ScheduleBoundaries'
 import Users from './../Pages/Settings/Users'
 import User from './../Pages/Settings/User'
 import UserLimited from './../Pages/Settings/UserLimited'
+import Operatories from './../Pages/Settings/Operatories'
+import Operatory from './../Pages/Settings/Operatory'
 
 /*
   this is where the routes are defined
@@ -163,6 +165,16 @@ const routes = {
           component: User,
           name: "New User",
           url: "/settings/users/:userId([1-9]|[0-9]{2,}|new|add)",          
+        },
+      },
+      users: {
+        component: Operatories,
+        name: "Operatories",
+        url: "/settings/operatories",
+        idRoute: {
+          component: Operatory,
+          name: "New Operatory",
+          url: "/settings/operatories/:operatoryId([1-9]|[0-9]{2,}|new|add)",          
         },
       },
     },
