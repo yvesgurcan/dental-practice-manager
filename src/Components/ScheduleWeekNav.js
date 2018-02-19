@@ -5,6 +5,7 @@ import apiRequestHandler from './../Utility/apiRequestHandler'
 import moment from 'moment'
 import Block from './Web/Block'
 import Link from './Web/Link'
+import Grid from './Grid/Grid'
 
 class ScheduleWeekNavComponent extends Component {
   getPreviousWeek = () => {
@@ -42,20 +43,24 @@ class ScheduleWeekNavComponent extends Component {
   }
 
   render () {
+    const { styles } = this.props.environment || {}
     const { weekOf } = this.props.schedule || {}
     const previousWeek = moment(weekOf).subtract(7, 'days')
     const nextWeek = moment(weekOf).add(7, 'days')
     const { getPreviousWeek, getNextWeek } = this || {}
     return (
-      <Block>
-        <Link onClick={getPreviousWeek}>
-        &lt; Week of {moment(previousWeek).format('M/D')}
-        </Link>
-        {' '}
-        <Link onClick={getNextWeek}>
-        Week of {moment(nextWeek).format('M/D')} &gt; 
-        </Link>
-      </Block>
+      <Grid columns={2}>
+        <Block style={styles.alignLeft}>
+          <Link onClick={getPreviousWeek}>
+          &lt; Week of {moment(previousWeek).format('M/D')}
+          </Link>
+        </Block>
+        <Block style={styles.alignRight}>
+          <Link onClick={getNextWeek}>
+          Week of {moment(nextWeek).format('M/D')} &gt; 
+          </Link>
+        </Block>
+      </Grid>
     )  
   }
 }

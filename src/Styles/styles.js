@@ -42,12 +42,16 @@ import success from './success'
 import spacer from './spacer'
 import forgotPassword from './forgotPassword'
 import userList from './userList'
+import alignLeft from './alignLeft'
+import alignRight from './alignRight'
 
 const styles = (viewport) => {
   return ({
     // utility
     standardMargin,
     spacer,
+    ...alignLeft(viewport),
+    ...alignRight(viewport),
     // web
     block,
     horizontalRuler,
