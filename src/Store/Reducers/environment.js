@@ -2,8 +2,8 @@ import userRoles from './../../Environment/userRoles'
 import routes from './../../Environment/routes'
 import weekdays from './../../Environment/weekdays'
 import regex from './../../Environment/regex'
+import software from './../../Environment/software'
 import styles from './../../Styles/styles'
-import software from './../Environment/software'
 
 const getEnvironment = () => ({
   software,

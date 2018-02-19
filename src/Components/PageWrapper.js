@@ -11,14 +11,27 @@ import ContentWrapper from './ContentWrapper'
 
 class PageWrapperComponent extends Component {
   setWindowTitle = (title) => {
-    let fullTitle = title
+    let fullTitle = ''
+    if (title) {
+      fullTitle = title
+    }
     const { client } = this.props.session || {}
     if (client && client.name) {
-      fullTitle += ` - ${client.name}`
+      if (fullTitle !== '') {
+        fullTitle += ` - ${client.name}`
+      }
+      else {
+        fullTitle += client.name
+      }
     }
     
     const { software } = this.props.environment || {}
-    fullTitle += ` - ${software.name}`
+    if (fullTitle !== '') {
+      fullTitle += ` - ${software.name}`
+    }
+    else {
+      fullTitle += software.name
+    }
     if (document.title !== fullTitle) {
       document.title = fullTitle
     }
