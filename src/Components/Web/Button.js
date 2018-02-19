@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 
@@ -67,6 +68,11 @@ class ButtonComponent extends Component {
     )  
   }
 }
+
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+}
+
 const Button = connect(mapStateToProps)(ButtonComponent)
 
 export default Button
