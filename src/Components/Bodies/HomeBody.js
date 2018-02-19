@@ -11,7 +11,6 @@ class HomeBodyComponent extends Component {
     return (
       <Block>
         <PageHeader>Hello, {name}</PageHeader>
-        <SectionHeader>asd</SectionHeader>
       </Block>
     )  
   }
