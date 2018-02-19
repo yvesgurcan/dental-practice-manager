@@ -63,7 +63,15 @@ global = {
       clientId: ++clientId,
       name: 'Gentle Care',
       settings: {
+        address: {
+          street: '242 W 14th Ave',
+          suite: '#200',
+          city: 'Eugene',
+          state: 'OR',
+          zip: '97401',
+        },
         maxUsers: 10,
+        maxOperatories: 3,
         scheduleStart: '08:30',
         scheduleEnd: '17:45',
         appointmentLength: 60,
@@ -90,10 +98,31 @@ global = {
       name: 'Natural Dental',
       settings: {
         maxUsers: 5,
+        maxOperatories: 1,
         scheduleStart: '06:00',
         scheduleEnd: '16:00',
         appointmentLength: 60,
         daysOpen: ['Monday','Tuesday','Wednesday','Thursday','Friday'],  
+      },
+      deleted: false,
+    },
+    {
+      clientId: ++clientId,
+      name: 'I\'m so alone',
+      settings: {
+        maxUsers: 1,
+        maxOperatories: 1,
+        scheduleStart: '09:15',
+        scheduleEnd: '15:50',
+        appointmentLength: 30,
+        daysOpen: ['Monday','Tuesday','Friday'],
+        operatories: [
+          {
+            operatoryId: ++operatoryId,
+            name: 'The Room',
+            deleted: false,
+          },
+        ],
       },
       deleted: false,
     },
@@ -137,6 +166,16 @@ global = {
       role: "dentist",
       password: "123",
       rate: 21.3,
+      deleted: false,
+    },
+    {
+      userId: ++userId,
+      clientId: 3,
+      name: "Lonely Guy",
+      email: "guy@lonely.com",
+      role: "dentist",
+      password: "123",
+      rate: 99.9,
       deleted: false,
     },
   ],
@@ -336,11 +375,7 @@ endpointWrapper(
 
     const requestUser = JSON.parse(parameters.user)
 
-    const settings = global.clients.filter(client => !client.deleted && client.clientId === requestUser.clientId).map(client => (
-      {
-        settings: client.settings,
-      }
-    ))
+    const settings = global.clients.filter(client => !client.deleted && client.clientId === requestUser.clientId).map(client => (client.settings))
 
     if (settings.length === 0) {
       return { feedback: {status: 'error', message: 'Your settings could not be found.'} }
