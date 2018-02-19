@@ -55,7 +55,7 @@ class UsersBodyComponent extends Component {
           </Block>
           )
         })}
-        <Block style={styles.userList}>
+        <Block hidden={(users || []).length >= maxUsers} style={styles.userList}>
           <RouteLink to={`/settings/users/new`}>Add User</RouteLink>
         </Block>
     </Block>

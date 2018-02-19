@@ -39,7 +39,7 @@ class OperatoriesBodyComponent extends Component {
           </Block>
           )
         })}
-        <Block style={styles.userList}>
+        <Block hidden={(operatories || []).length >= maxOperatories} style={styles.userList}>
           <RouteLink to={`/settings/operatories/new`}>Add Operatory</RouteLink>
         </Block>
     </Block>
