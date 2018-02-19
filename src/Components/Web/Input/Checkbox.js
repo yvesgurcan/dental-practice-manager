@@ -31,6 +31,7 @@ class CheckboxComponent extends Component {
 
 CheckboxComponent.defaultProps = {
   value: false,
+  checked: false,
 }
 
 CheckboxComponent.propTypes = {
