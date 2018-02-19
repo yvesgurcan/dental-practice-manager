@@ -65,12 +65,7 @@ const apiRequestHandler = (
     }
   }
 
-  console.log("request", {
-    method,
-    resource,
-    payload,
-    api,
-  })
+  console.log(`${api} - ${method} /${resource}`, {request: payload})
 
   if (!resource && resource !== "") {
     throw new Error(`Resource '${resource}' is not valid. Please enter an empty string if you want to access the root of the API. Endpoint: ${method} ${api}.`)
@@ -85,12 +80,7 @@ const apiRequestHandler = (
       method !== "get" && method !== "delete" ? {...payload} : {params: payload}
     )
     .then((response) => {
-      console.log("response", {
-        method,
-        resource,
-        api,
-        responseData: response.data,
-      })
+      console.log(`${api} - ${method} /${resource}`, {response: response.data})
 
       if (response.data && method === 'get') {
         let debugDataTable = []
@@ -98,18 +88,18 @@ const apiRequestHandler = (
         let arrayName = undefined
         Object.keys(response.data).map(key => {
           if (!done) {
-            if (key !== 'feedback') {
+            if (key !== 'feedback' && response.data[key].map) {
               arrayName = key
               debugDataTable = response.data[key].map(item => item)
               done = true
+              console.log(`${api} - ${method} /${resource} > response: table representation of array '${arrayName}'`)
+              console.table(debugDataTable)
             }
 
           }
 
           return null
         })
-        console.log(`response: table representation of array '${arrayName}'`)
-        console.table(debugDataTable)  
       }
 
       if (callback) {
@@ -126,7 +116,7 @@ const apiRequestHandler = (
       }
       else {
         throw new Error(
-          `\nAn error occurred while requesting ${method} /${resource}:\n${error.message}.\nParameters: ${JSON.stringify(error.config.params)}`
+          `\nAn error occurred while processing the response from ${method} /${resource}:\n${error.message}.`
         )
       }
     })
