@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
-// import apiRequestHandler from './../../Utility/apiRequestHandler'
+import apiRequestHandler from './../../Utility/apiRequestHandler'
 import Block from './../Web/Block'
 import Label from './../Web/Label'
 import Button from './../Web/Button'
@@ -13,12 +13,28 @@ class ScheduleBoundariesComponent extends Component {
   }
 
   updateScheduleBoundaries = () => {
+    const { daysOpen, scheduleStart, scheduleEnd, appointmentLength} = this.props.settings.newScheduleBoundaries || {}
+    apiRequestHandler(
+      'put',
+      'settings',
+      {
+        daysOpen,
+        scheduleStart,
+        scheduleEnd,
+        appointmentLength,
+      },
+      this.props.session,
+      this.handleNewScheduleBoundariesResponse,
+    )
+  }
+
+  handleNewScheduleBoundariesResponse = (response) => {
 
   }
 
   render () {
     const { styles, regex, weekdays } = this.props.environment || {}
-    const { daysOpen, scheduleStart, scheduleEnd, appointmentLength, newScheduleBoundariesFeedback } = this.props.settings || {}
+    const { newScheduleBoundaries, newScheduleBoundariesFeedback } = this.props.settings || {}
     return (
       <Block style={styles.formWrapper}>
         <Block style={styles.standardMargin}>
@@ -31,7 +47,7 @@ class ScheduleBoundariesComponent extends Component {
                 label={day.name}
                 name="daysOpen"
                 id={day.name}
-                value={(daysOpen || []).filter(dayOpen => dayOpen === day.name).length > 0}
+                value={((newScheduleBoundaries || {}).daysOpen || []).filter(dayOpen => dayOpen === day.name).length > 0}
                 onChange={this.storeScheduleBoundaries}
                 feedback={(newScheduleBoundariesFeedback || {}).weekdays}
               />            
@@ -42,7 +58,7 @@ class ScheduleBoundariesComponent extends Component {
           label='Start of first appointment'
           name='scheduleStart'
           type="time"
-          value={scheduleStart}
+          value={(newScheduleBoundaries || {}).scheduleStart}
           onChange={this.storeScheduleBoundaries}
           onPressEnter={this.updateScheduleBoundaries}
           feedback={(newScheduleBoundariesFeedback || {}).scheduleStart}
@@ -51,7 +67,7 @@ class ScheduleBoundariesComponent extends Component {
           label='End of last appointment'
           name='scheduleEnd'
           type="time"
-          value={scheduleEnd}
+          value={(newScheduleBoundaries || {}).scheduleEnd}
           onChange={this.storeScheduleBoundaries}
           onPressEnter={this.updateScheduleBoundaries}
           feedback={(newScheduleBoundariesFeedback || {}).scheduleEnd}
@@ -63,7 +79,7 @@ class ScheduleBoundariesComponent extends Component {
           pattern={regex.positiveNumbers}
           maxLength={2}
           max={60}
-          value={appointmentLength}
+          value={(newScheduleBoundaries || {}).appointmentLength}
           onChange={this.storeScheduleBoundaries}
           onPressEnter={this.updateScheduleBoundaries}
           feedback={(newScheduleBoundariesFeedback || {}).appointmentLength}

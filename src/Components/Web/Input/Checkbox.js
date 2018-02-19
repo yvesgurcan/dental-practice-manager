@@ -11,11 +11,11 @@ class CheckboxComponent extends Component {
   }
   render () {
     const {styles} = this.props.environment
-    const {name, value, checked, style} = this.props
+    const {name, id, value, checked, style} = this.props
     return (
       <span>
-        <input name={name} id={name} type={"checkbox"} checked={value || checked || false} style={{...(value || checked ? styles.checkboxChecked : styles.checkbox), ...style}} onChange={this.onChange}/>
-        <label htmlFor={name}>{this.props.children}</label>
+        <input name={name} id={id || name} type={"checkbox"} checked={value || checked || false} style={{...(value || checked ? styles.checkboxChecked : styles.checkbox), ...style}} onChange={this.onChange}/>
+        <label htmlFor={id || name}>{this.props.children}</label>
       </span>
     )  
   }

@@ -18,6 +18,16 @@ class AccountBodyComponent extends Component {
 
   storeSettings = (response) => {
     this.props.dispatch({ type: 'STORE_SETTINGS', settings: {...response.settings} })
+    const { daysOpen, scheduleStart, scheduleEnd, appointmentLength } = response.settings || {}
+    this.props.dispatch({
+      type: 'SELECT_SCHEDULE_BOUNDARIES',
+      scheduleBoundaries: {
+        daysOpen,
+        scheduleStart,
+        scheduleEnd,
+        appointmentLength,
+      },
+    })
   }
 
   render () {

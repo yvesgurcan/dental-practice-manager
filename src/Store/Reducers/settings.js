@@ -120,15 +120,29 @@ function settings (state = {}, action) {
       break
     }
 
+    case "SELECT_SCHEDULE_BOUNDARIES": {
+      newState = {
+        ...state,
+        newScheduleBoundaries: {...action.scheduleBoundaries},
+      }
+
+      break
+    }
+
     case 'STORE_SCHEDULE_BOUNDARIES': {
       let value = action.value
       if (action.name === 'daysOpen') {
-        value = [...(state.daysOpen || []), action.id]
+        value = [...(state.newScheduleBoundaries.daysOpen || []), action.id]
+      }
+
+      let newScheduleBoundaries = {
+        ...state.newScheduleBoundaries,
+        [action.name]: value
       }
       
       newState = {
         ...state,
-        [action.name]: value
+        newScheduleBoundaries,
       }
 
       break
