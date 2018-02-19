@@ -132,7 +132,12 @@ function settings (state = {}, action) {
     case 'STORE_SCHEDULE_BOUNDARIES': {
       let value = action.value
       if (action.name === 'daysOpen') {
-        value = [...(state.newScheduleBoundaries.daysOpen || []), action.id]
+        if (action.checked) {
+          value = [...(state.newScheduleBoundaries.daysOpen || []), action.id]          
+        }
+        else {
+          value = state.newScheduleBoundaries.daysOpen.filter(day => day !== action.id)
+        }
       }
 
       let newScheduleBoundaries = {
