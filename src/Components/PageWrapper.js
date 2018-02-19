@@ -10,13 +10,28 @@ import Feedback from './Feedback'
 import ContentWrapper from './ContentWrapper'
 
 class PageWrapperComponent extends Component {
+  setWindowTitle = (title) => {
+    let fullTitle = title
+    const { client } = this.props.session || {}
+    if (client && client.name) {
+      fullTitle += ` - ${client.name}`
+    }
+    
+    const { software } = this.props.environment || {}
+    fullTitle += ` - ${software.name}`
+    if (document.title !== fullTitle) {
+      document.title = fullTitle
+    }
+    
+  }
   render () {
     const { styles } = this.props.environment
     const {path} = this.props.routeData || {}
     const {environment, route, menuRoute, notFound, pageTitle} = this.props
     const {viewport, routes, showNav} = environment
     const routeDetails = getRouteDetails(routes, route || path)
-    const pageHeader = pageTitle || (routeDetails ? routeDetails.name : null)
+    const pageHeader = pageTitle || (routeDetails || {}).name
+    this.setWindowTitle(pageHeader)
     const subRoutes = getRouteDetails(routes, menuRoute, "subroutes")
     const subRouteHome = getRouteDetails(routes, menuRoute)
     return (
