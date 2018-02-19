@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 
@@ -67,6 +68,12 @@ class DangerButtonComponent extends Component {
     )  
   }
 }
+
+DangerButtonComponent.propTypes = {
+  children: PropTypes.any.isRequired,
+  onClick: PropTypes.func.isRequired,
+}
+
 const DangerButton = connect(mapStateToProps)(DangerButtonComponent)
 
 export default DangerButton

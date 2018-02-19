@@ -69,7 +69,8 @@ class ButtonComponent extends Component {
   }
 }
 
-Button.propTypes = {
+ButtonComponent.propTypes = {
+  children: PropTypes.any.isRequired,
   onClick: PropTypes.func.isRequired,
 }
 

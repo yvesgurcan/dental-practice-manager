@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 
@@ -51,6 +52,12 @@ class SecondaryButtonComponent extends Component {
     )  
   }
 }
+
+SecondaryButtonComponent.propTypes = {
+  children: PropTypes.any.isRequired,
+  onClick: PropTypes.func.isRequired,
+}
+
 const SecondaryButton = connect(mapStateToProps)(SecondaryButtonComponent)
 
 export default SecondaryButton

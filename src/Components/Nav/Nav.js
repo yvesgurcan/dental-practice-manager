@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import checkUserPermissions from './../../Utility/checkUserPermissions'
@@ -36,13 +37,18 @@ class NavComponent extends Component {
           : null
         }
         {
-          checkUserPermissions(routes, user).map(route => <NavItem key={routes[route].url} item={routes[route]} />)
+          checkUserPermissions(routes || {}, user).map(route => <NavItem key={routes[route].url} item={routes[route]} />)
         }
         <NavItem onClick={this.signOut} item={{ name: "Sign Out" }} />
       </Block>
     )
   }
 }
+
+NavComponent.propTypes = {
+  routes: PropTypes.object,
+}
+
 const Nav = connect(mapStateToProps)(NavComponent)
 
 export default Nav

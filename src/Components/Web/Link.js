@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 
@@ -20,6 +21,13 @@ class LinkComponent extends Component {
     )  
   }
 }
+
+LinkComponent.propTypes = {
+  href: PropTypes.string,
+  onClick: PropTypes.func,
+  children: PropTypes.any.isRequired,
+}
+
 const Link = connect(mapStateToProps)(LinkComponent)
 
 export default Link

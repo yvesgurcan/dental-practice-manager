@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 
@@ -46,6 +47,11 @@ class CancelButtonComponent extends Component {
     )  
   }
 }
+
+CancelButtonComponent.propTypes = {
+  onClick: PropTypes.func.isRequired,
+}
+
 const CancelButton = connect(mapStateToProps)(CancelButtonComponent)
 
 export default CancelButton

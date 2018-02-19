@@ -55,7 +55,7 @@ class PageWrapperComponent extends Component {
           <Block style={styles.spacer}>
             <Feedback feedback={{status: "error", message: notFound}} />
           </Block>
-          <PageHeader>{pageHeader}</PageHeader>
+          {!pageHeader ? null : <PageHeader>{pageHeader}</PageHeader>}
           {this.props.children}
         </ContentWrapper>
       </Block>

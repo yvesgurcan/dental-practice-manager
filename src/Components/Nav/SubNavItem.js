@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import Block from './../Web/Block'
@@ -16,6 +17,9 @@ class SubNavItemComponent extends Component {
   render () {
     const { styles } = this.props.environment || {}
     const { item } = this.props || {}
+    if (!item || !item.url) {
+      return null
+    }
     return (
       <Block style={styles.subNavItem} onClick={this.onClick}>
         <RouteLink to={item.url}>{item.name}</RouteLink>
@@ -23,6 +27,14 @@ class SubNavItemComponent extends Component {
     )
   }
 }
+
+SubNavItemComponent.propTypes = {
+  item: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+}
+
 const SubNavItem = connect(mapStateToProps)(SubNavItemComponent)
 
 export default SubNavItem

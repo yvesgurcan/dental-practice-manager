@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import Block from './../Web/Block'
@@ -14,6 +15,11 @@ class ColumnComponent extends Component {
     )
   }
 }
+
+ColumnComponent.propTypes = {
+  span: PropTypes.oneOf([2,3,4]),
+}
+
 const Column = connect(mapStateToProps)(ColumnComponent)
 
 export default Column

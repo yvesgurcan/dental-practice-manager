@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 
@@ -11,6 +12,11 @@ class LabelComponent extends Component {
     )  
   }
 }
+
+LabelComponent.propTypes = {
+  children: PropTypes.any.isRequired,
+}
+
 const Label = connect(mapStateToProps)(LabelComponent)
 
 export default Label
