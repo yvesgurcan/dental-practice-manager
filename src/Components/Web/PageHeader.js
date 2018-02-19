@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 class PageHeader extends Component {
   render () {
     return (
-      <h1 {...this.props}/>
+      <h1 {...this.props}>{this.props.children}</h1>
     )  
   }
 }
