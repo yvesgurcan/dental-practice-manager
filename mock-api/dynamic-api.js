@@ -63,6 +63,7 @@ global = {
       name: 'Gentle Care',
       settings: {
         maxUsers: 10,
+        maxOperatories: 3,
         scheduleStart: '08:30',
         scheduleEnd: '17:45',
         appointmentLength: 60,
@@ -89,6 +90,7 @@ global = {
       name: 'Natural Dental',
       settings: {
         maxUsers: 5,
+        maxOperatories: 1,
         scheduleStart: '06:00',
         scheduleEnd: '16:00',
         appointmentLength: 60,
@@ -601,7 +603,7 @@ endpointWrapper(
       {
         clientId: client.clientId,
         name: client.name,
-        maxUsers: client.maxUsers,
+        ...client.settings,
       }
     ))
     return {clients: clients, feedback: {status: "success"}}
@@ -623,7 +625,12 @@ endpointWrapper(
 
     const newClient = {
       clientId: ++global.clients.length,
-      ...parameters.newClient,
+      name: parameters.newClient.name,
+      settings: {
+        hideDentistRole: parameters.newClient.hideDentistRole,
+        maxUsers: parameters.newClient.maxUsers,
+        maxOperatories: parameters.newClient.maxOperatories,
+      },
     }
 
     global.clients.push(newClient)

@@ -81,6 +81,13 @@ class NewClientFormComponent extends Component {
             feedback={(newClientFeedback || {}).name}
           />
           <FormGroup
+            checkbox
+            label='This practice is not managed by a dentist.'
+            name='hideDentistRole'
+            value={(newClient || {}).hideDentistRole}
+            onChange={this.storeClient}
+          />
+          <FormGroup
             label='Max users'
             name='maxUsers'
             type='number'
@@ -90,6 +97,17 @@ class NewClientFormComponent extends Component {
             onChange={this.storeClient}
             onPressEnter={this.createClient}
             feedback={(newClientFeedback || {}).maxUsers}
+          />
+          <FormGroup
+            label='Max operatories'
+            name='maxOperatories'
+            type='number'
+            pattern={regex.positiveNumbers}
+            maxLength={2}
+            value={(newClient || {}).maxOperatories}
+            onChange={this.storeClient}
+            onPressEnter={this.createClient}
+            feedback={(newClientFeedback || {}).maxOperatories}
           />
           <Feedback feedback={(newClientFeedback || {}).form} />
           <Button onClick={this.createClient}>Add Client</Button>

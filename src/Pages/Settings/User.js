@@ -36,7 +36,6 @@ class UserComponent extends Component {
     const {userId} = this.props.match.params
     const userMatch = (users || []).filter(user => user.userId === Number(userId))
     const user = userMatch.length > 0 ? userMatch[0] : null
-    debugger
     if (user) {
       this.setState({temporaryTitle: user.name})
       this.props.dispatch({type: 'SELECT_UPDATE_USER', user})
