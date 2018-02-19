@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../../Store/mapStateToProps'
+import Block from './../Block'
 
 class TextboxComponent extends Component {
   onChange = (input) => {
@@ -45,7 +47,10 @@ class TextboxComponent extends Component {
     const {
       name,
       type,
+      disabled,
+      readOnly,
       value,
+      placeholder,
       style,
       pattern,
       maxLength,
@@ -72,11 +77,43 @@ class TextboxComponent extends Component {
       interceptedValue = Math.max(min, interceptedValue)
     }
 
+    if (readOnly) {
+      return <Block style={{...styles.readOnlyField, ...style}} >{value}</Block>
+    }
+
     return (
-      <input name={name} type={interceptedType} value={interceptedValue} max={max} step={interceptedStep} pattern={pattern} maxLength={maxLength} style={{...styles.textbox, ...style}} onChange={this.onChange} onKeyPress={this.onKeyPress}/>
+      <input
+        name={name}
+        type={interceptedType}
+        value={interceptedValue}
+        disabled={disabled}
+        placeholder={placeholder}
+        min={min}
+        max={max}
+        step={interceptedStep}
+        pattern={pattern}
+        maxLength={maxLength}
+        style={{...styles.textbox, ...style}}
+        onChange={this.onChange}
+        onKeyPress={this.onKeyPress}/>
     )  
   }
 }
+
+TextboxComponent.defaultProps = {
+  value: '',
+}
+
+TextboxComponent.propTypes = {
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onPressEnter: PropTypes.func.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
+  readOnly: PropTypes.bool,
+}
+
 const Textbox = connect(mapStateToProps)(TextboxComponent)
 
 export default Textbox

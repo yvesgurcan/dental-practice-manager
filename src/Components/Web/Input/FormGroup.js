@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Block from './../Block'
 import Label from './../Label'
 import Textbox from './Textbox'
@@ -10,45 +11,51 @@ class FormGroup extends Component {
   render () {
     const {
       label,
-      id,
-      name,
-      type,
-      value,
-      disabled,
-      readOnly,
-      title,
-      step,
-      pattern,
-      maxLength,
+      checkbox,
       options,
-      placeholder,
-      onChange,
-      onPressEnter,
       style,
       feedback,
-      checkbox,
-      max,
     } = this.props || {}
     return (
     <Block>
-      {checkbox ? null : <Label>{label}</Label>}
+      {checkbox || !label ? null : <Label>{label}</Label>}
       <Block>
         {
           options
           ?
-            <Dropdown name={name} value={value || ""} disabled={disabled} readOnly={readOnly} title={title} placeholder={placeholder} options={options} onChange={onChange} style={{...style, width: "100%"}} />
+            <Dropdown {...this.props} style={{...style, width: "100%"}} />
           :
           checkbox
           ?
-            <Checkbox id={id} name={name} value={value} disabled={disabled} title={title} onChange={onChange}>{label}</Checkbox>
+            <Checkbox {...this.props}>{label || ''}</Checkbox>
           :
-            <Textbox name={name} type={type} value={value || ""} max={max} step={step} disabled={disabled} title={title} pattern={pattern} maxLength={maxLength} onChange={onChange} onPressEnter={onPressEnter} style={{...style, width: "100%"}} />
+            <Textbox {...this.props} style={{...style, width: "100%"}} />
         }
       </Block>
       <Feedback feedback={feedback} />
     </Block>
     )
   }
+}
+
+FormGroup.defaultProps = {
+  label: '',
+}
+
+FormGroup.propTypes = {
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onPressEnter: PropTypes.func,
+  placeholder: PropTypes.string,
+  options: PropTypes.array,
+  max: PropTypes.number,
+  min: PropTypes.number,
+  type: PropTypes.string,
+  disabled: PropTypes.bool,
+  readOnly: PropTypes.bool,
+  pattern: PropTypes.string,
+  maxLength: PropTypes.number,
+  label: PropTypes.string,
 }
 
 export default FormGroup

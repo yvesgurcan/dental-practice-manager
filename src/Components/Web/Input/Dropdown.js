@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../../Store/mapStateToProps'
 import Block from './../Block'
 
 class Dropdown extends Component {
   render () {
-    if (this.props.hidden) return null
+    const { hidden } = this.props || {}
+    if (hidden) {
+      return null
+    }
     return (
       <InternalDropdown {...this.props} />
     )
@@ -53,13 +57,15 @@ class InternalDropdownComponent extends Component {
     const { styles } = this.props.environment || {}
     const { styleState } = this.state || {}
     const { name, value, style, options, placeholder, disabled, title, readOnly, hidden } = this.props || {}
-    if (hidden) return null
+    if (hidden) {
+      return null
+    }
     if (readOnly) {
       return <Block style={{...styles.readOnlyField, ...style}} >{value}</Block>
     }
     return (
       <span style={styles.dropdownContainer}>
-        <select name={name} disabled={disabled} title={title} value={value || -1} style={{...styleState, ...style}} onChange={this.onChange} onKeyPress={this.onKeyPress}>
+        <select name={name} disabled={disabled} title={title} value={value} style={{...styleState, ...style}} onChange={this.onChange} onKeyPress={this.onKeyPress}>
           {placeholder ? <option value={-1}>{placeholder}</option> : null}
           {(options || []).map(option => <option key={option.value || option.label} value={option.value}>{option.label}</option>)}
         </select>
@@ -67,6 +73,23 @@ class InternalDropdownComponent extends Component {
     )  
   }
 }
+
+InternalDropdownComponent.defaultProps = {
+  value: -1,
+  placeholder: 'Select',
+  options: [],
+}
+
+InternalDropdownComponent.propTypes = {
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  options: PropTypes.array.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  readOnly: PropTypes.bool,
+}
+
 const InternalDropdown = connect(mapStateToProps)(InternalDropdownComponent)
 
 export default Dropdown
