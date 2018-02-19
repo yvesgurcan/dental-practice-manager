@@ -63,6 +63,13 @@ global = {
       clientId: ++clientId,
       name: 'Gentle Care',
       settings: {
+        address: {
+          street: '242 W 14th Ave',
+          suite: '#200',
+          city: 'Eugene',
+          state: 'OR',
+          zip: '97401',
+        },
         maxUsers: 10,
         maxOperatories: 3,
         scheduleStart: '08:30',
