@@ -167,7 +167,7 @@ const routes = {
           url: "/settings/users/:userId([1-9]|[0-9]{2,}|new|add)",          
         },
       },
-      users: {
+      operatories: {
         component: Operatories,
         name: "Operatories",
         url: "/settings/operatories",
