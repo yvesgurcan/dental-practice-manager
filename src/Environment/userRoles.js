@@ -23,10 +23,6 @@ const userRoles = {
     type: "receptionist",
     title: "Receptionist",
   },
-  accountant: {
-    type: "accountant",
-    title: "Accountant",
-  },
 }
 
 export default userRoles
