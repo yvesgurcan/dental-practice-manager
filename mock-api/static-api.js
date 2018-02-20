@@ -218,6 +218,7 @@ global = {
       clientId: 1,
       operatoryId: 2,
       date: "2018-02-20 14:00",
+      duration: 60,
       deleted: false,
     },
     {
@@ -226,6 +227,7 @@ global = {
       clientId: 1,
       operatoryId: 1,
       date: "2018-02-19 10:00",
+      duration: 40,
       deleted: false,
     },
     {
@@ -234,6 +236,7 @@ global = {
       clientId: 1,
       operatoryId: 1,
       date: "2018-02-19 09:00",
+      duration: 15,
       deleted: false,
     },
     {
@@ -250,6 +253,7 @@ global = {
       clientId: 1,
       operatoryId: 1,
       date: "2018-02-22 10:30",
+      duration: 30,
       deleted: false,
     },
   ],

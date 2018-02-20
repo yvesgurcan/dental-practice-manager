@@ -1,6 +1,7 @@
 export default (viewport) => ({
   appointmentScheduleCard: {
-    height: 50,
-    
+    border: '1px solid darkgray',
+    marginBottom: 5,
+    padding: 2,
   },
 })

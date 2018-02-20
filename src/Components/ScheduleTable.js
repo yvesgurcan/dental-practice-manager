@@ -32,6 +32,10 @@ class ScheduleTableComponent extends Component {
     return weeklySchedule
   }
 
+  getTimes = () => {
+    const { scheduleStart, scheduleEnd, appointmentLength } = this.props.settings || {}
+  }
+
   render () {
     const { styles, viewport } = this.props.environment || {}
     const { daysOpen } = this.props.settings || {}
@@ -41,6 +45,11 @@ class ScheduleTableComponent extends Component {
         <Grid style={styles.scheduleGrid}>
           <Column>
             Time
+            <Block>
+              {
+
+              }
+            </Block>
           </Column>
           {
             (weeklySchedule || []).map(dailySchedule => (

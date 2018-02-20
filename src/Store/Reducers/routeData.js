@@ -8,11 +8,19 @@ function routeData (state = null, action) {
 
     case "STORE_ROUTE": {
       newState = {
+        // the exact path that matches the route
         path: action.path,
-        url: action.url,
+        // the path (relative URL) of the browser
+        pathname: action.pathname,
+        // does the url exactly match the route?
         isExact: action.isExact,
+        // parameters (IDs and such)
         params: {...action.params},
+        hash: action.hash,
+        query: action.search,
       }
+
+      break
     }
 
   }

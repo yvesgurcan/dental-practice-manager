@@ -9,7 +9,7 @@ class AppointmentScheduleCardComponent extends Component {
     const { styles } = this.props.environment || {}
     const { appointment } = this.props || {}
     return (
-      <Block style={styles.appointmentScheduleCard}>
+      <Block style={{...styles.appointmentScheduleCard, minHeight: 19, height: (appointment.duration || 60) * 1.1}}>
         {appointment.date}
       </Block>
     )  

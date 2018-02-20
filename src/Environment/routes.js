@@ -60,10 +60,22 @@ const routes = {
       "assistant",
       "receptionist",
     ],
+    subroutes: {
+      appointments: {
+        component: Appointment,
+        name: "Appointments",
+        url: "/schedule/appointments",
+        idRoute: {
+          component: Appointment,
+          name: "Appointment",
+          url: "/route/appointments/:appointmentId([1-9]|[0-9]{2,}|new|add)",
+        },
+      },
+    },
     idRoute: {
-      component: Appointment,
-      name: 'Appointment',
-      url: '/schedule/:appointmentId([1-9]|[0-9]{2,}|new|add)'
+      component: Schedule,
+      name: 'Schedule',
+      url: '/schedule/:year(2[0-9][0-9]{2})/:month([1-9]|0[1-9]|1[0-2])/:day([1-9]|0[1-9]|[1-2][0-9]|3[0-1])'
     },
   },
   patients: {

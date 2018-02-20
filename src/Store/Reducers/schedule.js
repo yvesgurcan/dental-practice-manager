@@ -5,6 +5,7 @@ function schedule (state = {}, action) {
     default:
       break
     case 'STORE_SCHEDULE': {
+      
       newState = {
         ...state,
         weeklySchedule: [...action.weeklySchedule],

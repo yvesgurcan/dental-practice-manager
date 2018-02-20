@@ -36,9 +36,17 @@ class ScheduleWeekNavComponent extends Component {
     if (response.feedback.status === 'success') {
       this.props.dispatch({
         type: 'STORE_SCHEDULE',
-        appointments: [...response.appointments],
+        weeklySchedule: [...response.weeklySchedule],
         weekOf: response.weekOf,
       })
+      
+      if (window.history.pushState) {
+        const { routes } = this.props.environment || {}
+        const controller = routes.schedule.url
+        window.history.pushState('','',`${controller}/${moment(response.weekOf).format('YYYY/M/D')}`);
+        
+      }
+      
     }
   }
 

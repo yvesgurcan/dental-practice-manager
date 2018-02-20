@@ -7,7 +7,7 @@ import ScheduleBody from './../Components/Bodies/ScheduleBody'
 
 class ScheduleComponent extends Component {
   componentWillMount () {
-    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
+    this.props.dispatch({type: "STORE_ROUTE", ...this.props.match, ...this.props.location})
   }
   render () {
     const { weekOf } = this.props.schedule || {}
