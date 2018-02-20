@@ -6,10 +6,6 @@ import Patient from './../Pages/Patient'
 
 import Messaging from './../Pages/Messaging'
 
-import XRays from './../Pages/Xrays'
-
-import Charts from './../Pages/Charts'
-
 import Billing from './../Pages/Billing'
 
 import TimeTracking from './../Pages/TimeTracking'
@@ -88,28 +84,6 @@ const routes = {
       url: "/patients/:patientId([1-9]|[0-9]{2,}|new|add)",
     },
   },
-  xRays: {
-    component: XRays,
-    name: "X-Rays",
-    url: "/xrays",
-    permissions: [
-      "dentist",
-      "headHygienist",
-      "hygienist",
-      "assistant",
-    ],
-  },
-  charts: {
-    component: Charts,
-    name: "Charts",
-    url: "/charts",
-    permissions: [
-      "dentist",
-      "headHygienist",
-      "hygienist",
-      "assistant",
-    ]
-  },
   billing: {
     component: Billing,
     name: "Billing",
@@ -118,7 +92,6 @@ const routes = {
       "dentist",
       "headHygienist",
       "officeManager",
-      "accountant",
     ],
   },
   messaging: {
@@ -181,6 +154,7 @@ const routes = {
     permissions: [
       "dentist",
       "headHygienist",
+      'officeManager',
     ],
   },
   userProfile: {
@@ -188,11 +162,9 @@ const routes = {
     name: "User",
     url: "/settings/users/2",
     permissions: [
-      "officeManager",
       "hygienist",
       "assistant",
       "receptionist",
-      "accountant",
     ],
   },
 }
