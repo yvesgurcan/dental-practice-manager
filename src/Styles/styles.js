@@ -1,3 +1,6 @@
+// utility
+import alignLeft from './alignLeft'
+import alignRight from './alignRight'
 // grids
 import container from './container'
 import grid2 from './grid2'
@@ -42,8 +45,8 @@ import success from './success'
 import spacer from './spacer'
 import forgotPassword from './forgotPassword'
 import userList from './userList'
-import alignLeft from './alignLeft'
-import alignRight from './alignRight'
+// schedule
+import appointmentScheduleCard from './appointmentScheduleCard'
 
 const styles = (viewport) => {
   return ({
@@ -113,9 +116,12 @@ const styles = (viewport) => {
     formWrapper,
     signInForm,
     forgotPassword,
-    // other
+    // public page
     publicPage,
+    // user settings
     userList,
+    // schedule
+    ...appointmentScheduleCard(viewport),
   })
 }
 

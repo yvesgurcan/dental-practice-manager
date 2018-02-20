@@ -7,7 +7,7 @@ function schedule (state = {}, action) {
     case 'STORE_SCHEDULE': {
       newState = {
         ...state,
-        appointments: [...action.appointments],
+        weeklySchedule: [...action.weeklySchedule],
         weekOf: action.weekOf,
       }
 

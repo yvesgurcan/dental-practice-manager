@@ -15,16 +15,27 @@ class ScheduleBodyComponent extends Component {
       this.props.session,
       this.storeAppointments,
     )
+    apiRequestHandler(
+      'get',
+      'settings',
+      {},
+      this.props.session,
+      this.storeSettings,
+    )
   }
 
   storeAppointments = (response) => {
     if (response.feedback.status === 'success') {
       this.props.dispatch({
         type: 'STORE_SCHEDULE',
-        appointments: [...response.appointments],
+        weeklySchedule: [...response.weeklySchedule],
         weekOf: response.weekOf,
       })
     }
+  }
+
+  storeSettings = (response) => {
+    this.props.dispatch({ type: 'STORE_SETTINGS', settings: {...response.settings} })
   }
 
   render () {

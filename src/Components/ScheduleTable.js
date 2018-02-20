@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
+import moment from 'moment'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import Block from './Web/Block'
+import SectionHeader from './Web/SectionHeader'
 import Grid from './Grid/Grid'
+import Column from './Grid/Column'
+import AppointmentScheduleCard from './AppointmentScheduleCard'
 
 class ScheduleTableComponent extends Component {
   renderTimeSlotsOnLargeScreen = () => {
@@ -29,25 +33,32 @@ class ScheduleTableComponent extends Component {
   }
 
   render () {
-    const { weekdays, styles, viewport } = this.props.environment || {}
-    const scheduleArray = [{name: "Time"}].concat(weekdays)
+    const { styles, viewport } = this.props.environment || {}
+    const { daysOpen } = this.props.settings || {}
+    const { weeklySchedule } = this.props.schedule || {}
     return (
       <Block>
-        <Block hidden={!viewport.desktop}>
-          <Grid style={styles.scheduleGrid}>
+        <Grid style={styles.scheduleGrid}>
+          <Column>
+            Time
+          </Column>
           {
-            scheduleArray.map(day => <Block key={day.name}>{day.name}</Block>)
+            (weeklySchedule || []).map(dailySchedule => (
+              <Block
+                key={dailySchedule.date}
+                hidden={(dailySchedule.appointments || []).length === 0 && (daysOpen || []).indexOf(moment(dailySchedule.date).format('dddd')) === -1}>
+                <SectionHeader>
+                  {moment(dailySchedule.date).format(viewport.desktop ? 'ddd M/D' : 'dddd M/D')}
+                </SectionHeader>
+                <Block>
+                  {
+                    (dailySchedule.appointments || []).map(appointment => <AppointmentScheduleCard key={appointment.date} appointment={appointment} />)
+                  }
+                </Block>
+              </Block>
+            ))
           }
-          {
-            this.renderTimeSlotsOnLargeScreen().map(component => component)
-          }
-          </Grid>
-        </Block>
-        <Block hidden={viewport.desktop}>
-          {
-            weekdays.map(day => <Block key={day.name}>{day.name}</Block>)
-          }        
-        </Block>
+        </Grid>   
       </Block>
     )  
   }

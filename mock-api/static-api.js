@@ -75,7 +75,7 @@ global = {
         scheduleStart: '08:30',
         scheduleEnd: '17:45',
         appointmentLength: 60,
-        daysOpen: ['Monday' ,'Wednesday','Friday'],
+        daysOpen: ['Monday' ,'Tuesday','Wednesday'],
         hideDentistRole: true,
         timeZone: 'PST',
         operatories: [
@@ -102,7 +102,7 @@ global = {
         scheduleStart: '06:00',
         scheduleEnd: '16:00',
         appointmentLength: 60,
-        daysOpen: ['Monday','Tuesday','Wednesday','Thursday','Friday'],  
+        daysOpen: ['Tuesday','Wednesday','Friday'],  
       },
       deleted: false,
     },
@@ -199,15 +199,57 @@ global = {
       provider: 'Providence',
       deleted: false,
     },
+    
+    {
+      patientId: ++patientId,
+      clientId: 1,
+      firstName: 'Noah',
+      lastName: 'Dinks',
+      email: 'noah@dinks.com',
+      provider: 'Providence',
+      deleted: false,
+    },
   ],
 
   appointments: [
     {
       appointmentId: ++appointmentId,
+      patientId: 2,
+      clientId: 1,
+      operatoryId: 2,
+      date: "2018-02-20 14:00",
+      deleted: false,
+    },
+    {
+      appointmentId: ++appointmentId,
+      patientId: 3,
+      clientId: 1,
+      operatoryId: 1,
+      date: "2018-02-19 10:00",
+      deleted: false,
+    },
+    {
+      appointmentId: ++appointmentId,
       patientId: 1,
       clientId: 1,
       operatoryId: 1,
-      date: "2018-02-04 14:00",
+      date: "2018-02-19 09:00",
+      deleted: false,
+    },
+    {
+      appointmentId: ++appointmentId,
+      patientId: 3,
+      clientId: 1,
+      operatoryId: 1,
+      date: "2018-02-19 11:00",
+      deleted: true,
+    },
+    {
+      appointmentId: ++appointmentId,
+      patientId: 4,
+      clientId: 1,
+      operatoryId: 1,
+      date: "2018-02-22 10:30",
       deleted: false,
     },
   ],
@@ -419,7 +461,16 @@ endpointWrapper(
       return isAfter && isBefore
     })
 
-    return {appointments: filteredAppointments, weekOf: weekOf, feedback: {status: "success"}}
+    let weeklySchedule = []
+    for (let i = 0; i < 5; i++) {
+      let day = moment(weekOf).add(i, 'days')
+      weeklySchedule.push({
+        date: day,
+        appointments: filteredAppointments.filter(appointment => !appointment.deleted && moment(appointment.date).isSame(day, 'day'))
+      })
+    }
+
+    return {weeklySchedule, weekOf, feedback: {status: "success"}}
   }
 )
 
