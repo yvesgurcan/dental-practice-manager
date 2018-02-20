@@ -47,6 +47,8 @@ import forgotPassword from './forgotPassword'
 import userList from './userList'
 // schedule
 import appointmentScheduleCard from './appointmentScheduleCard'
+import timeSlots from './timeSlots'
+import timeSlot from './timeSlot'
 
 const styles = (viewport) => {
   return ({
@@ -121,6 +123,8 @@ const styles = (viewport) => {
     // user settings
     userList,
     // schedule
+    ...timeSlots(viewport),
+    ...timeSlot(viewport),
     ...appointmentScheduleCard(viewport),
   })
 }

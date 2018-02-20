@@ -470,7 +470,7 @@ endpointWrapper(
       let day = moment(weekOf).add(i, 'days')
       weeklySchedule.push({
         date: day,
-        appointments: filteredAppointments.filter(appointment => !appointment.deleted && moment(appointment.date).isSame(day, 'day'))
+        appointments: filteredAppointments.filter(appointment => !appointment.deleted && moment(appointment.date).isSame(day, 'day')).sort((a, b) => moment(a.date).isAfter(moment(b.date)) ? 1 : moment(a.date).isBefore(moment(b.date)) ? -1 : 0)
       })
     }
 

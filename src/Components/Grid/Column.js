@@ -7,9 +7,9 @@ import Block from './../Web/Block'
 class ColumnComponent extends Component {
   render () {
     const { styles } = this.props.environment || {}
-    const { span } = this.props || {}
+    const { span, style } = this.props || {}
     return (
-      <Block style={styles["column" + span || 1]}>
+      <Block style={{...styles["column" + span || 1], ...style}}>
         {this.props.children}
       </Block>
     )

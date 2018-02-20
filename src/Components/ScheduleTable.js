@@ -9,45 +9,41 @@ import Column from './Grid/Column'
 import AppointmentScheduleCard from './AppointmentScheduleCard'
 
 class ScheduleTableComponent extends Component {
-  renderTimeSlotsOnLargeScreen = () => {
-    const { weekdays } = this.props.environment || {}
-    const scheduleStart = 8.5
-    const scheduleEnd = 18.5
-    const appointmentLength = 1
-    const slotsNumber = parseInt(scheduleEnd - scheduleStart, 10)
-    const scheduleArray = [{name: "Time"}].concat(weekdays)
-    let weeklySchedule = []
-    for (let i = 0; i <= slotsNumber; i++) {
-      weeklySchedule[i] = []
-      scheduleArray.map((day, x) => {
-        if (x === 0) {
-          weeklySchedule[i][x] = (<Block key={scheduleStart+i*appointmentLength}>{scheduleStart+i*appointmentLength}</Block>)
-          return null
-        }
-        weeklySchedule[i][x] = (<Block key={day.name + "_" + i}>{day.name}_{i}</Block>)
-        return null
-      })
+  getTimeSlots = () => {
+    const { scheduleStart, scheduleEnd, appointmentLength } = this.props.settings || {}
+    if (!scheduleStart || !scheduleEnd || !appointmentLength) {
+      return null
+    }
+    const slotsNumber = parseInt(moment(scheduleEnd, 'HH:mm').add(appointmentLength, 'minutes').diff(moment(scheduleStart, 'HH:mm'), 'minutes') / appointmentLength, 10)
+
+    if (slotsNumber <= 0) {
+      return null
     }
 
-    return weeklySchedule
-  }
+    let timeSlots = []
+    for (let i = 0; i < slotsNumber; i++) {
+      timeSlots.push([moment(scheduleStart, 'HH:mm').add(appointmentLength*i, 'minutes').format('h:mm')])
+    }
 
-  getTimes = () => {
-    const { scheduleStart, scheduleEnd, appointmentLength } = this.props.settings || {}
+    return timeSlots
+
   }
 
   render () {
     const { styles, viewport } = this.props.environment || {}
     const { daysOpen } = this.props.settings || {}
     const { weeklySchedule } = this.props.schedule || {}
+    const timeSlots = this.getTimeSlots()
     return (
       <Block>
         <Grid style={styles.scheduleGrid}>
-          <Column>
-            Time
+          <Column style={styles.timeSlots}>
             <Block>
               {
-
+                (timeSlots || []).map(timeSlot => 
+                  <Block key={timeSlot} style={styles.timeSlot}>
+                    {timeSlot}
+                  </Block>)
               }
             </Block>
           </Column>

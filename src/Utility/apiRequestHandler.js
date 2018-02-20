@@ -82,7 +82,6 @@ const apiRequestHandler = (
     .then((response) => {
       console.log(`${api} - ${method} /${resource}`, {response: response.data})
 
-      /*
       if (response.data && method === 'get') {
         let debugDataTable = []
         let done = false
@@ -102,7 +101,6 @@ const apiRequestHandler = (
           return null
         })
       }
-      */
 
       if (callback) {
         callback(response.data)
