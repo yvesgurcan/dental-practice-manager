@@ -14,7 +14,7 @@ class SupportBodyComponent extends Component {
   componentWillMount = () => {
     const { session } = this.props || {}
     const { client } = session || {}
-    if (client.clientId) {
+    if (client && client.clientId) {
       apiRequestHandler(
         'get',
         'settings',
