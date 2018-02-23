@@ -217,7 +217,8 @@ global = {
       patientId: 2,
       clientId: 1,
       operatoryId: 2,
-      date: "2018-02-20 14:00",
+      date: "2018-02-20 06:00",
+      duration: 60,
       deleted: false,
     },
     {
@@ -226,6 +227,7 @@ global = {
       clientId: 1,
       operatoryId: 1,
       date: "2018-02-19 10:00",
+      duration: 40,
       deleted: false,
     },
     {
@@ -234,6 +236,7 @@ global = {
       clientId: 1,
       operatoryId: 1,
       date: "2018-02-19 09:00",
+      duration: 15,
       deleted: false,
     },
     {
@@ -250,6 +253,7 @@ global = {
       clientId: 1,
       operatoryId: 1,
       date: "2018-02-22 10:30",
+      duration: 30,
       deleted: false,
     },
   ],
@@ -656,16 +660,47 @@ endpointWrapper(
       return isAfter && isBefore
     })
 
+    let interval = {}
+
     let weeklySchedule = []
     for (let i = 0; i < 5; i++) {
-      let day = moment(weekOf).add(i, 'days')
+      const day = moment(weekOf).add(i, 'days')
+      const dailyAppointments = filteredAppointments.filter(appointment => !appointment.deleted && moment(appointment.date).isSame(day, 'day')).sort((a, b) => moment(a.date).isAfter(moment(b.date)) ? 1 : moment(a.date).isBefore(moment(b.date)) ? -1 : 0)
+
+      if (dailyAppointments.length > 0) {
+        const earliestDailyStart = moment(dailyAppointments[0].date).format('HH:mm')
+        const latestDailyStop = moment(dailyAppointments[dailyAppointments.length - 1].date).add(dailyAppointments[dailyAppointments.length - 1].duration,'minutes').format('HH:mm')
+
+        if (
+          !interval.earliestDailyStart
+          || interval.earliestDailyStart > earliestDailyStart
+        ) {
+          interval = {
+            ...interval,
+            earliestDailyStart,
+          }
+        }
+
+        if (
+          !interval.latestDailyStop
+          || interval.latestDailyStop < latestDailyStop
+        ) {
+          interval = {
+            ...interval,
+            latestDailyStop,
+          }
+        }
+
+      }
+
       weeklySchedule.push({
         date: day,
-        appointments: filteredAppointments.filter(appointment => !appointment.deleted && moment(appointment.date).isSame(day, 'day')).sort((a, b) => moment(a.date).isAfter(moment(b.date)) ? 1 : moment(a.date).isBefore(moment(b.date)) ? -1 : 0)
+        appointments: dailyAppointments,
       })
+
     }
 
-    return {weeklySchedule, weekOf, feedback: {status: "success"}}
+    return {weeklySchedule, weekOf, interval, feedback: {status: "success"}}
   }
 )
 
