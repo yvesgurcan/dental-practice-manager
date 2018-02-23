@@ -49,6 +49,7 @@ import userList from './userList'
 import appointmentScheduleCard from './appointmentScheduleCard'
 import timeSlots from './timeSlots'
 import timeSlot from './timeSlot'
+import timeSlotHorizontalLine from './timeSlotHorizontalLine'
 
 const styles = (viewport) => {
   return ({
@@ -125,6 +126,7 @@ const styles = (viewport) => {
     // schedule
     ...timeSlots(viewport),
     ...timeSlot(viewport),
+    ...timeSlotHorizontalLine(viewport),
     ...appointmentScheduleCard(viewport),
   })
 }

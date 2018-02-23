@@ -38,6 +38,7 @@ class ScheduleWeekNavComponent extends Component {
         type: 'STORE_SCHEDULE',
         weeklySchedule: [...response.weeklySchedule],
         weekOf: response.weekOf,
+        interval: response.interval,
       })
       
       if (window.history.pushState) {

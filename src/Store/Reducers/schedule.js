@@ -10,6 +10,7 @@ function schedule (state = {}, action) {
         ...state,
         weeklySchedule: [...action.weeklySchedule],
         weekOf: action.weekOf,
+        interval: action.interval,
       }
 
       break
