@@ -3,6 +3,7 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import apiRequestHandler from './../../Utility/apiRequestHandler'
+import setWindowTitle from './../../Utility/setWindowTitle'
 import Block from './../Web/Block'
 import SectionHeader from './../Web/SectionHeader'
 import ScheduleWeekNav from './../ScheduleWeekNav'
@@ -55,11 +56,19 @@ class ScheduleBodyComponent extends Component {
   }
 
   render () {
-    const { weekOf } = this.props.schedule || {}
+    const {
+      session,
+      environment,
+      schedule,
+    } = this.props || {}
+    const { routes } = environment || {}
+    const { weekOf } = schedule || {}
+    const mainHeader = `Week of ${moment(weekOf).format('MMMM D, YYYY')}`
+    setWindowTitle(mainHeader, routes.schedule.name, session, environment)
     return (
       <Block>
         <ScheduleWeekNav />
-        <SectionHeader>Week of {moment(weekOf).format('MMMM D, YYYY')}</SectionHeader>
+        <SectionHeader>{mainHeader}</SectionHeader>
         <ScheduleTable />
       </Block>
     )  

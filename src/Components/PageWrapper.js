@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import getRouteDetails from './../Utility/getRouteDetails'
+import setWindowTitle from './../Utility/setWindowTitle'
 import Block from './Web/Block'
 import PageHeader from './Web/PageHeader'
 import Nav from './Nav/Nav'
@@ -39,14 +40,31 @@ class PageWrapperComponent extends Component {
     }
     
   }
+
   render () {
-    const { styles } = this.props.environment
-    const {path} = this.props.routeData || {}
-    const {environment, route, menuRoute, notFound, pageTitle} = this.props
-    const {viewport, routes, showNav} = environment
+    const {
+      session,
+      environment,
+      route,
+      routeData,
+      pageTitle,
+      menuRoute,
+      notFound,
+      setWindowTitleAutomatically
+    } = this.props || {}
+    const {
+      styles,
+      viewport,
+      routes,
+      showNav,
+    } = environment || {}
+    const { path } = routeData || {}
     const routeDetails = getRouteDetails(routes, route || path)
     const pageHeader = pageTitle === null ? undefined : pageTitle || (routeDetails || {}).name
-    this.setWindowTitle(pageHeader)
+    if (setWindowTitleAutomatically) {
+      setWindowTitle(undefined, pageHeader, session, environment)
+    }
+
     const subRoutes = getRouteDetails(routes, menuRoute, "subroutes")
     const subRouteHome = getRouteDetails(routes, menuRoute)
     return (
@@ -64,6 +82,11 @@ class PageWrapperComponent extends Component {
     )  
   }
 }
+
+PageWrapperComponent.defaultProps = {
+  setWindowTitleAutomatically: true,
+}
+
 const PageWrapper = connect(mapStateToProps)(PageWrapperComponent)
 
 export default PageWrapper

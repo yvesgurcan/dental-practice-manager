@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
+import setWindowTitle from './../../Utility/setWindowTitle'
 import moment from 'moment'
 import Block from './../Web/Block'
 import SectionHeader from './../Web/SectionHeader'
@@ -28,11 +29,19 @@ class TimeTrackingBodyComponent extends Component {
 
   }
   render () {
-    const { day } = this.props.timetracking || {}
+    const {
+      session,
+      environment,
+      timetracking,
+    } = this.props || {}
+    const { routes } = environment || {}
+    const { day } = timetracking || {}
+    const mainHeader = `${moment(day).format('dddd, MMMM D')}`
+    setWindowTitle(mainHeader, routes.timetracking.name, session, environment)
     return (
       <Block>
         <ShiftNav />
-        <SectionHeader>{moment(day).format('dddd, MMMM D')}</SectionHeader>
+        <SectionHeader>{mainHeader}</SectionHeader>
       </Block>
     )  
   }

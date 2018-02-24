@@ -10,7 +10,7 @@ class ScheduleComponent extends Component {
   }
   render () {
     return (
-      <PageWrapper pageTitle={null}>
+      <PageWrapper pageTitle={null} setWindowTitleAutomatically={false} >
         <ScheduleBody />
       </PageWrapper>
     )  

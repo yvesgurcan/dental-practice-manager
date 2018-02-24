@@ -10,7 +10,7 @@ class PayrollComponent extends Component {
   }
   render () {
     return (
-      <PageWrapper pageTitle={null} menuRoute="/timetracking">
+      <PageWrapper pageTitle={null} setWindowTitleAutomatically={false} menuRoute="/timetracking">
         <TimeTrackingBody />
       </PageWrapper>
     )  
