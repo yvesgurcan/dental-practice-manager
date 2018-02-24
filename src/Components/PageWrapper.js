@@ -11,36 +11,6 @@ import Feedback from './Feedback'
 import ContentWrapper from './ContentWrapper'
 
 class PageWrapperComponent extends Component {
-  setWindowTitle = (title) => {
-    // TODO: Refactor this method so that we can access in the body of the Pages.
-    // It will be necessary to set the window title 'manually' for /schedule and /timetracking
-    let fullTitle = ''
-    if (title) {
-      fullTitle = title
-    }
-    const { client } = this.props.session || {}
-    if (client && client.name) {
-      if (fullTitle !== '') {
-        fullTitle += ` - ${client.name}`
-      }
-      else {
-        fullTitle += client.name
-      }
-    }
-    
-    const { software } = this.props.environment || {}
-    if (fullTitle !== '') {
-      fullTitle += ` - ${software.name}`
-    }
-    else {
-      fullTitle += software.name
-    }
-    if (document.title !== fullTitle) {
-      document.title = fullTitle
-    }
-    
-  }
-
   render () {
     const {
       session,
