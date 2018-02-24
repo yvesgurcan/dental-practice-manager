@@ -1,3 +1,6 @@
+
+import getRouteDetails from './getRouteDetails'
+
 export default (title, routeTitle, session, environment) => {
   if (!document) {
     return null
@@ -7,6 +10,11 @@ export default (title, routeTitle, session, environment) => {
   if (title) {
     fullTitle = title
   }
+
+  /*
+  const subRouteHome = getRouteDetails(environment.routes, menuRoute)
+  console.log(subRouteHome)
+  */
 
   if (routeTitle) {
     if (fullTitle !== '') {
