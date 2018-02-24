@@ -12,7 +12,7 @@ class ScheduleComponent extends Component {
   render () {
     const { weekOf } = this.props.schedule || {}
     return (
-      <PageWrapper pageTitle={`Week of ${moment(weekOf).format('MMMM D, YYYY')}`} >
+      <PageWrapper pageTitle={null}>
         <ScheduleBody />
       </PageWrapper>
     )  

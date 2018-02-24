@@ -7,10 +7,12 @@ import session from './Reducers/session'
 import settings from './Reducers/settings'
 import support from './Reducers/support'
 import routeData from './Reducers/routeData'
+import timetracking from './Reducers/timetracking'
 
 export default combineReducers({
   session,
   settings,
+  timetracking,
   schedule,
   appointments,
   patients,

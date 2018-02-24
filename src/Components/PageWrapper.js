@@ -43,7 +43,7 @@ class PageWrapperComponent extends Component {
     const {environment, route, menuRoute, notFound, pageTitle} = this.props
     const {viewport, routes, showNav} = environment
     const routeDetails = getRouteDetails(routes, route || path)
-    const pageHeader = pageTitle || (routeDetails || {}).name
+    const pageHeader = pageTitle === null ? undefined : pageTitle || (routeDetails || {}).name
     this.setWindowTitle(pageHeader)
     const subRoutes = getRouteDetails(routes, menuRoute, "subroutes")
     const subRouteHome = getRouteDetails(routes, menuRoute)

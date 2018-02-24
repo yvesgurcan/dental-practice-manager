@@ -9,6 +9,8 @@ import Grid from './Grid/Grid'
 
 class ScheduleWeekNavComponent extends Component {
   getPreviousWeek = () => {
+    this.switchToDay(-7)
+    /*
     const { weekOf } = this.props.schedule || {}
     const previousWeek = moment(weekOf).subtract(7, 'days').format('YYYY-MM-DD')
     apiRequestHandler(
@@ -16,11 +18,14 @@ class ScheduleWeekNavComponent extends Component {
       'schedule',
       {start: previousWeek},
       this.props.session,
-      this.storeAppointments,
+      this.storeShifts,
     )
+    */
   }
 
   getNextWeek = () => {
+    this.switchToDay(7)
+    /*
     const { weekOf } = this.props.schedule || {}
     const nextWeek = moment(weekOf).add(7, 'days').format('YYYY-MM-DD')
     apiRequestHandler(
@@ -28,18 +33,21 @@ class ScheduleWeekNavComponent extends Component {
       'schedule',
       {start: nextWeek},
       this.props.session,
-      this.storeAppointments,
+      this.storeShifts,
     )
+    */
   }
 
-  storeAppointments = (response) => {
+  storeShifts = (response) => {
     if (response.feedback.status === 'success') {
+      /*
       this.props.dispatch({
         type: 'STORE_SCHEDULE',
         weeklySchedule: [...response.weeklySchedule],
         weekOf: response.weekOf,
         interval: response.interval,
       })
+      */
       
       if (window.history.pushState) {
         const { routes } = this.props.environment || {}
@@ -51,22 +59,56 @@ class ScheduleWeekNavComponent extends Component {
     }
   }
 
+  switchToDay = (weekdayNumber) => {
+    const { day } = this.props.timetracking || {}
+    const newDay = moment(day).startOf('week').add(1, 'day').add(weekdayNumber,'day')
+    this.props.dispatch({type: "STORE_DAY", day: newDay})
+
+    if (window.history.pushState) {
+      const { routes } = this.props.environment || {}
+      const controller = routes.timetracking.url
+      window.history.pushState('','',`${controller}/${moment(newDay).format('YYYY/M/D')}`)
+
+    }
+
+  }
+
+  weekdaysToArray = () => {
+    const { day } = this.props.timetracking || {}
+    const weekStart = moment(day).startOf('week').add(1, 'day')
+    let weekdays = []
+    for (let i = 0; i < 5; i++) {
+      weekdays.push(moment(weekStart).add(i, 'days').format('YYYY-MM-DD'))
+    }
+
+    return weekdays
+  }
+
   render () {
-    const { styles } = this.props.environment || {}
-    const { weekOf } = this.props.schedule || {}
-    const previousWeek = moment(weekOf).subtract(7, 'days')
-    const nextWeek = moment(weekOf).add(7, 'days')
-    const { getPreviousWeek, getNextWeek } = this || {}
+    const { styles, viewport } = this.props.environment || {}
+    const { mobile, tablet } = viewport 
+    const { day } = this.props.timetracking || {}
+    const { getPreviousWeek, getNextWeek, switchToDay } = this || {}
+    const weekStart = moment(day).startOf('week').add(1, 'day')
+    const shiftDateFormat = tablet ? 'ddd' : 'dddd'
+    const weekdays = this.weekdaysToArray()
     return (
-      <Grid style={styles.mobileGrid2}>
+      <Grid style={styles.shiftNavGrid}>
         <Block style={styles.alignLeft}>
           <Link onClick={getPreviousWeek}>
-          &lt; Week of {moment(previousWeek).format('M/D')}
+          &lt;
           </Link>
         </Block>
+        {!mobile && weekdays.map(weekday => 
+          <Block key={weekday}>
+            <Link onClick={() => switchToDay(moment(weekday).subtract(1, 'day').format('d')) }>
+              {moment(weekday).format(shiftDateFormat)}
+            </Link>
+          </Block> 
+        )} 
         <Block style={styles.alignRight}>
           <Link onClick={getNextWeek}>
-          Week of {moment(nextWeek).format('M/D')} &gt; 
+          &gt; 
           </Link>
         </Block>
       </Grid>

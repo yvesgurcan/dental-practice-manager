@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import mapStateToProps from './../../Store/mapStateToProps'
 import apiRequestHandler from './../../Utility/apiRequestHandler'
 import Block from './../Web/Block'
+import SectionHeader from './../Web/SectionHeader'
 import ScheduleWeekNav from './../ScheduleWeekNav'
 import ScheduleTable from './../ScheduleTable'
 
@@ -54,9 +55,11 @@ class ScheduleBodyComponent extends Component {
   }
 
   render () {
+    const { weekOf } = this.props.schedule || {}
     return (
       <Block>
         <ScheduleWeekNav />
+        <SectionHeader>Week of {moment(weekOf).format('MMMM D, YYYY')}</SectionHeader>
         <ScheduleTable />
       </Block>
     )  

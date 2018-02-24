@@ -1,14 +1,17 @@
 // utility
 import alignLeft from './alignLeft'
 import alignRight from './alignRight'
+import alignCenter from './alignCenter'
 // grids
 import container from './container'
 import grid2 from './grid2'
+import mobileGrid2 from './mobileGrid2'
 import grid3 from './grid3'
 import grid4 from './grid4'
 import grid5 from './grid5'
 import grid12 from './grid12'
 import scheduleGrid from './scheduleGrid'
+import shiftNavGrid from './shiftNavGrid'
 import column2 from './column2'
 import column3 from './column3'
 import column4 from './column4'
@@ -89,6 +92,7 @@ const styles = (viewport) => {
     // grid
     ...container(viewport),
     ...grid2(viewport),
+    ...mobileGrid2(viewport),
     ...grid3(viewport),
     ...grid4(viewport),
     ...grid12(viewport),
@@ -128,6 +132,8 @@ const styles = (viewport) => {
     ...timeSlot(viewport),
     ...timeSlotHorizontalLine(viewport),
     ...appointmentScheduleCard(viewport),
+    // timetracking
+    ...shiftNavGrid(viewport),
   })
 }
 

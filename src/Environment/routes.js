@@ -119,7 +119,7 @@ const routes = {
       "receptionist",
     ],
   },
-  timeTracking: {
+  timetracking: {
     component: TimeTracking,
     name: "Time Tracking",
     url: "/timetracking",
@@ -130,6 +130,11 @@ const routes = {
       "hygienist",
       "assistant",
     ],
+    idRoute: {
+      component: TimeTracking,
+      name: 'Time Tracking',
+      url: '/timetracking/:year(2[0-9][0-9]{2})/:month([1-9]|0[1-9]|1[0-2])/:day([1-9]|0[1-9]|[1-2][0-9]|3[0-1])'
+    },
   },
   settings: {
     component: Settings,
@@ -169,7 +174,7 @@ const routes = {
       'officeManager',
     ],
   },
-  userProfile: {
+  userprofile: {
     component: UserLimited,
     name: "User",
     url: "/settings/users/2",

@@ -1,7 +1,7 @@
 export default (viewport) => {
   return ({
-    alignRight: {
-      textAlign: 'right',
+    alignCenter: {
+      textAlign: 'center',
     }
   })
 }
