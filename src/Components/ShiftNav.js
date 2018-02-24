@@ -9,7 +9,7 @@ import Grid from './Grid/Grid'
 
 class ScheduleWeekNavComponent extends Component {
   getPreviousWeek = () => {
-    this.switchToDay(-7)
+    this.switchToDay(-3)
     /*
     const { weekOf } = this.props.schedule || {}
     const previousWeek = moment(weekOf).subtract(7, 'days').format('YYYY-MM-DD')

@@ -11,6 +11,8 @@ import ContentWrapper from './ContentWrapper'
 
 class PageWrapperComponent extends Component {
   setWindowTitle = (title) => {
+    // TODO: Refactor this method so that we can access in the body of the Pages.
+    // It will be necessary to set the window title 'manually' for /schedule and /timetracking
     let fullTitle = ''
     if (title) {
       fullTitle = title
