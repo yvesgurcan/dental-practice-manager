@@ -34,7 +34,6 @@ export default (title, session, environment, routeData, mainRoute) => {
   }
 
   const route = getRouteDetails(environment.routes, mainRoute)
-  console.log(route)
 
   if (route && route.name) {
     if (!subRoute || (subRoute && subRoute.name && subRoute.name !== route.name)) {

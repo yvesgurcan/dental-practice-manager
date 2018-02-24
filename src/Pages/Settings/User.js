@@ -40,6 +40,9 @@ class UserComponent extends Component {
       this.setState({temporaryTitle: user.name})
       this.props.dispatch({type: 'SELECT_UPDATE_USER', user})
     }
+    else {
+      this.setState({temporaryTitle: 'New User'})
+    }
   }
   updateUserNameTitle = (name) => {
     this.setState({temporaryTitle: name})
