@@ -1,27 +1,50 @@
 
 import getRouteDetails from './getRouteDetails'
 
-export default (title, routeTitle, session, environment) => {
+export default (title, session, environment, routeData, mainRoute) => {
   if (!document) {
     return null
   }
 
   let fullTitle = ''
-  if (title) {
-    fullTitle = title
-  }
 
-  /*
-  const subRouteHome = getRouteDetails(environment.routes, menuRoute)
-  console.log(subRouteHome)
-  */
+  const subRoute = getRouteDetails(environment.routes, routeData.path)
 
-  if (routeTitle) {
+  if (subRoute && subRoute.name) {
     if (fullTitle !== '') {
-    fullTitle += ` - ${routeTitle}`
+    fullTitle += ` - ${subRoute.name}`
     }
     else {
-      fullTitle += routeTitle
+      fullTitle += subRoute.name
+    }
+
+  }
+
+  if (title) {
+    if (fullTitle !== '' && subRoute && subRoute.name) {
+      fullTitle += `: ${title}`
+    }
+    else if (fullTitle !== '') {
+      fullTitle += ` - ${title}`
+    }
+    else {
+      fullTitle += title
+    }
+
+  }
+
+  const route = getRouteDetails(environment.routes, mainRoute)
+  console.log(route)
+
+  if (route && route.name) {
+    if (!subRoute || (subRoute && subRoute.name && subRoute.name !== route.name)) {
+      if (fullTitle !== '') {
+      fullTitle += ` - ${route.name}`
+      }
+      else {
+        fullTitle += route.name
+      }
+            
     }
 
   }
