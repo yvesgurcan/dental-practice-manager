@@ -89,7 +89,6 @@ class ScheduleWeekNavComponent extends Component {
     const { mobile, tablet } = viewport 
     const { day } = this.props.timetracking || {}
     const { getPreviousWeek, getNextWeek, switchToDay } = this || {}
-    const weekStart = moment(day).startOf('week').add(1, 'day')
     const shiftDateFormat = tablet ? 'ddd' : 'dddd'
     const weekdays = this.weekdaysToArray()
     return (

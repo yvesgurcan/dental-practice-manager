@@ -61,6 +61,7 @@ const styles = (viewport) => {
     spacer,
     ...alignLeft(viewport),
     ...alignRight(viewport),
+    ...alignCenter(viewport),
     // web
     block,
     horizontalRuler,

@@ -1,5 +1,3 @@
-import gridColGap from './gridColGap'
-
 export default (viewport) => {
   const rowCount = 2
   const percentage = 100/rowCount
