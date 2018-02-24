@@ -153,7 +153,7 @@ const routes = {
         url: "/settings/users",
         idRoute: {
           component: User,
-          name: "New User",
+          name: "User",
           url: "/settings/users/:userId([1-9]|[0-9]{2,}|new|add)",          
         },
       },

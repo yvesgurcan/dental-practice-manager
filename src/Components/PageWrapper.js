@@ -11,46 +11,17 @@ import Feedback from './Feedback'
 import ContentWrapper from './ContentWrapper'
 
 class PageWrapperComponent extends Component {
-  setWindowTitle = (title) => {
-    // TODO: Refactor this method so that we can access in the body of the Pages.
-    // It will be necessary to set the window title 'manually' for /schedule and /timetracking
-    let fullTitle = ''
-    if (title) {
-      fullTitle = title
-    }
-    const { client } = this.props.session || {}
-    if (client && client.name) {
-      if (fullTitle !== '') {
-        fullTitle += ` - ${client.name}`
-      }
-      else {
-        fullTitle += client.name
-      }
-    }
-    
-    const { software } = this.props.environment || {}
-    if (fullTitle !== '') {
-      fullTitle += ` - ${software.name}`
-    }
-    else {
-      fullTitle += software.name
-    }
-    if (document.title !== fullTitle) {
-      document.title = fullTitle
-    }
-    
-  }
-
   render () {
     const {
       session,
       environment,
       route,
       routeData,
+      setWindowTitleAutomatically,      
       pageTitle,
+      windowTitle,
       menuRoute,
       notFound,
-      setWindowTitleAutomatically
     } = this.props || {}
     const {
       styles,
@@ -62,7 +33,7 @@ class PageWrapperComponent extends Component {
     const routeDetails = getRouteDetails(routes, route || path)
     const pageHeader = pageTitle === null ? undefined : pageTitle || (routeDetails || {}).name
     if (setWindowTitleAutomatically) {
-      setWindowTitle(undefined, pageHeader, session, environment)
+      setWindowTitle(windowTitle  || pageTitle, session, environment, routeData, menuRoute)
     }
 
     const subRoutes = getRouteDetails(routes, menuRoute, "subroutes")

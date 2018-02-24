@@ -10,7 +10,7 @@ class SupportComponent extends Component {
   }
   render () {
     return (
-      <PageWrapper>
+      <PageWrapper windowTitle="Support">
         <SupportBody />
       </PageWrapper>
     )  

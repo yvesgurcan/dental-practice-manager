@@ -32,12 +32,13 @@ class TimeTrackingBodyComponent extends Component {
     const {
       session,
       environment,
+      routeData,
       timetracking,
     } = this.props || {}
     const { routes } = environment || {}
     const { day } = timetracking || {}
     const mainHeader = `${moment(day).format('dddd, MMMM D')}`
-    setWindowTitle(mainHeader, routes.timetracking.name, session, environment)
+    setWindowTitle(mainHeader, session, environment, routeData)
     return (
       <Block>
         <ShiftNav />
