@@ -665,17 +665,55 @@ endpointWrapper(
 
     const requestUser = JSON.parse(parameters.user)
 
+    // get appointments of this client
     const appointments = global.appointments.filter(appointment => !appointment.deleted && appointment.clientId === requestUser.clientId)
 
+    // make sure we start the week on Monday
     let weekOf = moment().startOf('week').add(1, 'day').format('YYYY-MM-DD')
     if (parameters.start) {
       weekOf = moment(parameters.start).startOf('week').add(1, 'day').format('YYYY-MM-DD')
     }
 
+    // get appointments of the week
     const filteredAppointments = appointments.filter(appointment => {
       const isAfter = moment(appointment.date).isAfter(moment(weekOf))
       const isBefore = moment(appointment.date).isBefore(moment(weekOf).add(7, 'days'))
       return isAfter && isBefore
+    })
+
+    // get patients of this client
+    const patients = global.patients.filter(patient => patient.clientId === requestUser.clientId)
+
+    // get operatories of this client
+    const client = global.clients.filter(client => client.clientId === requestUser.clientId)
+    if (client.length === 0) {
+      return { feedback: {status: 'error', message: 'Settings could not be found.'} }
+    }
+
+    const operatories = (client[0].settings || {}).operatories
+
+    // augment appointment data with patient data
+    const augmentedAppointments = filteredAppointments.map(appointment => {
+      const patientData = patients.filter(patient => patient.patientId === appointment.patientId)
+      let augmentedAppointment = {...appointment}
+      if (patientData.length > 0) {
+        augmentedAppointment = {
+          ...appointment,
+          ... patientData[0],
+        }
+      }
+
+      const operatoryData = operatories.filter(operatory => appointment.operatoryId === operatory.operatoryId)
+      if (operatoryData.length > 0) {
+        const { name } = operatoryData[0]
+        augmentedAppointment = {
+          ...augmentedAppointment,
+          ...operatoryData[0],
+          operatoryName: name,
+        }
+      }
+
+      return augmentedAppointment
     })
 
     let interval = {}
@@ -683,7 +721,7 @@ endpointWrapper(
     let weeklySchedule = []
     for (let i = 0; i < 5; i++) {
       const day = moment(weekOf).add(i, 'days')
-      const dailyAppointments = filteredAppointments.filter(appointment => !appointment.deleted && moment(appointment.date).isSame(day, 'day')).sort((a, b) => moment(a.date).isAfter(moment(b.date)) ? 1 : moment(a.date).isBefore(moment(b.date)) ? -1 : 0)
+      const dailyAppointments = augmentedAppointments.filter(appointment => !appointment.deleted && moment(appointment.date).isSame(day, 'day')).sort((a, b) => moment(a.date).isAfter(moment(b.date)) ? 1 : moment(a.date).isBefore(moment(b.date)) ? -1 : 0)
 
       if (dailyAppointments.length > 0) {
         const earliestDailyStart = moment(dailyAppointments[0].date).format('HH:mm')

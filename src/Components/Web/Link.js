@@ -25,7 +25,7 @@ class LinkComponent extends Component {
 LinkComponent.propTypes = {
   href: PropTypes.string,
   onClick: PropTypes.func,
-  children: PropTypes.any.isRequired,
+  children: PropTypes.node.isRequired,
 }
 
 const Link = connect(mapStateToProps)(LinkComponent)
