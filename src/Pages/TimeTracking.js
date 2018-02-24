@@ -4,18 +4,17 @@ import mapStateToProps from './../Store/mapStateToProps'
 import PageWrapper from './../Components/PageWrapper'
 import TimeTrackingBody from './../Components/Bodies/TimeTrackingBody'
 
-class PayrollComponent extends Component {
+class TimeTrackingComponent extends Component {
   componentWillMount () {
     this.props.dispatch({type: "STORE_ROUTE", ...this.props.match})
   }
   render () {
     return (
-      <PageWrapper pageTitle={null} setWindowTitleAutomatically={false} menuRoute="/timetracking">
+      <PageWrapper pageTitle={null} setWindowTitleAutomatically={false}>
         <TimeTrackingBody />
       </PageWrapper>
     )  
   }
 }
-const Payroll = connect(mapStateToProps)(PayrollComponent)
 
-export default Payroll
+export default connect(mapStateToProps)(TimeTrackingComponent)

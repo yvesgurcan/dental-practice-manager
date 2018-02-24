@@ -9,6 +9,7 @@ import ShiftNav from './../ShiftNav'
 
 class TimeTrackingBodyComponent extends Component {
   componentWillMount = () => {
+    const { review, limited } = this.props || {}
     const { year, month, day } = this.props.routeData.params || {}
     let start = undefined
     if (year && month && day) {
@@ -17,10 +18,11 @@ class TimeTrackingBodyComponent extends Component {
     }
 
     if (window.history.pushState) {
+      console.log(review)
       if (!start) {
         start = moment()
         const { routes } = this.props.environment || {}
-        const controller = routes.timetracking.url
+        const controller = review ? routes.timetracking.subroutes.review.url : routes.timetracking.url
         window.history.pushState('','',`${controller}/${moment(day).format('YYYY/M/D')}`)
   
       }

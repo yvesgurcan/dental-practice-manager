@@ -9,6 +9,8 @@ import Messaging from './../Pages/Messaging'
 import Billing from './../Pages/Billing'
 
 import TimeTracking from './../Pages/TimeTracking'
+import TimeTrackingReview from './../Pages/TimeTracking/TimeTrackingReview'
+import TimeTrackingLimited from './../Pages/TimeTracking/TimeTrackingLimited'
 
 import Settings from './../Pages/Settings'
 import SettingNotFound from './../Pages/Settings/SettingNotFound'
@@ -78,6 +80,7 @@ const routes = {
       url: '/schedule/:year(2[0-9][0-9]{2})/:month([1-9]|0[1-9]|1[0-2])/:day([1-9]|0[1-9]|[1-2][0-9]|3[0-1])'
     },
   },
+
   patients: {
     component: Patients,
     name: "Patients",
@@ -96,6 +99,7 @@ const routes = {
       url: "/patients/:patientId([1-9]|[0-9]{2,}|new|add)",
     },
   },
+
   billing: {
     component: Billing,
     name: "Billing",
@@ -106,6 +110,7 @@ const routes = {
       "officeManager",
     ],
   },
+
   messaging: {
     component: Messaging,
     name: "Messaging",
@@ -119,10 +124,23 @@ const routes = {
       "receptionist",
     ],
   },
+
   timetracking: {
     component: TimeTracking,
     name: "Time Tracking",
     url: "/timetracking",
+    subroutes: {
+      review: {
+        component: TimeTrackingReview,
+        name: 'Review',
+        url: '/timetracking/review'
+      }
+    },
+    idRoute: {
+      component: TimeTracking,
+      name: 'Time Tracking',
+      url: '/timetracking/:year(2[0-9][0-9]{2})/:month([1-9]|0[1-9]|1[0-2])/:day([1-9]|0[1-9]|[1-2][0-9]|3[0-1])'
+    },
     permissions: [
       "dentist",
       "headHygienist",
@@ -130,12 +148,8 @@ const routes = {
       "hygienist",
       "assistant",
     ],
-    idRoute: {
-      component: TimeTracking,
-      name: 'Time Tracking',
-      url: '/timetracking/:year(2[0-9][0-9]{2})/:month([1-9]|0[1-9]|1[0-2])/:day([1-9]|0[1-9]|[1-2][0-9]|3[0-1])'
-    },
   },
+
   settings: {
     component: Settings,
     notFoundComponent: SettingNotFound,
@@ -174,6 +188,7 @@ const routes = {
       'officeManager',
     ],
   },
+
   userprofile: {
     component: UserLimited,
     name: "User",
