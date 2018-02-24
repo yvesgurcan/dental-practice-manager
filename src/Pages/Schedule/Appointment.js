@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import mapStateToProps from './../Store/mapStateToProps'
-import PageWrapper from './../Components/PageWrapper'
-import AppointmentBody from './../Components/Bodies/AppointmentBody'
+import mapStateToProps from './../../Store/mapStateToProps'
+import PageWrapper from './../../Components/PageWrapper'
+import AppointmentBody from './../../Components/Bodies/AppointmentBody'
 
 class AppointmentComponent extends Component {
   componentWillMount () {

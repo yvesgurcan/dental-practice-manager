@@ -1,5 +1,5 @@
 import Schedule from './../Pages/Schedule'
-import Appointment from './../Pages/Appointment'
+import Appointment from './../Pages/Schedule/Appointment'
 
 import Patients from './../Pages/Patients'
 import Patient from './../Pages/Patient'
@@ -68,7 +68,7 @@ const routes = {
         idRoute: {
           component: Appointment,
           name: "Appointment",
-          url: "/route/appointments/:appointmentId([1-9]|[0-9]{2,}|new|add)",
+          url: "/schedule/appointments/:appointmentId([1-9]|[0-9]{2,}|new|add)",
         },
       },
     },
