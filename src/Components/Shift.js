@@ -14,6 +14,7 @@ class ShiftComponent extends Component {
     const { shift } = this.props || {}
     const { end } = shift || {}
     if (!end) {
+      this.setState({ ongoingEnd: moment() })
       const millisecondsToNextMinute = moment.duration(moment().endOf('minute').diff(moment())).asMilliseconds()
       this.timeout = setTimeout(this.firstUpdateActiveTimer, millisecondsToNextMinute)
     }
@@ -31,12 +32,15 @@ class ShiftComponent extends Component {
   }
   
   calcDiff = (reference) => {
+    const { day } = this.props.timetracking || {}
     const { shift } = this.props || {}
-    const { start } = shift
-    const { updatedStart } = this.state || {}
-    const diff = moment.duration(moment(reference).diff(moment(updatedStart || start)))
+    const { start, end } = shift
+    const { updatedStart, onGoingEnd } = this.state || {}
+    if (!end && moment().isAfter(moment(day).endOf('day'))) {
+      return '-'
+    }
 
-    console.log(diff)
+    const diff = moment.duration(moment(reference).diff(moment(updatedStart || start)))
 
     if (diff < 0) {
       return '-'
@@ -47,9 +51,9 @@ class ShiftComponent extends Component {
 
   updateShift = (input) => {
     const { day } = this.props.timetracking || {}
+    const formattedDay = moment(day).format('YYYY-MM-DD')
     let state = {...this.state}
-    // TODO: add input.value in a way that is moment-compatible
-    state[input.name] = moment(day).startOf('day').format('YYY-MM-DD HH:mm')
+    state[input.name] = moment(`${formattedDay} ${input.value}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm')
     this.setState(state, () => {
       const { updatedEnd } = this.state || {}
       this.calcDiff(updatedEnd)
@@ -97,7 +101,7 @@ class ShiftComponent extends Component {
             />
         </Block>
         <Block style={mobile ? styles.standardMargin : null}>
-          {calcDiff(end || ongoingEnd)}
+          {calcDiff(updatedEnd || end || ongoingEnd)}
         </Block>
         <Block>
           <Button hidden={end} onClick={updateShift} style={{width: '100%'}}>Stop</Button>
