@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
+import apiRequestHandler from '../Utility/apiRequestHandler'
 import transformArrayIntoOptions from './../Utility/transformArrayIntoOptions'
 import Block from './Web/Block'
 import Grid from './Grid/Grid'
@@ -11,6 +12,7 @@ import DangerButton from './Web/DangerButton'
 
 class ShiftComponent extends Component {
   componentDidMount = () => {
+    this.mounted = true
     const { shift } = this.props || {}
     const { end } = shift || {}
     if (!end) {
@@ -27,16 +29,18 @@ class ShiftComponent extends Component {
   }
 
   updateActiveTimer = () => {
-    let ongoingEnd = moment()
-    this.setState({ ongoingEnd })
+    if (this.mounted) {
+      let ongoingEnd = moment()
+      this.setState({ ongoingEnd })  
+    }
   }
   
   calcDiff = (reference) => {
     const { day } = this.props.timetracking || {}
     const { shift } = this.props || {}
     const { start, end } = shift
-    const { updatedStart, onGoingEnd } = this.state || {}
-    if (!end && moment().isAfter(moment(day).endOf('day'))) {
+    const { updatedStart, updatedEnd } = this.state || {}
+    if (!end && !updatedEnd && moment().isAfter(moment(day).endOf('day'))) {
       return '-'
     }
 
@@ -51,27 +55,78 @@ class ShiftComponent extends Component {
 
   updateShift = (input) => {
     const { day } = this.props.timetracking || {}
+    const { shift } = this.props || {}
     const formattedDay = moment(day).format('YYYY-MM-DD')
     let state = {...this.state}
-    state[input.name] = moment(`${formattedDay} ${input.value}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm')
+    let { name, value } = input
+    if (!value) {
+      name = 'updatedEnd'
+      if (moment().isAfter(moment(day).endOf('day'))) {
+        const { scheduleEnd } = this.props.settings || {}
+        if (scheduleEnd) {
+          value = scheduleEnd
+        }
+        else {
+          value = '23:59'
+        }
+      }
+      else {
+        value = moment().format('HH:mm')
+      }
+    }
+    const newValue = moment(`${formattedDay} ${value}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm')
+    state[name] = newValue
     this.setState(state, () => {
       const { updatedEnd } = this.state || {}
       this.calcDiff(updatedEnd)
+      let key = name.replace('updated','')
+      key = key[0].toLowerCase() + key.substring(1)
+      const updateShift = {
+        shiftId: shift.shiftId,
+        [key]: newValue,
+      }
+      apiRequestHandler(
+        'put',
+        'shifts',
+        { updateShift },
+        this.props.session,
+      )
     })
   }
 
-  deleteShift = () => {
+  resumeShift = () => {
+    this.updateShift({name: 'updatedEnd', value: undefined})
+  }
 
+  deleteShift = () => {
+    const { shift } = this.props || {}
+    apiRequestHandler(
+      'delete',
+      'shifts',
+      { deleteShift: {shiftId: shift.shiftId} },
+      this.props.session,
+      this.props.handleDeleteShiftResponse
+    )
+  }
+
+  handleDeleteShiftResponse = () => {
+    // TODO: Write dispatch to remove shift from list
+  }
+
+  componentWillUnmount = () => {
+    this.mounted = false
   }
 
   render () {
-    const { styles, viewport } = this.props.environment || {}
+    const { shift, environment, settings, timetracking } = this.props || {}
+    const { styles, viewport } = environment || {}
     const { mobile } = viewport
-    const { shiftTypes } = this.props.settings || {}
-    const { shift } = this.props || {}
+    const { shiftTypes } = settings || {}
+    const { day } = timetracking || {}
     const { shiftTypeId, start, end} = shift || {}
     const { updatedStart, updatedEnd, ongoingEnd } = this.state || {}
-    const { updateShift, deleteShift, calcDiff } = this || {}
+    const { updateShift, resumeShift, deleteShift, calcDiff } = this || {}
+    const today = moment().startOf('day').format('YYYY-MM-DD')
     return (
       <Grid style={styles.shiftGrid}>
         <Block>
@@ -103,8 +158,11 @@ class ShiftComponent extends Component {
         <Block style={mobile ? styles.standardMargin : null}>
           {calcDiff(updatedEnd || end || ongoingEnd)}
         </Block>
-        <Block>
-          <Button hidden={end} onClick={updateShift} style={{width: '100%'}}>Stop</Button>
+        <Block hidden={end || updatedEnd}>
+          <Button onClick={updateShift} style={{width: '100%'}}>Stop</Button>
+        </Block>
+        <Block hidden={!end && !updatedEnd}>
+          <Button hidden={!moment(today).isSame(moment(day).format('YYYY-MM-DD'))} onClick={resumeShift} style={{width: '100%'}}>Start</Button>
         </Block>
         <Block>
           <DangerButton onClick={deleteShift} style={{width: '100%'}}>Delete</DangerButton>

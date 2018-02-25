@@ -807,20 +807,38 @@ endpointWrapper(
 
    const shiftTypes = (client[0].settings || {}).shiftTypes
 
-    const shifts = global.shifts.filter(shift => !shift.deleted && shift.clientId === requestUser.clientId && shift.userId === requestUser.userId).map(shift => {
-      const shiftTypeData = shiftTypes.filter(shiftType => shiftType.shiftTypeId === shift.shiftTypeId)
-      let augmentedShift = {...shift}
-      if (shiftTypeData.length > 0) {
-        augmentedShift = {
-          ...augmentedShift,
-          ... shiftTypeData[0],
-        }
-      }
-
-      return augmentedShift
-    })
+    const shifts = global.shifts.filter(shift => !shift.deleted && shift.clientId === requestUser.clientId && shift.userId === requestUser.userId && moment(shift.start).isAfter(moment(parameters.day).startOf('day')) && moment(shift.start).isBefore(moment(parameters.day).endOf('day'))).sort((a, b) => moment(a.start).isAfter(moment(b.start)) ? 1 : moment(a.start).isBefore(moment(b.start)) ? -1 : 0)
 
     return { shifts, feedback: { status: "success" } }
+  }
+)
+
+endpointWrapper(
+  "put",
+  "/shifts",
+  (req, res, parameters) => {
+
+   // get shift
+
+    const shift = global.shifts.filter(shift => !shift.deleted && shift.clientId === parameters.user.clientId && shift.shiftId === parameters.updateShift.shiftId)
+
+    if (shift.length === 0) {
+    return { feedback: { status: 'error', message: 'The shift could not be found.' } }
+    }
+
+    const updateShift = {
+      ...shift[0],
+      ...parameters.updateShift,
+    }
+
+    global.shifts = global.shifts.map(shift => {
+      if (shift.shiftId === updateShift.shiftId) {
+        return updateShift
+      }
+      return shift
+    })
+
+    return { feedback: { status: 'success' } }
   }
 )
 

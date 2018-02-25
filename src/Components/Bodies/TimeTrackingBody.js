@@ -56,7 +56,8 @@ class TimeTrackingBodyComponent extends Component {
     return date
   }
 
-  getShifts = (day) => {
+  getShifts = (date) => {
+    const day = moment(date).format('YYYY-MM-DD')
     apiRequestHandler(
       'get',
       'shifts',

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import Block from './Web/Block'
+import Link from './Web/Link'
 import Shift from './Shift'
 
 class ShiftsTableComponent extends Component {
@@ -9,6 +10,7 @@ class ShiftsTableComponent extends Component {
     const { shifts } = this.props.timetracking || {}
     return (
       <Block>
+        <Block>
         {
           (shifts || []).map(shift =>
             <Shift
@@ -17,6 +19,8 @@ class ShiftsTableComponent extends Component {
             />
           )
         }
+        </Block>
+        <Link>Add Timer</Link>
       </Block>
     )
   }

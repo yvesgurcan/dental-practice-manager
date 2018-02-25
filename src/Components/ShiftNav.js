@@ -9,45 +9,14 @@ import Grid from './Grid/Grid'
 class ScheduleWeekNavComponent extends Component {
   getPreviousWeek = () => {
     this.switchToDay(-7)
-    /*
-    const { weekOf } = this.props.schedule || {}
-    const previousWeek = moment(weekOf).subtract(7, 'days').format('YYYY-MM-DD')
-    apiRequestHandler(
-      'get',
-      'schedule',
-      {start: previousWeek},
-      this.props.session,
-      this.storeShifts,
-    )
-    */
   }
 
   getNextWeek = () => {
     this.switchToDay(7)
-    /*
-    const { weekOf } = this.props.schedule || {}
-    const nextWeek = moment(weekOf).add(7, 'days').format('YYYY-MM-DD')
-    apiRequestHandler(
-      'get',
-      'schedule',
-      {start: nextWeek},
-      this.props.session,
-      this.storeShifts,
-    )
-    */
   }
 
   storeShifts = (response) => {
     if (response.feedback.status === 'success') {
-      /*
-      this.props.dispatch({
-        type: 'STORE_SCHEDULE',
-        weeklySchedule: [...response.weeklySchedule],
-        weekOf: response.weekOf,
-        interval: response.interval,
-      })
-      */
-      
       if (window.history.pushState) {
         const { routes } = this.props.environment || {}
         const controller = routes.schedule.url
@@ -60,8 +29,10 @@ class ScheduleWeekNavComponent extends Component {
 
   switchToDay = (weekdayNumber) => {
     const { day } = this.props.timetracking || {}
+    const { getShifts } = this.props || {}
     const newDay = moment(day).startOf('week').add(1, 'day').add(weekdayNumber,'day')
     this.props.dispatch({type: "STORE_SHIFT_DAY", day: newDay})
+    getShifts(newDay)
 
     if (window.history.pushState) {
       const { routes } = this.props.environment || {}
