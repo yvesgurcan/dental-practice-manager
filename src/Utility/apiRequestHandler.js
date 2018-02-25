@@ -59,6 +59,7 @@ const apiRequestHandler = (
   else {
     payload.user = {
       clientId: session.client ? session.client.clientId : undefined,
+      userId: session.user.userId,
       supportUserId: session.supportUser.supportUserId,
       email: session.supportUser.email,
       password: session.supportUser.password,

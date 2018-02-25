@@ -12,6 +12,7 @@ import grid5 from './grid5'
 import grid12 from './grid12'
 import scheduleGrid from './scheduleGrid'
 import shiftNavGrid from './shiftNavGrid'
+import shiftGrid from './shiftGrid'
 import column2 from './column2'
 import column3 from './column3'
 import column4 from './column4'
@@ -53,6 +54,8 @@ import appointmentScheduleCard from './appointmentScheduleCard'
 import timeSlots from './timeSlots'
 import timeSlot from './timeSlot'
 import timeSlotHorizontalLine from './timeSlotHorizontalLine'
+// time tracking
+import selectedDay from './selectedDay'
 
 const styles = (viewport) => {
   return ({
@@ -135,6 +138,8 @@ const styles = (viewport) => {
     ...appointmentScheduleCard(viewport),
     // timetracking
     ...shiftNavGrid(viewport),
+    ...shiftGrid(viewport),
+    ...selectedDay(viewport),
   })
 }
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
-import apiRequestHandler from './../Utility/apiRequestHandler'
 import moment from 'moment'
 import Block from './Web/Block'
 import Link from './Web/Link'
@@ -9,7 +8,7 @@ import Grid from './Grid/Grid'
 
 class ScheduleWeekNavComponent extends Component {
   getPreviousWeek = () => {
-    this.switchToDay(-3)
+    this.switchToDay(-7)
     /*
     const { weekOf } = this.props.schedule || {}
     const previousWeek = moment(weekOf).subtract(7, 'days').format('YYYY-MM-DD')
@@ -62,7 +61,7 @@ class ScheduleWeekNavComponent extends Component {
   switchToDay = (weekdayNumber) => {
     const { day } = this.props.timetracking || {}
     const newDay = moment(day).startOf('week').add(1, 'day').add(weekdayNumber,'day')
-    this.props.dispatch({type: "STORE_DAY", day: newDay})
+    this.props.dispatch({type: "STORE_SHIFT_DAY", day: newDay})
 
     if (window.history.pushState) {
       const { routes } = this.props.environment || {}
@@ -99,7 +98,7 @@ class ScheduleWeekNavComponent extends Component {
           </Link>
         </Block>
         {!mobile && weekdays.map(weekday => 
-          <Block key={weekday}>
+          <Block key={weekday} style={moment(weekday).isSame(moment(day)) ? styles.selectedDay : null}>
             <Link onClick={() => switchToDay(moment(weekday).subtract(1, 'day').format('d')) }>
               {moment(weekday).format(shiftDateFormat)}
             </Link>

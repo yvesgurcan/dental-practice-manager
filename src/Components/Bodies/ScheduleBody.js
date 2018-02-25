@@ -62,7 +62,6 @@ class ScheduleBodyComponent extends Component {
       routeData,
       schedule,
     } = this.props || {}
-    const { routes } = environment || {}
     const { weekOf } = schedule || {}
     const mainHeader = `Week of ${moment(weekOf).format('MMMM D, YYYY')}`
     setWindowTitle(mainHeader, session, environment, routeData)

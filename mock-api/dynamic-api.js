@@ -22,8 +22,9 @@ let userId = 0
 let patientId = 0
 let appointmentId = 0
 let messageId = 0
-let workTimeId = 0
+let shiftId = 0
 let operatoryId = 0
+let shiftTypeId = 0
 
 // you can create a mock database in the form of a JSON object here
 global = {
@@ -89,6 +90,12 @@ global = {
             name: 'Operatory #2',
             deleted: false,
           },
+        ],
+        shiftTypes: [
+          {
+            shiftTypeId: ++shiftTypeId,
+            shiftTypeName: 'Treat patients'
+          }
         ],
       },
       deleted: false,
@@ -285,13 +292,24 @@ global = {
     },
   ],
   
-  workTimes: [
+  shifts: [
     {
-      workTimeId: ++workTimeId,
+      shiftId: ++shiftId,
       clientId: 1,
-      userId: 2,
-      start: "2018-02-04 09:00",
-      end: "2018-02-04 12:00",
+      userId: 1,
+      shiftTypeId: 1,
+      start: "2018-02-23 09:00",
+      end: "2018-02-23 12:00",
+      submitted: false,
+      deleted: false,
+    },
+    {
+      shiftId: ++shiftId,
+      clientId: 1,
+      userId: 1,
+      shiftTypeId: 1,
+      start: "2018-02-23 13:00",
+      submitted: false,
       deleted: false,
     },
   ],
@@ -770,6 +788,39 @@ endpointWrapper(
 
     const appointments = global.appointments.filter(appointment => !appointment.deleted && appointment.clientId === requestUser.clientId)
     return {appointments: appointments, feedback: {status: "success"}}
+  }
+)
+
+// shifts
+endpointWrapper(
+  "get",
+  "/shifts",
+  (req, res, parameters) => {
+
+    const requestUser = JSON.parse(parameters.user)
+
+   // get shift types of this client
+   const client = global.clients.filter(client => client.clientId === requestUser.clientId)
+   if (client.length === 0) {
+     return { feedback: {status: 'error', message: 'Settings could not be found.'} }
+   }
+
+   const shiftTypes = (client[0].settings || {}).shiftTypes
+
+    const shifts = global.shifts.filter(shift => !shift.deleted && shift.clientId === requestUser.clientId && shift.userId === requestUser.userId).map(shift => {
+      const shiftTypeData = shiftTypes.filter(shiftType => shiftType.shiftTypeId === shift.shiftTypeId)
+      let augmentedShift = {...shift}
+      if (shiftTypeData.length > 0) {
+        augmentedShift = {
+          ...augmentedShift,
+          ... shiftTypeData[0],
+        }
+      }
+
+      return augmentedShift
+    })
+
+    return { shifts, feedback: { status: "success" } }
   }
 )
 

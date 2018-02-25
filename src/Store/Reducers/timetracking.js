@@ -6,12 +6,19 @@ export default function timetracking (state = {}, action) {
     default:
       break
     
-    case 'STORE_DAY': {
+    case 'STORE_SHIFT_DAY': {
       newState = {
         ...state,
         day: action.day,
       }
       break
+    }
+
+    case 'STORE_SHIFTS': {
+      newState = {
+        ...state,
+        shifts: [...action.shifts],
+      }
     }
 
   }
