@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 import { connect } from 'react-redux'
 import mapStateToProps from './../Store/mapStateToProps'
 import Block from './Web/Block'

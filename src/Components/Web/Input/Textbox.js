@@ -5,7 +5,7 @@ import mapStateToProps from './../../../Store/mapStateToProps'
 import Block from './../Block'
 
 class TextboxComponent extends Component {
-  onChange = (input) => {
+  onChange = (input, blurEvent) => {
     const { pattern, type, max, min } = this.props || {}
     const {value, name} = input.target
     let interceptedValue = value
@@ -33,15 +33,31 @@ class TextboxComponent extends Component {
       if (min && interceptedValue !== '') {
         interceptedValue = Math.max(min, interceptedValue)
       }
-      if (this.props.onChange) this.props.onChange({name, value: interceptedValue, input: "textbox"})
+
+      if (blurEvent) {
+        if (this.props.onBlur) {
+          this.props.onBlur({name, value: interceptedValue, input: "textbox"})
+        }
+
+      }
+      else if (this.props.onChange) {
+        this.props.onChange({name, value: interceptedValue, input: "textbox"})
+      }
+
     }
     
   }
+
+  onBlur = (input) => {
+    this.onChange(input, true)
+  }
+
   onKeyPress = (input) => {
     if (input.key === "Enter" && this.props.onPressEnter) {
       this.props.onPressEnter(input)
     }
   }
+
   render () {
     const { styles } = this.props.environment
     const {
@@ -95,6 +111,7 @@ class TextboxComponent extends Component {
         maxLength={maxLength}
         style={{...styles.textbox, ...style}}
         onChange={this.onChange}
+        onBlur={this.onBlur}
         onKeyPress={this.onKeyPress}/>
     )  
   }
@@ -106,7 +123,8 @@ TextboxComponent.defaultProps = {
 
 TextboxComponent.propTypes = {
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
   onPressEnter: PropTypes.func.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   placeholder: PropTypes.string,

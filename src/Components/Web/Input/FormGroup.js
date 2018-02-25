@@ -44,7 +44,8 @@ FormGroup.defaultProps = {
 
 FormGroup.propTypes = {
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
   onPressEnter: PropTypes.func,
   placeholder: PropTypes.string,
   options: PropTypes.array,
