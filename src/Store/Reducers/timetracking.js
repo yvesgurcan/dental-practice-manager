@@ -19,6 +19,35 @@ export default function timetracking (state = {}, action) {
         ...state,
         shifts: [...action.shifts],
       }
+
+      break
+    }
+
+    case 'ADD_SHIFT': {
+      newState = {
+        ...state,
+        shifts: [...state.shifts, { shiftId: action.tempShiftId}],
+      }
+
+      break
+    }
+
+    case 'STORE_NEW_SHIFT_ID': {
+      let updatedShifts = state.shifts.map(shift => {
+        let updatedShift = {...shift}
+        if (updatedShift.shiftId === action.tempShiftId) {
+          updatedShift.shiftId = action.newShiftId
+        }
+
+        return updatedShift
+      })
+
+      newState = {
+        ...state,
+        shifts: updatedShifts,
+      }
+
+      break
     }
 
   }
