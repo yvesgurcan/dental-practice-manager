@@ -18,6 +18,7 @@ export default function timetracking (state = {}, action) {
       newState = {
         ...state,
         shifts: [...action.shifts],
+        dailyTotals: [...action.dailyTotals],
       }
 
       break

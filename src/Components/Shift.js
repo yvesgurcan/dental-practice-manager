@@ -147,29 +147,29 @@ class ShiftComponent extends Component {
 
   hasStarted = () => {
     const { shift } = this.props || {}
-    const { start, end } = shift || {}
-    const { updatedStart, updatedEnd, ongoingEnd } = this.state || {}
+    const { start } = shift || {}
+    const { updatedStart } = this.state || {}
     return start || updatedStart
   }
 
   hasNotStarted = () => {
     const { shift } = this.props || {}
-    const { start, end } = shift || {}
-    const { updatedStart, updatedEnd, ongoingEnd } = this.state || {}
+    const { start } = shift || {}
+    const { updatedStart } = this.state || {}
     return !start && !updatedStart
   }
 
   hasEnded = () => {
     const { shift } = this.props || {}
-    const { start, end } = shift || {}
-    const { updatedStart, updatedEnd, ongoingEnd } = this.state || {}
+    const { end } = shift || {}
+    const { updatedEnd } = this.state || {}
     return end || updatedEnd
   }
 
   hasNotEnded = () => {
     const { shift } = this.props || {}
-    const { start, end } = shift || {}
-    const { updatedStart, updatedEnd, ongoingEnd } = this.state || {}
+    const { end } = shift || {}
+    const { updatedEnd } = this.state || {}
     return !end && !updatedEnd
   }
 

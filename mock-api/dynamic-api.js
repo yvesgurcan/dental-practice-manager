@@ -298,6 +298,7 @@ global = {
       clientId: 1,
       userId: 1,
       shiftTypeId: 1,
+      day: '2018-02-23',
       start: "2018-02-23 09:00",
       end: "2018-02-23 12:00",
       submitted: false,
@@ -308,6 +309,7 @@ global = {
       clientId: 1,
       userId: 1,
       shiftTypeId: 1,
+      day: '2018-02-23',
       start: "2018-02-23 13:00",
       submitted: false,
       deleted: false,
@@ -317,6 +319,7 @@ global = {
       clientId: 1,
       userId: 1,
       shiftTypeId: 1,
+      day: '2018-02-26',
       start: "2018-02-26 15:00",
       end: "2018-02-26 15:26",
       submitted: false,
@@ -327,6 +330,7 @@ global = {
       clientId: 1,
       userId: 1,
       shiftTypeId: 1,
+      day: '2018-02-26',
       start: "2018-02-26 15:10",
       submitted: false,
       deleted: false,
@@ -828,7 +832,41 @@ endpointWrapper(
 
     const shifts = global.shifts.filter(shift => !shift.deleted && shift.clientId === requestUser.clientId && shift.userId === requestUser.userId && moment(shift.start).isAfter(moment(parameters.day).startOf('day')) && moment(shift.start).isBefore(moment(parameters.day).endOf('day'))).sort((a, b) => moment(a.start).isAfter(moment(b.start)) ? 1 : moment(a.start).isBefore(moment(b.start)) ? -1 : 0)
 
-    return { shifts, feedback: { status: "success" } }
+    const weekOf = moment(parameters.day).startOf('week').add(1, 'day').format('YYYY-MM-DD')
+
+    // get shifts of the week
+    const weekShifts = global.shifts.filter(shift => {
+      const isAfter = moment(shift.day).isAfter(moment(weekOf)) || moment(shift.day).isSame(moment(weekOf), 'day')
+      const isBefore = moment(shift.day).isBefore(moment(weekOf).add(7, 'days')) || moment(shift.day).isSame(moment(weekOf).add(7, 'days'), 'day')
+      return !shift.deleted && shift.clientId === requestUser.clientId && shift.userId === requestUser.userId && isAfter && isBefore
+    })
+
+    let dailyTotals = []
+    for (let i = 0; i < 5; i++) {
+      let ongoing = false
+      const day = moment(weekOf).add(i, 'days')
+      const shiftDurations = weekShifts.filter(shift => !shift.deleted && moment(shift.start).isSame(day, 'day')).map(shift => {
+        if (!shift.end) {
+          ongoing = true
+          return moment.duration(moment(day).endOf('day').diff(moment(shift.start))).asMinutes()
+        }
+        return moment.duration(moment(shift.end).diff(moment(shift.start))).asMinutes()
+      })
+
+      let total = 0
+      if (shiftDurations.length > 0) {
+        total = shiftDurations.reduce((sum, value) => sum+value)
+      }
+
+      dailyTotals.push({
+        day: moment(day).format('YYYY-MM-DD'),
+        total,
+        ongoing,
+      })
+
+    }
+
+    return { shifts, dailyTotals, feedback: { status: "success" } }
   }
 )
 

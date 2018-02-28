@@ -57,7 +57,7 @@ class ScheduleWeekNavComponent extends Component {
   render () {
     const { styles, viewport } = this.props.environment || {}
     const { mobile, tablet } = viewport 
-    const { day } = this.props.timetracking || {}
+    const { day, dailyTotals } = this.props.timetracking || {}
     const { getPreviousWeek, getNextWeek, switchToDay } = this || {}
     const shiftDateFormat = tablet ? 'ddd' : 'dddd'
     const weekdays = this.weekdaysToArray()
@@ -68,13 +68,22 @@ class ScheduleWeekNavComponent extends Component {
           &lt;
           </Link>
         </Block>
-        {!mobile && weekdays.map(weekday => 
-          <Block key={weekday} style={moment(weekday).isSame(moment(day)) ? styles.selectedDay : null}>
-            <Link onClick={() => switchToDay(moment(weekday).subtract(1, 'day').format('d')) }>
-              {moment(weekday).format(shiftDateFormat)}
-            </Link>
-          </Block> 
-        )} 
+        {!mobile && weekdays.map(weekday => {
+            const matchTotal = (dailyTotals || []).filter(total => moment(total.day).isSame(moment(weekday), 'day'))
+            let duration = '0:00'
+            if (matchTotal.length > 0) {
+              duration = moment.utc(matchTotal[0].total * 60 * 1000).format('HH:mm')
+            }
+            return (
+              <Block key={weekday} style={moment(weekday).isSame(moment(day)) ? styles.selectedDay : null}>
+              <Link onClick={() => switchToDay(moment(weekday).subtract(1, 'day').format('d')) }>
+                {moment(weekday).format(shiftDateFormat)}
+              </Link>
+              <Block>{duration}</Block>
+            </Block> 
+            )
+          })
+        } 
         <Block style={styles.alignRight}>
           <Link onClick={getNextWeek}>
           &gt; 
