@@ -72,6 +72,7 @@ class TimeTrackingBodyComponent extends Component {
       this.props.dispatch({
         type: 'STORE_SHIFTS',
         shifts: response.shifts,
+        dailyTotals: response.dailyTotals,
       })
     }
   }

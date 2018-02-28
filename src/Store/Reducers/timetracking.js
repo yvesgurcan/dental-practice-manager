@@ -18,6 +18,7 @@ export default function timetracking (state = {}, action) {
       newState = {
         ...state,
         shifts: [...action.shifts],
+        dailyTotals: [...action.dailyTotals],
       }
 
       break
@@ -34,6 +35,24 @@ export default function timetracking (state = {}, action) {
 
     case 'DELETE_SHIFT': {
       const updatedShifts = state.shifts.filter(shift => shift.shiftId !== action.shiftId)
+      newState = {
+        ...state,
+        shifts: updatedShifts,
+      }
+
+      break
+    }
+
+    case 'STORE_NEW_SHIFT_ID': {
+      let updatedShifts = state.shifts.map(shift => {
+        let updatedShift = {...shift}
+        if (updatedShift.shiftId === action.tempShiftId) {
+          updatedShift.shiftId = action.newShiftId
+        }
+
+        return updatedShift
+      })
+
       newState = {
         ...state,
         shifts: updatedShifts,
