@@ -100,6 +100,7 @@ class ShiftComponent extends Component {
 
   deleteShift = () => {
     const { shift } = this.props || {}
+    this.props.dispatch({ type: 'DELETE_SHIFT', shiftId: shift.shiftId})
     apiRequestHandler(
       'delete',
       'shifts',
@@ -110,7 +111,6 @@ class ShiftComponent extends Component {
   }
 
   handleDeleteShiftResponse = () => {
-    // TODO: Write dispatch to remove shift from list
   }
 
   componentWillUnmount = () => {

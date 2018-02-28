@@ -6,6 +6,10 @@ import Link from './Web/Link'
 import Shift from './Shift'
 
 class ShiftsTableComponent extends Component {
+  addShift = () => {
+    this.props.dispatch({ type: 'ADD_SHIFT' })
+  }
+
   render () {
     const { shifts } = this.props.timetracking || {}
     return (
@@ -20,7 +24,7 @@ class ShiftsTableComponent extends Component {
           )
         }
         </Block>
-        <Link>Add Timer</Link>
+        <Link onClick={this.addShift}>Add Timer</Link>
       </Block>
     )
   }
