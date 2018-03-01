@@ -20,8 +20,11 @@ class TimeTrackingBodyComponent extends Component {
       inputDate = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD').format('YYYY-MM-DD')
       start = this.excludeWeekend(inputDate)
     }
+    else {
+      start = this.excludeWeekend(moment()).format('YYYY-MM-DD')
+      this.setUrl()
+    }
 
-    this.setUrl()
     this.props.dispatch({type: "STORE_SHIFT_DAY", day: start})
     this.getShifts(start)
 
