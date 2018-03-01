@@ -29,8 +29,10 @@ class ScheduleWeekNavComponent extends Component {
 
   switchToDay = (weekdayNumber) => {
     const { day } = this.props.timetracking || {}
-    const { getShifts } = this.props || {}
-    const newDay = moment(day).startOf('week').add(1, 'day').add(weekdayNumber,'day')
+    const { getShifts, excludeWeekend } = this.props || {}
+    let newDay = moment(day).startOf('week').add(1, 'day').add(weekdayNumber,'day')
+    // FIXME
+    newDay = excludeWeekend(newDay)
     this.props.dispatch({type: "STORE_SHIFT_DAY", day: newDay})
     getShifts(newDay)
 
@@ -64,7 +66,7 @@ class ScheduleWeekNavComponent extends Component {
     return (
       <Grid style={styles.shiftNavGrid}>
         <Block style={styles.alignLeft}>
-          <Link onClick={getPreviousWeek}>
+          <Link onClick={mobile ? () => switchToDay(moment(day).subtract(2, 'day').format('d')) : getPreviousWeek}>
           &lt;
           </Link>
         </Block>
@@ -85,7 +87,7 @@ class ScheduleWeekNavComponent extends Component {
           })
         } 
         <Block style={styles.alignRight}>
-          <Link onClick={getNextWeek}>
+          <Link onClick={mobile ? () => switchToDay(moment(day).format('d')) : getNextWeek}>
           &gt; 
           </Link>
         </Block>

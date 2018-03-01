@@ -94,7 +94,7 @@ class TimeTrackingBodyComponent extends Component {
     setWindowTitle(mainHeader, session, environment, routeData)
     return (
       <Block>
-        <ShiftNav getShifts={getShifts} />
+        <ShiftNav getShifts={getShifts} excludeWeekend={excludeWeekend} />
         <SectionHeader>{mainHeader}</SectionHeader>
         <ShiftsTable />
       </Block>
