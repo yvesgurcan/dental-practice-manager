@@ -65,8 +65,8 @@ class ShiftComponent extends Component {
     
     const formattedDay = moment(day).format('YYYY-MM-DD')
     let state = {...this.state}
-    let { name, value } = input
-    if (!value) {
+    let { name, value, resume } = input
+    if (!value && !resume) {
       name = 'updatedEnd'
       if (moment().isAfter(moment(day).endOf('day'))) {
         const { scheduleEnd } = this.props.settings || {}
@@ -82,7 +82,14 @@ class ShiftComponent extends Component {
       }
     }
     
-    const newValue = moment(`${formattedDay} ${value}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm')
+
+    let newValue
+    if (resume) {
+      newValue = undefined
+    }
+    else {
+      newValue = moment(`${formattedDay} ${value}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm')
+    }
     state[name] = newValue
     this.setState(state, () => {
       const { updatedEnd } = this.state || {}
@@ -121,7 +128,7 @@ class ShiftComponent extends Component {
       updateShift({name: 'updatedStart', value: moment().format('YYYY-MM-DD HH:mm')}, true)
     }
     else {
-      updateShift({name: 'updatedEnd', value: undefined})
+      updateShift({name: 'updatedEnd', value: undefined, resume: true})
     }
 
   }
@@ -224,6 +231,9 @@ class ShiftComponent extends Component {
         <Block style={mobile ? styles.standardMargin : null}>
           {calcDiff(updatedEnd || end || ongoingEnd)}
         </Block>
+        <Block>
+          <RunningTimer styles={styles} start={hasStarted() && hasNotEnded()} />
+        </Block>
         <Block hidden={hasEnded() || hasNotStarted()}>
           <Button onClick={updateShift} style={{width: '100%'}}>Stop</Button>
         </Block>
@@ -239,3 +249,14 @@ class ShiftComponent extends Component {
 }
 
 export default connect(mapStateToProps)(ShiftComponent)
+
+class RunningTimer extends Component {
+  render () {
+    const { styles, start } = this.props || {}
+    return (
+      <Block style={styles.timerContainer}>
+        <Block style={{...styles.timer, animation: start ? 'fullRotation 5s linear infinite' : null}}/>
+      </Block>
+    )
+  }
+}

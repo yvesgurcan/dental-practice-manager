@@ -13,7 +13,7 @@ export default (viewport) => {
   return ({
     shiftGrid: {
       display: 'grid',
-      gridTemplateColumns: 'auto 90px 90px 50px 80px 80px',
+      gridTemplateColumns: 'auto 90px 90px 50px 30px 80px 80px',
       gridColumnGap: gridColGap(viewport),
       alignItems: 'center',
     },
