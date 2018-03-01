@@ -4,14 +4,15 @@ import mapStateToProps from './../../Store/mapStateToProps'
 import apiRequestHandler from './../../Utility/apiRequestHandler'
 import setWindowTitle from './../../Utility/setWindowTitle'
 import moment from 'moment'
+import Link from './../Web/Link'
 import Block from './../Web/Block'
+import Text from './../Web/Text'
 import SectionHeader from './../Web/SectionHeader'
 import ShiftNav from './../ShiftNav'
 import ShiftsTable from './../ShiftsTable'
 
 class TimeTrackingBodyComponent extends Component {
   componentWillMount = () => {
-    const { review } = this.props || {}
     const { year, month, day } = this.props.routeData.params || {}
     let start = undefined
     let inputDate = undefined
@@ -20,17 +21,7 @@ class TimeTrackingBodyComponent extends Component {
       start = this.excludeWeekend(inputDate)
     }
 
-    if (window.history.pushState) {
-      if (!start || inputDate !== start) {
-        start = this.excludeWeekend(moment())
-        const { routes } = this.props.environment || {}
-        const controller = review ? routes.timetracking.subroutes.review.url : routes.timetracking.url
-        window.history.pushState('','',`${controller}/${moment(start).format('YYYY/M/D')}`)
-  
-      }
-      
-    }
-
+    this.setUrl()
     this.props.dispatch({type: "STORE_SHIFT_DAY", day: start})
     this.getShifts(start)
 
@@ -44,13 +35,29 @@ class TimeTrackingBodyComponent extends Component {
 
   }
 
+  setUrl = () => {
+    const { review } = this.props || {}
+    let start = undefined
+    let inputDate = undefined
+    if (window.history.pushState) {
+      if (!start || inputDate !== start) {
+        start = this.excludeWeekend(moment())
+        const { routes } = this.props.environment || {}
+        const controller = review ? routes.timetracking.subroutes.review.url : routes.timetracking.url
+        window.history.pushState('','',`${controller}/${moment(start).format('YYYY/M/D')}`)
+  
+      }
+      
+    }
+  }
+
   storeSettings = (response) => {
     this.props.dispatch({ type: 'STORE_SETTINGS', settings: {...response.settings} })
   }
 
   excludeWeekend = (date) => {
     if (moment(date).format('d') === '6' || moment(date).format('d') === '0') {
-      return moment(date, 'YYYY-MM-DD').subtract(1, 'day').startOf('week').add(5, 'days').format('YYYY-MM-DD')
+      return moment(date, 'YYYY-MM-DD').subtract(1, 'day').startOf('week').add(5, 'days')
     }
 
     return date
@@ -77,6 +84,10 @@ class TimeTrackingBodyComponent extends Component {
     }
   }
 
+  setToToday = () => {
+    this.componentWillMount()
+  }
+
   render () {
     const {
       getShifts,
@@ -88,12 +99,21 @@ class TimeTrackingBodyComponent extends Component {
       routeData,
       timetracking,
     } = this.props || {}
-    let { day } = timetracking || {}
+    const { styles } = environment || {}
+    let { day, dailyTotals } = timetracking || {}
     day = excludeWeekend(moment(day))
     const mainHeader = `${moment(day, 'YYYY-MM-DD').format('dddd, MMMM D')}`
     setWindowTitle(mainHeader, session, environment, routeData)
     return (
       <Block>
+        <Block style={styles.shiftUpperNavGrid}>
+          <Block/>
+          <Block style={styles.alignRight}>
+            <Text>Total: {dailyTotals ? moment.utc(moment.duration(dailyTotals.map(dailyTotal => dailyTotal.total).reduce((sum, value) => sum + value)) * 60 * 1000).format('HH:mm') : '00:00'}</Text>
+            {' | '}
+            <Link onClick={this.setToToday}>Today</Link>
+          </Block>
+        </Block>        
         <ShiftNav getShifts={getShifts} excludeWeekend={excludeWeekend} />
         <SectionHeader>{mainHeader}</SectionHeader>
         <ShiftsTable />

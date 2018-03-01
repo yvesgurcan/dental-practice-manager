@@ -1,7 +1,7 @@
 export default (viewport) => {
   return ({
     container: {
-      maxWidth: "1350px",
+      maxWidth: "1200px",
       margin: "auto",
     },
   })

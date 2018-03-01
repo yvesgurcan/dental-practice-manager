@@ -11,6 +11,7 @@ import grid4 from './grid4'
 import grid5 from './grid5'
 import grid12 from './grid12'
 import scheduleGrid from './scheduleGrid'
+import shiftUpperNavGrid from './shiftUpperNavGrid'
 import shiftNavGrid from './shiftNavGrid'
 import shiftGrid from './shiftGrid'
 import column2 from './column2'
@@ -139,6 +140,7 @@ const styles = (viewport) => {
     ...timeSlotHorizontalLine(viewport),
     ...appointmentScheduleCard(viewport),
     // timetracking
+    ...shiftUpperNavGrid(viewport),
     ...shiftNavGrid(viewport),
     ...shiftGrid(viewport),
     ...selectedDay(viewport),
