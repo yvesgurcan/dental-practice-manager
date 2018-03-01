@@ -197,7 +197,6 @@ class ShiftComponent extends Component {
       hasNotStarted,
       hasEnded,
       hasNotEnded,
-
     } = this || {}
     const today = moment().startOf('day').format('YYYY-MM-DD')
     return (
