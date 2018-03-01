@@ -56,6 +56,8 @@ import timeSlot from './timeSlot'
 import timeSlotHorizontalLine from './timeSlotHorizontalLine'
 // time tracking
 import selectedDay from './selectedDay'
+import timerContainer from './timerContainer'
+import timer from './timer'
 
 const styles = (viewport) => {
   return ({
@@ -140,6 +142,8 @@ const styles = (viewport) => {
     ...shiftNavGrid(viewport),
     ...shiftGrid(viewport),
     ...selectedDay(viewport),
+    ...timerContainer(viewport),
+    ...timer(viewport),
   })
 }
 
