@@ -335,6 +335,16 @@ global = {
       submitted: false,
       deleted: false,
     },
+    {
+      shiftId: ++shiftId,
+      clientId: 1,
+      userId: 1,
+      shiftTypeId: 1,
+      day: '2018-03-01',
+      start: "2018-03-01 19:45",
+      submitted: false,
+      deleted: false,
+    },
   ],
 
 }

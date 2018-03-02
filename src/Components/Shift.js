@@ -85,7 +85,7 @@ class ShiftComponent extends Component {
 
     let newValue
     if (resume) {
-      newValue = undefined
+      newValue = null
     }
     else {
       newValue = moment(`${formattedDay} ${value}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm')
@@ -122,13 +122,14 @@ class ShiftComponent extends Component {
 
   resumeShift = () => {
     const { updateShift, state } = this || {}
-    const { start } = this.props || {}
+    const { shift } = this.props || {}
+    const { start } = shift || {}
     const { updatedStart } = state || {}
     if (!start && !updatedStart) {
       updateShift({name: 'updatedStart', value: moment().format('YYYY-MM-DD HH:mm')}, true)
     }
     else {
-      updateShift({name: 'updatedEnd', value: undefined, resume: true})
+      updateShift({name: 'updatedEnd', value: null, resume: true})
     }
 
   }
@@ -213,7 +214,7 @@ class ShiftComponent extends Component {
           <FormGroup
             name='updatedStart'
             type='time'
-            value={updatedStart && moment(updatedStart).isValid ? moment(updatedStart).format('HH:mm') : start ? moment(start).format('HH:mm') : undefined}
+            value={updatedStart && moment(updatedStart).isValid() ? moment(updatedStart).format('HH:mm') : start ? moment(start).format('HH:mm') : undefined}
             onChange={updateShift}
             onPressEnter={updateShift}
           />
@@ -222,7 +223,7 @@ class ShiftComponent extends Component {
           <FormGroup
               name='updatedEnd'
               type='time'
-              value={updatedEnd && moment(updatedEnd).isValid ? moment(updatedEnd).format('HH:mm') : end ? moment(end).format('HH:mm') : undefined}
+              value={updatedEnd === null ? undefined : updatedEnd && moment(updatedEnd).isValid() ? moment(updatedEnd).format('HH:mm') : end ? moment(end).format('HH:mm') : undefined}
               onChange={updateShift}
               onPressEnter={updateShift}
             />
