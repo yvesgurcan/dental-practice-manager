@@ -325,6 +325,17 @@ global = {
       submitted: false,
       deleted: false,
     },
+
+    {
+      shiftId: ++shiftId,
+      clientId: 1,
+      userId: 1,
+      shiftTypeId: 1,
+      day: '2018-03-02',
+      start: "2018-03-02 06:56",
+      submitted: false,
+      deleted: false,
+    },
     {
       shiftId: ++shiftId,
       clientId: 1,
@@ -904,6 +915,35 @@ endpointWrapper(
       }
       return shift
     })
+
+    return { feedback: { status: 'success' } }
+  }
+)
+
+endpointWrapper(
+  "delete",
+  "/shifts",
+  (req, res, parameters) => {
+
+
+    const requestShift = JSON.parse(parameters.deleteShift)
+
+    let shiftDeleted = false
+    global.shifts = global.shifts.map(shift => {
+      let updatedShift = {...shift}
+      if (shift.shiftId === requestShift.shiftId) {
+        shiftDeleted = true
+        updatedShift = {
+          ...updatedShift,
+          deleted: true,
+        }
+      }
+      return updatedShift
+    })
+
+    if (!shiftDeleted) {
+      return { feedback: { status: 'error', message: 'The shift could not be found.' } }
+    }
 
     return { feedback: { status: 'success' } }
   }

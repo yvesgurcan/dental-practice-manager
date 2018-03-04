@@ -73,10 +73,10 @@ export default function timetracking (state = {}, action) {
     }
 
     case 'DELETE_SHIFT': {
-      const updatedShifts = state.shifts.filter(shift => shift.shiftId !== action.shiftId)
+      const shifts = [...state.shifts].filter(shift => shift.shiftId !== action.shiftId)
       newState = {
         ...state,
-        shifts: updatedShifts,
+        shifts,
       }
 
       break
