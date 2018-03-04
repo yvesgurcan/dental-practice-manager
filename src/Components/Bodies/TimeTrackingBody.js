@@ -112,7 +112,7 @@ class TimeTrackingBodyComponent extends Component {
         <Block style={styles.shiftUpperNavGrid}>
           <Block/>
           <Block style={styles.alignRight}>
-            <Text>Total: {dailyTotals ? moment.utc(moment.duration(dailyTotals.map(dailyTotal => dailyTotal.total).reduce((sum, value) => sum + value)) * 60 * 1000).format('HH:mm') : '00:00'}</Text>
+            <Text>Total: {dailyTotals ? moment.utc(moment.duration(dailyTotals.map(dailyTotal => dailyTotal.total).reduce((sum, value) => sum + value)) * 60 * 60 * 1000).format('HH:mm') : '00:00'}</Text>
             {' | '}
             <Link onClick={this.setToToday}>Today</Link>
           </Block>
