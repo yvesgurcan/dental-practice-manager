@@ -18,7 +18,6 @@ class ShiftComponent extends Component {
     if (!end) {
       const { day } = this.props.timetracking || {}
       if (moment(day).isSame(moment(), 'day')) {
-        console.log('willCheckTimer')
         this.setState({ ongoingEnd: moment() })
         const millisecondsToNextMinute = moment.duration(moment().endOf('minute').diff(moment())).asMilliseconds()
         this.timeout = setTimeout(this.firstUpdateActiveTimer, millisecondsToNextMinute)  
