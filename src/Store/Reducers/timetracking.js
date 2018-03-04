@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export default function timetracking (state = {}, action) {
 
   let newState = {...state}
@@ -25,7 +27,12 @@ export default function timetracking (state = {}, action) {
     }
 
     case 'ADD_SHIFT': {
-      const updatedShifts = [...state.shifts, {shitId: 'newShift'}]
+      const day = moment(state.day)
+      const updatedShifts = [...state.shifts, {
+        shiftId: 'newShift',
+        day: day.format('YYYY-MM-DD'),
+        start: action.start
+      }]
       newState = {
         ...state,
         shifts: updatedShifts,

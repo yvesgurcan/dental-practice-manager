@@ -837,8 +837,8 @@ endpointWrapper(
 
 // shifts
 endpointWrapper(
-  "get",
-  "/shifts",
+  'get',
+  '/shifts',
   (req, res, parameters) => {
 
     const requestUser = JSON.parse(parameters.user)
@@ -892,12 +892,35 @@ endpointWrapper(
 )
 
 endpointWrapper(
-  "put",
-  "/shifts",
+  'post',
+  '/shifts',
+  (req, res, parameters) => {
+
+    const shiftId = global.shifts.length + 1
+
+    const newShift = {
+      shiftId,
+      clientId: parameters.user.clientId,
+      userId: parameters.user.userId,
+      day: parameters.day,
+      start: parameters.start,
+    }
+
+    global.shifts = [...global.shifts, newShift]
+
+    console.log(global.shifts)
+
+    return { shiftId, feedback: { status: 'success'} }
+
+  }
+)
+
+endpointWrapper(
+  'put',
+  '/shifts',
   (req, res, parameters) => {
 
    // get shift
-
     const shift = global.shifts.filter(shift => !shift.deleted && shift.clientId === parameters.user.clientId && shift.shiftId === parameters.updateShift.shiftId)
 
     if (shift.length === 0) {
@@ -921,8 +944,8 @@ endpointWrapper(
 )
 
 endpointWrapper(
-  "delete",
-  "/shifts",
+  'delete',
+  '/shifts',
   (req, res, parameters) => {
 
 

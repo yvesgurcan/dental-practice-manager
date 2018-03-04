@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import moment from 'moment'
 import mapStateToProps from './../Store/mapStateToProps'
 import apiRequestHandler from '../Utility/apiRequestHandler';
 import Block from './Web/Block'
@@ -8,15 +9,21 @@ import Shift from './Shift'
 
 class ShiftsTableComponent extends Component {
   addShift = () => {
-    const tempShiftId = 'newShift' + Math.random()
-    this.props.dispatch({ type: 'ADD_SHIFT', tempShiftId })
     const { day } = this.props.timetracking || {}
+    const { scheduleStart } = this.props.settings || {}
+    const tempShiftId = 'newShift' + Math.random()
+    const start = moment(day, 'YYYY-MM-DD').isSame(moment('YYYY-MM-DD')) || !scheduleStart ? moment().set({year: moment(day).format('YYYY'), month: moment(day).format('MM'), day: moment(day).format('DD')}).format('YYYY-MM-DD HH:mm') : `${day} ${scheduleStart}`
+    this.props.dispatch({
+      type: 'ADD_SHIFT',
+      tempShiftId,
+      start,
+    })
     apiRequestHandler(
       'post',
       'shifts',
-      { day },
+      { day, start },
       this.props.session,
-      (response) => this.updateShiftId(response, tempShiftId)
+      (response) => this.updateNewShiftId(response, tempShiftId)
     )
   }
 
