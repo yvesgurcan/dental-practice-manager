@@ -16,19 +16,25 @@ class ShiftComponent extends Component {
     const { shift } = this.props || {}
     const { end } = shift || {}
     if (!end) {
-      this.setState({ ongoingEnd: moment() })
-      const millisecondsToNextMinute = moment.duration(moment().endOf('minute').diff(moment())).asMilliseconds()
-      this.timeout = setTimeout(this.firstUpdateActiveTimer, millisecondsToNextMinute)
+      const { day } = this.props.timetracking || {}
+      if (moment(day).isSame(moment(), 'day')) {
+        console.log('willCheckTimer')
+        this.setState({ ongoingEnd: moment() })
+        const millisecondsToNextMinute = moment.duration(moment().endOf('minute').diff(moment())).asMilliseconds()
+        this.timeout = setTimeout(this.firstUpdateActiveTimer, millisecondsToNextMinute)  
+      }
     }
 
   }
 
   firstUpdateActiveTimer = () => {
+    console.log('firstUpdateActiveTimer')
     this.updateActiveTimer()
     this.interval = setInterval(this.updateActiveTimer, 60000)
   }
 
   updateActiveTimer = () => {
+    console.log('updateActiveTimer')
     if (this.mounted) {
       let ongoingEnd = moment()
       this.setState({ ongoingEnd })  
