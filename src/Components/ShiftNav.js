@@ -33,7 +33,7 @@ class ScheduleWeekNavComponent extends Component {
     let newDay = moment(day).startOf('week').add(1, 'day').add(weekdayNumber,'day')
     // FIXME
     newDay = excludeWeekend(newDay)
-    this.props.dispatch({type: "STORE_SHIFT_DAY", day: newDay})
+    this.props.dispatch({type: "STORE_SHIFT_DAY", day: moment(newDay).format('YYYY-MM-DD')})
     getShifts(newDay)
 
     if (window.history.pushState) {
@@ -73,15 +73,17 @@ class ScheduleWeekNavComponent extends Component {
         {!mobile && weekdays.map(weekday => {
             const matchTotal = (dailyTotals || []).filter(total => moment(total.day).isSame(moment(weekday), 'day'))
             let duration = '0:00'
+            let ongoing = false
             if (matchTotal.length > 0) {
               duration = moment.utc(matchTotal[0].total * 60 * 1000).format('HH:mm')
+              ongoing = matchTotal[0].ongoing
             }
             return (
               <Block key={weekday} style={moment(weekday).isSame(moment(day)) ? styles.selectedDay : null}>
               <Link onClick={() => switchToDay(moment(weekday).subtract(1, 'day').format('d')) }>
                 {moment(weekday).format(shiftDateFormat)}
               </Link>
-              <Block>{duration}</Block>
+              <Block style={ongoing ? styles.selectedDayTime : null}>{duration}</Block>
             </Block> 
             )
           })

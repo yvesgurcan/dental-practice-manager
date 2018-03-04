@@ -3,5 +3,8 @@ export default (viewport) => {
     selectedDay: {
       fontWeight: 'bold',
     },
+    selectedDayTime: {
+      fontStyle: 'italic',
+    },
   })
 }
