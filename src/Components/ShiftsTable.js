@@ -9,22 +9,53 @@ import Shift from './Shift'
 
 class ShiftsTableComponent extends Component {
   addShift = () => {
+    const { getNewShiftTime } = this
     const { day } = this.props.timetracking || {}
-    const { scheduleStart } = this.props.settings || {}
+    const { scheduleStart, scheduleEnd } = this.props.settings || {}
     const tempShiftId = 'newShift' + Math.random()
-    const start = moment(day, 'YYYY-MM-DD').isSame(moment('YYYY-MM-DD')) || !scheduleStart ? moment().set({year: moment(day).format('YYYY'), month: moment(day).format('MM'), day: moment(day).format('DD')}).format('YYYY-MM-DD HH:mm') : `${day} ${scheduleStart}`
+    const start = getNewShiftTime(scheduleStart)
+    const end = getNewShiftTime(scheduleEnd, true)
     this.props.dispatch({
       type: 'ADD_SHIFT',
       tempShiftId,
       start,
+      end,
     })
     apiRequestHandler(
       'post',
       'shifts',
-      { day, start },
+      { day, start, end },
       this.props.session,
       (response) => this.updateNewShiftId(response, tempShiftId)
     )
+  }
+
+  getNewShiftTime = (referenceTime, openEnded) => {
+    const { day } = this.props.timetracking || {}
+
+    if (moment(day, 'YYYY-MM-DD').isSame(moment(), 'day')) {
+      if (openEnded) {
+        return undefined
+      }
+      else {
+        const date = (
+          moment(`
+          ${moment(day).format('YYYY')}-
+            ${moment(day).format('MM')}-
+            ${moment(day).format('DD')} 
+            ${moment().format('HH')}:
+            ${moment().format('mm')}
+            `, 'YYYY-MM-DD HH:mm')
+            .format('YYYY-MM-DD HH:mm')
+        )
+        return date
+      }
+      
+    }
+    else {
+      return `${day} ${referenceTime}`
+    }
+    
   }
 
   updateNewShiftId = (response, tempShiftId) => {

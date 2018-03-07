@@ -31,7 +31,8 @@ export default function timetracking (state = {}, action) {
       const updatedShifts = [...state.shifts, {
         shiftId: 'newShift',
         day: day.format('YYYY-MM-DD'),
-        start: action.start
+        start: action.start,
+        end: action.end,
       }]
       newState = {
         ...state,

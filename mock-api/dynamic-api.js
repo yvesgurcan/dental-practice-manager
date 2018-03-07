@@ -384,7 +384,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
       parameters = req.body
     }
     
-    console.log(`${Date()} - request: ${method} ${resource}\n`, parameters)
+    console.log(`\n${Date()} - request: ${method} ${resource}\n`, parameters)
 
     let authorizationResults = {}
     if (requireAuth && publicEndpoints.indexOf(`${method} ${resource}`) === -1) {
@@ -404,7 +404,7 @@ const endpointWrapper = function endpointWrapper (method, resource, apiBody) {
       response = apiBody(req, res, parameters, authorizationResults.response)
       res.send(response)
     }
-    console.log(`${Date()} - response:\n`, response)
+    console.log(`\n${Date()} - response:\n`, response)
   })
 
 }
@@ -904,11 +904,12 @@ endpointWrapper(
       userId: parameters.user.userId,
       day: parameters.day,
       start: parameters.start,
+      end: parameters.end,
     }
 
     global.shifts = [...global.shifts, newShift]
 
-    console.log(global.shifts)
+    console.log(newShift)
 
     return { shiftId, feedback: { status: 'success'} }
 
@@ -1076,4 +1077,4 @@ endpointWrapper(
   }
 )
 
-server.listen(port, () => console.log(`${Date()} - the API is listening at http://localhost:${port}`))
+server.listen(port, () => console.log(`\n${Date()} - the API is listening at http://localhost:${port}`))
