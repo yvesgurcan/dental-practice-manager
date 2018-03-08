@@ -31,8 +31,8 @@ class ScheduleWeekNavComponent extends Component {
     const { day } = this.props.timetracking || {}
     const { getShifts, excludeWeekend } = this.props || {}
     let newDay = moment(day).startOf('week').add(1, 'day').add(weekdayNumber,'day')
-    // FIXME
     newDay = excludeWeekend(newDay)
+
     this.props.dispatch({type: "STORE_SHIFT_DAY", day: moment(newDay).format('YYYY-MM-DD')})
     getShifts(newDay)
 
@@ -43,6 +43,23 @@ class ScheduleWeekNavComponent extends Component {
 
     }
 
+  }
+
+  switchToDayMobile = (weekdayNumber) => {
+    const { day } = this.props.timetracking || {}
+    const { getShifts, excludeWeekend } = this.props || {}
+    let newDay = moment(day).startOf('week').add(weekdayNumber === '6' ? '8' : weekdayNumber,'day')
+    newDay = excludeWeekend(newDay)
+
+    this.props.dispatch({type: "STORE_SHIFT_DAY", day: moment(newDay).format('YYYY-MM-DD')})
+    getShifts(newDay)
+
+    if (window.history.pushState) {
+      const { routes } = this.props.environment || {}
+      const controller = routes.timetracking.url
+      window.history.pushState('','',`${controller}/${moment(newDay).format('YYYY/M/D')}`)
+
+    }
   }
 
   weekdaysToArray = () => {
@@ -60,13 +77,14 @@ class ScheduleWeekNavComponent extends Component {
     const { styles, viewport } = this.props.environment || {}
     const { mobile, tablet } = viewport 
     const { day, dailyTotals } = this.props.timetracking || {}
-    const { getPreviousWeek, getNextWeek, switchToDay } = this || {}
+    const { getPreviousWeek, getNextWeek, switchToDay, switchToDayMobile } = this || {}
+    const { excludeWeekend } = this.props;
     const shiftDateFormat = tablet ? 'ddd' : 'dddd'
     const weekdays = this.weekdaysToArray()
     return (
       <Grid style={styles.shiftNavGrid}>
         <Block style={styles.alignLeft}>
-          <Link onClick={mobile ? () => switchToDay(moment(day).subtract(2, 'day').format('d')) : getPreviousWeek}>
+          <Link onClick={mobile ? () => switchToDayMobile(moment(day).subtract(1, 'day').format('d')) : getPreviousWeek}>
           &lt;
           </Link>
         </Block>
@@ -89,7 +107,7 @@ class ScheduleWeekNavComponent extends Component {
           })
         } 
         <Block style={styles.alignRight}>
-          <Link onClick={mobile ? () => switchToDay(moment(day).format('d')) : getNextWeek}>
+          <Link onClick={mobile ? () => switchToDayMobile(moment(day).add(1, 'day').format('d')) : getNextWeek}>
           &gt; 
           </Link>
         </Block>
