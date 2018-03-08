@@ -60,21 +60,41 @@ export default function timetracking (state = {}, action) {
     }
 
     case 'UPDATE_SHIFT': {
-      const updatedShifts = state.shifts.map(shift => {
-        let augmentedShift = {...shift}
-        if (shift.shiftId === action.shiftId) {
-          augmentedShift = {
-            ...augmentedShift,
-            [action.name]: action.value,
+      let shifts = [...state.shifts]
+      if (action.name && action.value) {
+        shifts = [...state.shifts].map(shift => {
+          let augmentedShift = {...shift}
+          if (shift.shiftId === action.shiftId) {
+            augmentedShift = {
+              ...augmentedShift,
+              [action.name]: action.value,
+            }
+          }
+          
+          return augmentedShift
+        })  
+      }
+
+      const dailyTotals = [...state.dailyTotals].map(dailyTotal => {
+        let recalculatedDailyTotal = {...dailyTotal}
+        if (dailyTotal.day === state.day) {
+          recalculatedDailyTotal = {
+            ...recalculatedDailyTotal,
+            total: [...shifts].map(shift => {
+              if (!shift.end) {
+                return moment.duration(moment().diff(moment(shift.start))).asMinutes()
+              }
+              return moment.duration(moment(shift.end).diff(moment(shift.start))).asMinutes()
+            }).reduce((sum, value) => sum + value),
           }
         }
-        
-        return augmentedShift
+        return recalculatedDailyTotal
       })
 
       newState = {
         ...state,
-        shifts: updatedShifts,
+        shifts,
+        dailyTotals,
       }
 
       break
