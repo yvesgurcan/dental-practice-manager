@@ -59,7 +59,6 @@ class TimeTrackingBodyComponent extends Component {
   }
 
   excludeWeekend = (date) => {
-    console.log(date)
     if (moment(date).format('d') === '6' || moment(date).format('d') === '0') {
       return moment(date, 'YYYY-MM-DD').subtract(1, 'day').startOf('week').add(5, 'days')
     }
