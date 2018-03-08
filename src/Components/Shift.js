@@ -36,7 +36,10 @@ class ShiftComponent extends Component {
     console.log('updateActiveTimer')
     if (this.mounted) {
       let ongoingEnd = moment()
-      this.setState({ ongoingEnd })  
+      this.setState({ ongoingEnd })
+      if (!this.state.updatedEnd) {
+        this.props.dispatch({ type: 'UPDATE_SHIFT' })
+      }
     }
   }
   
