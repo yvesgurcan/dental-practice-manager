@@ -869,7 +869,12 @@ endpointWrapper(
       const shiftDurations = weekShifts.filter(shift => !shift.deleted && moment(shift.start).isSame(day, 'day')).map(shift => {
         if (!shift.end) {
           ongoing = true
-          return moment.duration(moment(day).endOf('day').diff(moment(shift.start))).asMinutes()
+          if (moment(day).isSame(moment(), 'day')) {
+            return moment.duration(moment().diff(moment(shift.start))).asMinutes()
+          }
+          else {
+            return moment.duration(moment(day).endOf('day').diff(moment(shift.start))).asMinutes()
+          }
         }
         return moment.duration(moment(shift.end).diff(moment(shift.start))).asMinutes()
       })
