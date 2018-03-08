@@ -11,6 +11,7 @@ import Button from './Web/Button'
 import DangerButton from './Web/DangerButton'
 
 class ShiftComponent extends Component {
+  state = {}
   componentDidMount = () => {
     this.mounted = true
     const { shift } = this.props || {}
@@ -75,6 +76,7 @@ class ShiftComponent extends Component {
     let state = {...this.state}
     let { name, value, resume } = input
     if (!value && !resume) {
+      this.setState({startShift: false })
       name = 'updatedEnd'
       if (moment().isAfter(moment(day).endOf('day'))) {
         const { scheduleEnd } = this.props.settings || {}
@@ -133,11 +135,15 @@ class ShiftComponent extends Component {
     const { shift } = this.props || {}
     const { start } = shift || {}
     const { updatedStart } = state || {}
+    this.setState({startShift: true })
     if (!start && !updatedStart) {
       updateShift({name: 'updatedStart', value: moment().format('YYYY-MM-DD HH:mm')}, true)
     }
     else {
       updateShift({name: 'updatedEnd', value: null, resume: true})
+      this.setState({ ongoingEnd: moment() })
+      const millisecondsToNextMinute = moment.duration(moment().endOf('minute').diff(moment())).asMilliseconds()
+      this.timeout = setTimeout(this.firstUpdateActiveTimer, millisecondsToNextMinute)  
     }
 
   }
@@ -196,7 +202,7 @@ class ShiftComponent extends Component {
     const { shiftTypes } = settings || {}
     const { day } = timetracking || {}
     const { shiftTypeId, start, end } = shift || {}
-    const { updatedStart, updatedEnd, ongoingEnd } = this.state || {}
+    const { updatedStart, updatedEnd, ongoingEnd, startShift } = this.state || {}
     const {
       updateShift,
       resumeShift,
@@ -240,12 +246,12 @@ class ShiftComponent extends Component {
           {calcDiff(updatedEnd || end || ongoingEnd)}
         </Block>
         <Block>
-          <RunningTimer styles={styles} start={hasStarted() && hasNotEnded()} />
+          <RunningTimer styles={styles} start={(hasStarted() && hasNotEnded()) || startShift} />
         </Block>
-        <Block hidden={hasEnded() || hasNotStarted()}>
+        <Block hidden={(hasEnded() || hasNotStarted()) && !startShift}>
           <Button onClick={updateShift} style={{width: '100%'}}>Stop</Button>
         </Block>
-        <Block hidden={hasStarted() && hasNotEnded()}>
+        <Block hidden={(hasStarted() && hasNotEnded()) || startShift}>
           <Button hidden={!moment(today).isSame(moment(day).format('YYYY-MM-DD'))} onClick={resumeShift} style={{width: '100%'}}>Start</Button>
         </Block>
         <Block>
