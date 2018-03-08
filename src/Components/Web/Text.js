@@ -5,9 +5,9 @@ import mapStateToProps from './../../Store/mapStateToProps'
 class TextComponent extends Component {
   render () {
     const {styles} = this.props.environment
-    const {style, children, onClick} = this.props
+    const {style, children, hidden, onClick} = this.props
     return (
-      <span children={children} onClick={onClick} style={{...styles.block, ...style}}/>
+      <span children={children} hidden={hidden} onClick={onClick} style={{...styles.block, ...style}}/>
     )  
   }
 }

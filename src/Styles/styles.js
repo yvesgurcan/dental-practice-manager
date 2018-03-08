@@ -59,6 +59,7 @@ import timeSlotHorizontalLine from './timeSlotHorizontalLine'
 import selectedDay from './selectedDay'
 import timerContainer from './timerContainer'
 import timer from './timer'
+import mobileDailyTotal from './mobileDailyTotal'
 
 const styles = (viewport) => {
   return ({
@@ -146,6 +147,7 @@ const styles = (viewport) => {
     ...selectedDay(viewport),
     ...timerContainer(viewport),
     ...timer(viewport),
+    ...mobileDailyTotal(viewport),
   })
 }
 
